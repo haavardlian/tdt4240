@@ -19,9 +19,12 @@ namespace tdt4240
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        SpriteFont font;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+
             Content.RootDirectory = "Content";
         }
 
@@ -34,7 +37,6 @@ namespace tdt4240
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -47,7 +49,7 @@ namespace tdt4240
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            font = Content.Load<SpriteFont>("font");
         }
 
         /// <summary>
@@ -82,6 +84,12 @@ namespace tdt4240
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+       
+            if (gameTime.ElapsedGameTime.Milliseconds > 0)
+                spriteBatch.DrawString(font, "FPS:" + (1000 / gameTime.ElapsedGameTime.TotalMilliseconds), new Vector2(2, 2), Color.Red);
+
+            spriteBatch.End();
 
             // TODO: Add your drawing code here
 
