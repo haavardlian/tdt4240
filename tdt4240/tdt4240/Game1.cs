@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using tdt4240.GameStates;
 
 namespace tdt4240
 {
@@ -21,11 +22,25 @@ namespace tdt4240
 
         SpriteFont font;
 
+        StateManager stateManager = StateManager.Instance;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
 
+            graphics.PreferredBackBufferHeight = 768;
+            graphics.PreferredBackBufferWidth = 1366;
+
             Content.RootDirectory = "Content";
+            
+            //TODO: Add more states and mini games
+            stateManager.MainMenu = new MainMenu(this);
+            stateManager.Board = new Board(this);
+
+            Components.Add(stateManager.MainMenu);
+            Components.Add(stateManager.Board);
+            stateManager.MiniGames.ForEach(x => Components.Add(x));
+
         }
 
         /// <summary>
@@ -36,7 +51,7 @@ namespace tdt4240
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            stateManager.Initialize();
             base.Initialize();
         }
 
@@ -50,6 +65,8 @@ namespace tdt4240
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             font = Content.Load<SpriteFont>("font");
+
+
         }
 
         /// <summary>
@@ -72,7 +89,7 @@ namespace tdt4240
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            stateManager.CurrentState.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -85,10 +102,12 @@ namespace tdt4240
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-       
+
+            stateManager.CurrentState.Draw(spriteBatch, gameTime);
+
+
             if (gameTime.ElapsedGameTime.Milliseconds > 0)
                 spriteBatch.DrawString(font, "FPS:" + (1000 / gameTime.ElapsedGameTime.TotalMilliseconds), new Vector2(2, 2), Color.Red);
-
             spriteBatch.End();
 
             // TODO: Add your drawing code here
