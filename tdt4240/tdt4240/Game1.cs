@@ -17,6 +17,7 @@ namespace tdt4240
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        ScreenManager screenManager;
         SpriteBatch spriteBatch;
 
         SpriteFont font;
@@ -24,8 +25,11 @@ namespace tdt4240
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            screenManager = new ScreenManager(this);
+            Components.Add(screenManager);
 
             Content.RootDirectory = "Content";
+            screenManager.AddScreen(new MainMenu(), null);
         }
 
         /// <summary>
