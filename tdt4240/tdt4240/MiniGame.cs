@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using tdt4240.Interfaces;
 
 namespace tdt4240
 {
-    class MiniGame : GameState, IMiniGame
+    class MiniGame : GameState
     {
         public MiniGame(Game game) : base(game)
         {

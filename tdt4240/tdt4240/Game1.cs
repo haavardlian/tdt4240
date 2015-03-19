@@ -18,6 +18,7 @@ namespace tdt4240
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        ScreenManager screenManager;
         SpriteBatch spriteBatch;
 
         SpriteFont font;
@@ -27,19 +28,18 @@ namespace tdt4240
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            screenManager = new ScreenManager(this);
+            Components.Add(screenManager);
 
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
 
             Content.RootDirectory = "Content";
             
-            //TODO: Add more states and mini games
-            stateManager.MainMenu = new MainMenu(this);
-            stateManager.Board = new Board(this);
 
-            Components.Add(stateManager.MainMenu);
-            Components.Add(stateManager.Board);
-            stateManager.MiniGames.ForEach(x => Components.Add(x));
+
+
+            screenManager.AddScreen(new MainMenu(), null);
 
         }
 
@@ -89,7 +89,7 @@ namespace tdt4240
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            stateManager.CurrentState.Update(gameTime);
+            //stateManager.CurrentState.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -103,7 +103,7 @@ namespace tdt4240
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            stateManager.CurrentState.Draw(spriteBatch, gameTime);
+            //stateManager.CurrentState.Draw(spriteBatch, gameTime);
 
 
             if (gameTime.ElapsedGameTime.Milliseconds > 0)
