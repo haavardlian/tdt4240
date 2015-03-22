@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -51,16 +52,16 @@ namespace tdt4240
             KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
             GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
 
-            // The game pauses either if the user presses the pause button, or if
-            // they unplug the active gamepad. This requires us to keep track of
-            // whether a gamepad was ever plugged in, because we don't want to pause
-            // on PC if they are playing with a keyboard and have no gamepad at all!
-            bool gamePadDisconnected = !gamePadState.IsConnected &&
-                                       input.GamePadWasConnected[playerIndex];
+            PlayerManager playerManager = PlayerManager.Instance;
 
             if (gamePadState.Buttons.A == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.A))
             {
-                players[playerIndex].Status = PlayerStatus.Joined;
+                Debug.WriteLine(playerIndex);
+                if (!playerManager.playerJoined(playerIndex))
+                {
+                    players[playerManager.numberOfPlayersJoined()].Status = PlayerStatus.Joined;
+                    playerManager.addPlayer(playerIndex);
+                }
             }
 
         }
