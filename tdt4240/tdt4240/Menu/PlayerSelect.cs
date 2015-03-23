@@ -15,16 +15,16 @@ namespace tdt4240
         ContentManager content;
         SpriteFont font;
         int screenHeigthModifier;
+        float fade;
 
-        Vector2 playerOneStatusPosition;
-
-        List<PlayerSelectStatus> players = new List<PlayerSelectStatus>();
+        List<PlayerSelectStatus> playerSelectStatuses = new List<PlayerSelectStatus>();
 
         public PlayerSelect()
-        {
-            for (int i = 0; i < 4; i++ )
-                players.Add(new PlayerSelectStatus(i));
-  
+        {      
+            foreach (Player player in PlayerManager.Instance.Players)
+            {
+                playerSelectStatuses.Add(new PlayerSelectStatus(player));
+            }
         }
 
         public override void Activate(bool instancePreserved)
@@ -47,20 +47,35 @@ namespace tdt4240
                 throw new ArgumentNullException("input");
 
             // Look up inputs for the active player profile.
-            int playerIndex = (int)ControllingPlayer.Value;
 
-            KeyboardState keyboardState = input.CurrentKeyboardStates[playerIndex];
-            GamePadState gamePadState = input.CurrentGamePadStates[playerIndex];
-
-            PlayerManager playerManager = PlayerManager.Instance;
-
-            if (gamePadState.Buttons.A == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.A))
+            for (int i = 0; i < 4; i++)
             {
-                Debug.WriteLine(playerIndex);
-                if (!playerManager.playerJoined(playerIndex))
+                KeyboardState keyboardState = input.CurrentKeyboardStates[i];
+                GamePadState gamePadState = input.CurrentGamePadStates[i];
+
+                PlayerManager playerManager = PlayerManager.Instance;
+
+                if (gamePadState.Buttons.A == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.A))
                 {
-                    players[playerManager.numberOfPlayersJoined()].Status = PlayerStatus.Joined;
-                    playerManager.addPlayer(playerIndex);
+                    if (!playerManager.playerJoined(i))
+                    {
+                        playerManager.joinPlayer(i);
+                    }
+                }
+                if (gamePadState.Buttons.B == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.Back))
+                {
+                    if (playerManager.playerJoined(i))
+                    {
+                        playerManager.removePlayer(i);
+                    }
+                }
+
+                if (gamePadState.Buttons.Start == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.Space))
+                {
+                    if (playerManager.NumberOfPlayers >= 2)
+                    {
+                        //TODO Start the game
+                    }
                 }
             }
 
@@ -70,9 +85,9 @@ namespace tdt4240
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
-            foreach(PlayerSelectStatus player in players)
+            foreach (PlayerSelectStatus playerSelectStatus in playerSelectStatuses)
             {
-                player.updatePosition(ScreenManager.GraphicsDevice.Viewport.Width, screenHeigthModifier, font);
+                playerSelectStatus.updatePosition(ScreenManager.GraphicsDevice.Viewport.Width, screenHeigthModifier, font);
             }
 
         }
@@ -83,14 +98,31 @@ namespace tdt4240
 
             spriteBatch.Begin();
 
-            foreach (PlayerSelectStatus player in players)
+            foreach (PlayerSelectStatus playerSelectStatus in playerSelectStatuses)
             {
-                player.updatePosition(ScreenManager.GraphicsDevice.Viewport.Width, screenHeigthModifier, font);
+                playerSelectStatus.draw(spriteBatch, font, gameTime);
             }
 
-            foreach (PlayerSelectStatus player in players)
+            if (PlayerManager.Instance.NumberOfPlayers >= 2) 
             {
-                player.draw(spriteBatch, font, gameTime);
+
+                float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
+
+                fade = Math.Min(fade + fadeSpeed, 1);
+
+                // Pulsate the size of the selected menu entry.
+                double time = gameTime.TotalGameTime.TotalSeconds;
+
+                float pulsate = (float)Math.Sin(time * 6) + 1;
+
+                float scale = 1 + pulsate * 0.05f * fade;
+
+                Vector2 origin = new Vector2(0, font.LineSpacing / 2);
+
+                Vector2 position = new Vector2(200, 300);
+
+                spriteBatch.DrawString(font, "Press start to play", position, Color.Yellow, 0,
+                origin, scale, SpriteEffects.None, 0);
             }
 
             spriteBatch.End();

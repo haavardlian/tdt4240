@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,22 @@ namespace tdt4240
     class PlayerManager
     {
         private static PlayerManager _instance = null;
-        static List<Player> players = new List<Player>();
+
+        private List<Player> players = new List<Player>();
+
+        public List<Player> Players
+        {
+            get { return players;}
+        }
+
+        private int numberOfPlayers = 0;
+
+        public int NumberOfPlayers
+        {
+            get { return numberOfPlayers; }
+        }
+
+        public static Color[] colors = { Color.Green, Color.Red, Color.Blue, Color.Yellow };
 
         public static PlayerManager Instance
         {
@@ -22,11 +38,19 @@ namespace tdt4240
             }
         }
 
+        public PlayerManager()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                players.Add(new Player(i));
+            }
+        }
+
         public Boolean playerJoined(int controllerIndex)
         {
             foreach (Player player in players)
             {
-                if (player.controllerIndex == controllerIndex)
+                if (player.controllerIndex == controllerIndex && player.status == PlayerStatus.Ready)
                 {
                     return true;
                 }
@@ -34,14 +58,30 @@ namespace tdt4240
             return false;
         }
 
-        public int numberOfPlayersJoined()
+        public void joinPlayer(int controller)
         {
-            return players.Count;
+            for (int i = 0; i < players.Count; i++ )
+            {
+                if (players[i].status == PlayerStatus.nan)
+                {
+                    players[i].join(controller);
+                    numberOfPlayers++;
+                    break;
+                }
+            }
         }
 
-        public void addPlayer(int controller)
+        public void removePlayer(int controller)
         {
-            players.Add(new Player(numberOfPlayersJoined(), controller));
+
+            for (int i = 0; i < players.Count; i++)
+            {
+                if (players[i].controllerIndex == controller && players[i].status == PlayerStatus.Ready)
+                {
+                    players[i].leave();
+                    numberOfPlayers--;
+                }
+            }
         }
     }
 }

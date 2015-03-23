@@ -6,20 +6,37 @@ using System.Text;
 
 namespace tdt4240
 {
+
+    public enum PlayerStatus
+    {
+        nan = 0,
+        //Joined = 1,
+        Ready = 2,
+    }
+
     class Player
     {
+        public PlayerStatus status = PlayerStatus.nan;
         public int id;
         public int controllerIndex;
         public Color color;
 
-        Color[] colors = { Color.Green, Color.Red, Color.Blue, Color.Yellow };
 
-
-        public Player(int id, int controllerIndex)
+        public Player(int id)
         {
             this.id = id;
+            this.color = PlayerManager.colors[id];
+        }
+
+        public void join(int controllerIndex)
+        {
             this.controllerIndex = controllerIndex;
-            this.color = colors[id];
+            this.status = PlayerStatus.Ready;
+        }
+
+        public void leave()
+        {
+            this.status = PlayerStatus.nan;
         }
     }
 }

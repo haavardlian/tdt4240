@@ -7,31 +7,16 @@ using System.Text;
 
 namespace tdt4240
 {
-
-    public enum PlayerStatus
-    {
-        nan = 0,
-        Joined = 1,
-        Ready = 2,
-    }
-
     class PlayerSelectStatus
     {
         float fade;
-
-        public PlayerStatus Status
-        {
-            get { return status; }
-            set { status = value; }
-        }
-
-        PlayerStatus status;
+        Player player;
 
         string[] statusTexts = new string[] { "Press A to join", "Select color", "Ready" };
 
         public string StatusText
         {
-            get { return statusTexts[(int)status];}
+            get { return statusTexts[(int)player.status];}
         }
 
         public Vector2 Position
@@ -42,38 +27,43 @@ namespace tdt4240
 
         Vector2 position;
 
-        int playerId;
-
-        public PlayerSelectStatus(int id)
+        public PlayerSelectStatus(Player player)
         {
-            playerId = id;
+            this.player = player;
             position = new Vector2();
         }
 
         public void updatePosition(int width, int heigthModifier, SpriteFont font)
         {
             position.X = width - font.MeasureString(StatusText).X - 30;
-            position.Y = heigthModifier * playerId + 30;
+            position.Y = heigthModifier * player.id + 30;
         }
 
         public void draw(SpriteBatch spriteBatch, SpriteFont font, GameTime gameTime)
         {
-            float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
+            if (! (player.status == PlayerStatus.Ready))
+            {
+                float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
 
-            fade = Math.Min(fade + fadeSpeed, 1);
+                fade = Math.Min(fade + fadeSpeed, 1);
 
-            // Pulsate the size of the selected menu entry.
-            double time = gameTime.TotalGameTime.TotalSeconds;
+                // Pulsate the size of the selected menu entry.
+                double time = gameTime.TotalGameTime.TotalSeconds;
 
-            float pulsate = (float)Math.Sin(time * 6) + 1;
+                float pulsate = (float)Math.Sin(time * 6) + 1;
 
-            float scale = 1 + pulsate * 0.05f * fade;
+                float scale = 1 + pulsate * 0.05f * fade;
 
-            Vector2 origin = new Vector2(0, font.LineSpacing / 2);
+                Vector2 origin = new Vector2(0, font.LineSpacing / 2);
 
+                spriteBatch.DrawString(font, StatusText, position, Color.Yellow, 0,
+                       origin, scale, SpriteEffects.None, 0);
+            }
+            else
+            {
+                spriteBatch.DrawString(font, StatusText, position, player.color);
+            }
 
-            spriteBatch.DrawString(font, StatusText, position, Color.Yellow, 0,
-                                   origin, scale, SpriteEffects.None, 0);
         }
 
     }
