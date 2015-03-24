@@ -83,9 +83,9 @@ namespace tdt4240
                 Vector2 vec = Vector2.Zero;
                 KeyboardState state = Keyboard.GetState(index);
                 if(state.IsKeyDown(Keys.W))
-                        vec.Y += 1;
-                if(state.IsKeyDown(Keys.S))
                         vec.Y -= 1;
+                if(state.IsKeyDown(Keys.S))
+                        vec.Y += 1;
                 if(state.IsKeyDown(Keys.A))
                         vec.X -= 1;
                 if(state.IsKeyDown(Keys.D))

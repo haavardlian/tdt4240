@@ -156,7 +156,7 @@ namespace tdt4240
 
         private void startGame()
         {
-            if (PlayerManager.Instance.NumberOfPlayers >= 2)
+            if (PlayerManager.Instance.NumberOfPlayers >= 1)
             {
                 //TODO start the game
                 ScreenManager.RemoveScreen(this);

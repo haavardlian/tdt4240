@@ -39,28 +39,12 @@ namespace tdt4240.Minigames
 
         public override void HandleInput(GameTime gameTime, InputState input)
         {
-            if (input == null)
-                throw new ArgumentNullException("input");
+            foreach(Player player in PlayerManager.Instance.ActivePlayers)
+            {
+                textPosition += player.Input.GetThumbstickVector();
 
-            KeyboardState keyboardState = input.CurrentKeyboardStates[0];
 
-            if (keyboardState.IsKeyDown(Keys.Up))
-            {
-                textPosition.Y--;
             }
-            if (keyboardState.IsKeyDown(Keys.Down))
-            {
-                textPosition.Y++;
-            }
-            if (keyboardState.IsKeyDown(Keys.Left))
-            {
-                textPosition.X--;
-            }
-            if (keyboardState.IsKeyDown(Keys.Right))
-            {
-                textPosition.X++;
-            }
-
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)

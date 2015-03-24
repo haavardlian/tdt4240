@@ -36,7 +36,7 @@ namespace tdt4240
         public void updatePosition(int width, int heigthModifier, SpriteFont font)
         {
             position.X = width - font.MeasureString(StatusText).X - 30;
-            position.Y = heigthModifier * player.id + 30;
+            position.Y = heigthModifier * (int)player.playerIndex + 30;
         }
 
         public void draw(SpriteBatch spriteBatch, SpriteFont font, GameTime gameTime)

@@ -17,19 +17,30 @@ namespace tdt4240
     class Player
     {
         public PlayerStatus status = PlayerStatus.nan;
-        public int id;
+        public PlayerIndex playerIndex;
         public int controllerIndex;
         public Color color;
+        public InputDevice Input;
 
 
-        public Player(int id)
+        public Player(PlayerIndex playerIndex)
         {
-            this.id = id;
-            this.color = PlayerManager.colors[id];
+            this.playerIndex = playerIndex;
+            this.color = PlayerManager.colors[(int)playerIndex];
         }
 
         public void join(int controllerIndex)
         {
+            if (controllerIndex < 0)
+            {
+                this.Input = InputDevice.CreateInputDevice(InputType.Keyboard, playerIndex);
+            }
+            else
+            {
+                this.Input = InputDevice.CreateInputDevice(InputType.Controller, playerIndex);
+            }
+
+
             this.controllerIndex = controllerIndex;
             this.status = PlayerStatus.Ready;
         }

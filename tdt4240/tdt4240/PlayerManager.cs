@@ -11,10 +11,16 @@ namespace tdt4240
         private static PlayerManager _instance = null;
 
         private List<Player> players = new List<Player>();
+        private List<Player> activePlayers = new List<Player>();
 
         public List<Player> Players
         {
             get { return players;}
+        }
+
+        public List<Player> ActivePlayers
+        {
+            get { return activePlayers; }
         }
 
         private int numberOfPlayers = 0;
@@ -42,7 +48,7 @@ namespace tdt4240
         {
             for (int i = 0; i < 4; i++)
             {
-                players.Add(new Player(i));
+                players.Add(new Player((PlayerIndex)i));
             }
         }
 
@@ -69,6 +75,8 @@ namespace tdt4240
                 {
                     players[i].join(controller);
                     numberOfPlayers++;
+                    activePlayers.Add(players[i]);
+
                     break;
                 }
             }
@@ -84,6 +92,7 @@ namespace tdt4240
                 if (players[i].controllerIndex == controller && players[i].status == PlayerStatus.Ready)
                 {
                     players[i].leave();
+                    activePlayers.Remove(players[i]);
                     numberOfPlayers--;
                 }
             }

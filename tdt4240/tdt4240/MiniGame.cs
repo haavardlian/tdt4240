@@ -31,7 +31,6 @@ namespace tdt4240
             get { return supportedPlayers; }
         }
 
-
         public MiniGame(Board board) : base()
         {
             this.board = board;
