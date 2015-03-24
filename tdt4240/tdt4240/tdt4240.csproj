@@ -78,6 +78,7 @@
     <Compile Include="GameStates\Board.cs" />
     <Compile Include="GameStates\MainMenu.cs" />
     <Compile Include="InputDevice.cs" />
+    <Compile Include="Menu\Background.cs" />
     <Compile Include="MiniGame.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerManager.cs" />

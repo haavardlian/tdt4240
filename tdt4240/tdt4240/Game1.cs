@@ -35,10 +35,8 @@ namespace tdt4240
             graphics.PreferredBackBufferWidth = 1366;
 
             Content.RootDirectory = "Content";
-            
 
-
-
+            screenManager.AddScreen(new Background(), null);
             screenManager.AddScreen(new MainMenu(), null);
 
         }
