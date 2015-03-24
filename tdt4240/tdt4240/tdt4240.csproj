@@ -76,13 +76,12 @@
     <Compile Include="GameScreen.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="GameStates\Board.cs" />
-    <Compile Include="GameStates\MainMenu.cs" />
     <Compile Include="InputDevice.cs" />
     <Compile Include="Menu\Background.cs" />
     <Compile Include="MiniGame.cs" />
+    <Compile Include="Minigames\MinigameDemo.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerManager.cs" />
-    <Compile Include="StateManager.cs" />
     <Compile Include="InputState.cs" />
     <Compile Include="Menu\InputAction.cs" />
     <Compile Include="Menu\MainMenu.cs" />

@@ -1,29 +1,56 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using tdt4240.GameStates;
 
 namespace tdt4240
 {
-    class MiniGame : GameState
+    [Flags]
+    public enum SupportedPlayers
     {
-        public MiniGame(Game game) : base(game)
-        {
+        None = 0,
+        Two = 1,
+        Three = 2,
+        Four = 4,
+        All = 7
+    }
 
+
+    abstract class MiniGame : GameScreen
+    {
+        protected Board board;
+        protected SupportedPlayers supportedPlayers;
+        protected ContentManager content;
+
+        public SupportedPlayers SupportedPlayers
+        {
+            get { return supportedPlayers; }
         }
 
-        public void NotifyDone()
+
+        public MiniGame(Board board) : base()
         {
-            //TODO: StateManager should have a method to take score,
-            //      and the switch back to board?
-            StateManager.Instance.MiniGameComplete();
+            this.board = board;
         }
 
-        public void Start()
+        public void NotifyDone(int winnerIndex)
         {
-            throw new NotImplementedException();
+            //Send the winner id/player object
+            board.MiniGameDone(winnerIndex);
+        }
+
+        //Gamescreen overiding
+        public override void Activate(bool instancePreserved)
+        {
+            if (!instancePreserved)
+            {
+                if (content == null)
+                    content = new ContentManager(ScreenManager.Game.Services, "Content");
+            }
         }
     }
 }

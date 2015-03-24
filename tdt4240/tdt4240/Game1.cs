@@ -23,16 +23,16 @@ namespace tdt4240
 
         SpriteFont font;
 
-        StateManager stateManager = StateManager.Instance;
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             screenManager = new ScreenManager(this);
             Components.Add(screenManager);
 
+               /*
             graphics.PreferredBackBufferHeight = 768;
             graphics.PreferredBackBufferWidth = 1366;
+                */
 
             Content.RootDirectory = "Content";
 
@@ -49,7 +49,6 @@ namespace tdt4240
         /// </summary>
         protected override void Initialize()
         {
-            stateManager.Initialize();
             base.Initialize();
         }
 

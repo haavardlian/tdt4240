@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using tdt4240.GameStates;
+using tdt4240.Minigames;
 
 namespace tdt4240
 {
@@ -147,7 +149,7 @@ namespace tdt4240
 
                 if (playerIndex == controllerIndex || controllerIndex == -1)
                 {
-                    ScreenManager.AddScreen(new MainMenu(), ControllingPlayer);
+                    ScreenManager.RemoveScreen(this);
                 }
             }
         }
@@ -157,8 +159,11 @@ namespace tdt4240
             if (PlayerManager.Instance.NumberOfPlayers >= 2)
             {
                 //TODO start the game
+                ScreenManager.RemoveScreen(this);
+                ScreenManager.AddScreen(new MinigameDemo(new Board()), null);
+
+                //Add game screen
             }
         }
-
     }
 }

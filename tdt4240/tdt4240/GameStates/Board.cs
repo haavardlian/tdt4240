@@ -7,17 +7,14 @@ using System.Text;
 
 namespace tdt4240.GameStates
 {
-    class Board : GameState
+    class Board : GameScreen
     {
-        public Board(Game game)
-            : base(game)
-        {
 
-        }
-
-        public override void LoadContent()
+        public void MiniGameDone(int winnerIndex)
         {
-            _background = Game.Content.Load<Texture2D>("board");
+            //TODO
+            //Aword winner
+            //Remove minigame
         }
     }
 }
