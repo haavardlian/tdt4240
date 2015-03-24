@@ -76,7 +76,9 @@ namespace tdt4240
             if (this.type == InputType.Controller)
             {
                 GamePadState state = GamePad.GetState(index);
-                return state.ThumbSticks.Left;
+                Vector2 vec = state.ThumbSticks.Left;
+                vec.Y *= -1;
+                return vec;
             }
             else
             {
