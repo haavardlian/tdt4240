@@ -74,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameScreen.cs" />
-    <Compile Include="GameState.cs" />
     <Compile Include="GameStates\Board.cs" />
     <Compile Include="InputDevice.cs" />
     <Compile Include="Menu\Background.cs" />
