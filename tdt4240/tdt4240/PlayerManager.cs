@@ -60,6 +60,9 @@ namespace tdt4240
 
         public void joinPlayer(int controller)
         {
+            if (playerJoined(controller))
+                return;
+
             for (int i = 0; i < players.Count; i++ )
             {
                 if (players[i].status == PlayerStatus.nan)
@@ -73,6 +76,8 @@ namespace tdt4240
 
         public void removePlayer(int controller)
         {
+            if (!playerJoined(controller))
+                return;
 
             for (int i = 0; i < players.Count; i++)
             {

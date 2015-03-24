@@ -46,37 +46,38 @@ namespace tdt4240
             if (input == null)
                 throw new ArgumentNullException("input");
 
-            // Look up inputs for the active player profile.
-
             for (int i = 0; i < 4; i++)
             {
-                KeyboardState keyboardState = input.CurrentKeyboardStates[i];
                 GamePadState gamePadState = input.CurrentGamePadStates[i];
 
-                PlayerManager playerManager = PlayerManager.Instance;
-
-                if (gamePadState.Buttons.A == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.A))
+                if (gamePadState.Buttons.A == ButtonState.Pressed)
                 {
-                    if (!playerManager.playerJoined(i))
-                    {
-                        playerManager.joinPlayer(i);
-                    }
+                    addPlayer(i);
                 }
-                if (gamePadState.Buttons.B == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.Back))
+                if (gamePadState.Buttons.B == ButtonState.Pressed)
                 {
-                    if (playerManager.playerJoined(i))
-                    {
-                        playerManager.removePlayer(i);
-                    }
+                    removePlayer(i);
                 }
 
-                if (gamePadState.Buttons.Start == ButtonState.Pressed || keyboardState.IsKeyDown(Keys.Space))
+                if (gamePadState.Buttons.Start == ButtonState.Pressed)
                 {
-                    if (playerManager.NumberOfPlayers >= 2)
-                    {
-                        //TODO Start the game
-                    }
+                    startGame();
                 }
+            }
+
+            KeyboardState keyboardState = input.CurrentKeyboardStates[0];
+
+            if (keyboardState.IsKeyDown(Keys.A))
+            {
+                addPlayer(-1);
+            }
+            if (keyboardState.IsKeyDown(Keys.Back))
+            {
+                removePlayer(-1);
+            }
+            if (keyboardState.IsKeyDown(Keys.Space))
+            {
+                startGame();
             }
 
         }
@@ -126,6 +127,37 @@ namespace tdt4240
             }
 
             spriteBatch.End();
+        }
+
+        private void addPlayer(int controllerIndex)
+        {
+            PlayerManager.Instance.joinPlayer(controllerIndex);
+        }
+
+        private void removePlayer(int controllerIndex)
+        {
+            if (PlayerManager.Instance.playerJoined(controllerIndex))
+            {
+                PlayerManager.Instance.removePlayer(controllerIndex);
+            }
+            else
+            {
+                //If the player that entered the player select screen backs the game will return to the main menu
+                int playerIndex = (int)ControllingPlayer.Value;
+
+                if (playerIndex == controllerIndex || controllerIndex == -1)
+                {
+                    ScreenManager.AddScreen(new MainMenu(), ControllingPlayer);
+                }
+            }
+        }
+
+        private void startGame()
+        {
+            if (PlayerManager.Instance.NumberOfPlayers >= 2)
+            {
+                //TODO start the game
+            }
         }
 
     }
