@@ -85,7 +85,7 @@ namespace tdt4240
         /// </summary>
         protected override void OnCancel(PlayerIndex playerIndex)
         {
-            const string message = "Are you sure you want to exit this sample?";
+            //const string message = "Are you sure you want to exit this sample?";
 
             //MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen(message);
 

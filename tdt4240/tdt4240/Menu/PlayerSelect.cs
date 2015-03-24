@@ -22,10 +22,10 @@ namespace tdt4240
         List<PlayerSelectStatus> playerSelectStatuses = new List<PlayerSelectStatus>();
 
         public PlayerSelect()
-        {      
-            foreach (Player player in PlayerManager.Instance.Players)
+        {
+            for (int i = 0; i < PlayerManager.MaxPlayers; i++)
             {
-                playerSelectStatuses.Add(new PlayerSelectStatus(player));
+                playerSelectStatuses.Add(new PlayerSelectStatus(i));
             }
         }
 
@@ -54,11 +54,12 @@ namespace tdt4240
 
                 if (gamePadState.Buttons.A == ButtonState.Pressed)
                 {
-                    addPlayer(i);
+                    AddPlayer(i, InputType.Controller);
+                    playerSelectStatuses[PlayerManager.Instance.NumberOfPlayers - 1].Player = PlayerManager.Instance.LatestPlayer();
                 }
                 if (gamePadState.Buttons.B == ButtonState.Pressed)
                 {
-                    removePlayer(i);
+                    RemovePlayer((PlayerIndex)i);
                 }
 
                 if (gamePadState.Buttons.Start == ButtonState.Pressed)
@@ -71,11 +72,12 @@ namespace tdt4240
 
             if (keyboardState.IsKeyDown(Keys.A))
             {
-                addPlayer(-1);
+                AddPlayer(-1, InputType.Keyboard);
+                playerSelectStatuses[PlayerManager.Instance.NumberOfPlayers-1].Player = PlayerManager.Instance.LatestPlayer();
             }
             if (keyboardState.IsKeyDown(Keys.Back))
             {
-                removePlayer(-1);
+                RemovePlayer((PlayerIndex)0);
             }
             if (keyboardState.IsKeyDown(Keys.Space))
             {
@@ -131,23 +133,21 @@ namespace tdt4240
             spriteBatch.End();
         }
 
-        private void addPlayer(int controllerIndex)
+        private void AddPlayer(int controllerIndex, InputType type)
         {
-            PlayerManager.Instance.joinPlayer(controllerIndex);
+            PlayerManager.Instance.AddPlayer(controllerIndex, type);
         }
 
-        private void removePlayer(int controllerIndex)
+        private void RemovePlayer(PlayerIndex playerIndex)
         {
-            if (PlayerManager.Instance.playerJoined(controllerIndex))
+            if (PlayerManager.Instance.PlayerExists(playerIndex))
             {
-                PlayerManager.Instance.removePlayer(controllerIndex);
+                PlayerManager.Instance.RemovePlayer(playerIndex);
             }
             else
             {
                 //If the player that entered the player select screen backs the game will return to the main menu
-                int playerIndex = (int)ControllingPlayer.Value;
-
-                if (playerIndex == controllerIndex || controllerIndex == -1)
+                if (playerIndex == ControllingPlayer.Value)
                 {
                     ScreenManager.RemoveScreen(this);
                 }

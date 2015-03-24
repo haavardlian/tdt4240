@@ -16,6 +16,14 @@ namespace tdt4240
         private static int instances = 0;
 
 
+        public InputType Type
+        {
+            get
+            {
+                return type;
+            }
+        }
+
         //TODO: This needs to be handled better.
         //Do we need the singleton or should we just not restrict the creation of keyboard inputs?
         public static InputDevice CreateInputDevice(InputType type, PlayerIndex index)

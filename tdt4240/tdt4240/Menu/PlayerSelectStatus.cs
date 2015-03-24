@@ -10,13 +10,19 @@ namespace tdt4240
     class PlayerSelectStatus
     {
         float fade;
-        Player player;
+        public Player Player = null;
+        int index = 0;
 
         string[] statusTexts = new string[] { "Press A to join", "Select color", "Ready" };
 
         public string StatusText
         {
-            get { return statusTexts[(int)player.status];}
+            get 
+            {
+                if (Player == null) return statusTexts[0];
+                else return statusTexts[2];
+            }
+          
         }
 
         public Vector2 Position
@@ -27,21 +33,21 @@ namespace tdt4240
 
         Vector2 position;
 
-        public PlayerSelectStatus(Player player)
+        public PlayerSelectStatus(int index)
         {
-            this.player = player;
+            this.index = index;
             position = new Vector2();
         }
 
         public void updatePosition(int width, int heigthModifier, SpriteFont font)
         {
             position.X = width - font.MeasureString(StatusText).X - 30;
-            position.Y = heigthModifier * (int)player.playerIndex + 30;
+            position.Y = heigthModifier * index + 30;
         }
 
         public void draw(SpriteBatch spriteBatch, SpriteFont font, GameTime gameTime)
         {
-            if (! (player.status == PlayerStatus.Ready))
+            if (Player == null)
             {
                 float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
 
@@ -61,7 +67,7 @@ namespace tdt4240
             }
             else
             {
-                spriteBatch.DrawString(font, StatusText, position, player.color);
+                spriteBatch.DrawString(font, StatusText, position, Player.color);
             }
 
         }

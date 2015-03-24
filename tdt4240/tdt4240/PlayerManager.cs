@@ -8,29 +8,24 @@ namespace tdt4240
 {
     class PlayerManager
     {
+        public static int MaxPlayers = 4;
         private static PlayerManager _instance = null;
 
-        private List<Player> players = new List<Player>();
-        private List<Player> activePlayers = new List<Player>();
+        private List<Player> _players = new List<Player>();
 
         public List<Player> Players
         {
-            get { return players;}
+            get { return _players;}
         }
 
-        public List<Player> ActivePlayers
-        {
-            get { return activePlayers; }
-        }
-
-        private int numberOfPlayers = 0;
+        private int _numberOfPlayers = 0;
 
         public int NumberOfPlayers
         {
-            get { return numberOfPlayers; }
+            get { return _numberOfPlayers; }
         }
 
-        public static Color[] colors = { Color.Green, Color.Red, Color.Blue, Color.Yellow };
+        public static Color[] Colors = { Color.Green, Color.Red, Color.Blue, Color.Yellow };
 
         public static PlayerManager Instance
         {
@@ -46,56 +41,66 @@ namespace tdt4240
 
         public PlayerManager()
         {
-            for (int i = 0; i < 4; i++)
-            {
-                players.Add(new Player((PlayerIndex)i));
-            }
         }
 
-        public Boolean playerJoined(int controllerIndex)
+        public Boolean PlayerExists(int controllerIndex)
         {
-            foreach (Player player in players)
+            foreach (Player player in _players)
             {
-                if (player.controllerIndex == controllerIndex && player.status == PlayerStatus.Ready)
-                {
+                if (player.controllerIndex == controllerIndex)
                     return true;
-                }
             }
             return false;
         }
 
-        public void joinPlayer(int controller)
+        public Boolean PlayerExists(PlayerIndex playerIndex)
         {
-            if (playerJoined(controller))
+            foreach (Player player in _players)
+            {
+                if (player.playerIndex == playerIndex)
+                    return true;
+            }
+            return false;
+        }
+
+        public void AddPlayer(int controllerIndex, InputType type)
+        {
+            if (PlayerExists(controllerIndex))
+                return;
+            else if(type == InputType.Keyboard)
+            {
+                foreach (Player player in _players)
+                {
+                    if (player.Input.Type == InputType.Keyboard)
+                        return;
+                }
+            }
+
+            _players.Add(new Player((PlayerIndex)_numberOfPlayers, controllerIndex, type));
+            _numberOfPlayers++;
+          
+        }
+
+        public void RemovePlayer(PlayerIndex playerIndex)
+        {
+            if (!PlayerExists(playerIndex))
                 return;
 
-            for (int i = 0; i < players.Count; i++ )
+            foreach(Player player in _players)
             {
-                if (players[i].status == PlayerStatus.nan)
+                if (player.playerIndex == playerIndex)
                 {
-                    players[i].join(controller);
-                    numberOfPlayers++;
-                    activePlayers.Add(players[i]);
-
-                    break;
+                    _players.Remove(player);
+                    _numberOfPlayers--;
+                    return;
                 }
             }
         }
 
-        public void removePlayer(int controller)
+        public Player LatestPlayer()
         {
-            if (!playerJoined(controller))
-                return;
-
-            for (int i = 0; i < players.Count; i++)
-            {
-                if (players[i].controllerIndex == controller && players[i].status == PlayerStatus.Ready)
-                {
-                    players[i].leave();
-                    activePlayers.Remove(players[i]);
-                    numberOfPlayers--;
-                }
-            }
+            return _players.Last();
         }
+
     }
 }

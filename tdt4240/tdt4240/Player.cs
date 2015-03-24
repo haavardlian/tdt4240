@@ -7,47 +7,24 @@ using System.Text;
 namespace tdt4240
 {
 
-    public enum PlayerStatus
-    {
-        nan = 0,
-        //Joined = 1,
-        Ready = 2,
-    }
+
 
     class Player
     {
-        public PlayerStatus status = PlayerStatus.nan;
         public PlayerIndex playerIndex;
         public int controllerIndex;
         public Color color;
         public InputDevice Input;
+        public string TestString = "This is player ";
 
 
-        public Player(PlayerIndex playerIndex)
+        public Player(PlayerIndex playerIndex, int controllerIndex, InputType type)
         {
             this.playerIndex = playerIndex;
-            this.color = PlayerManager.colors[(int)playerIndex];
-        }
-
-        public void join(int controllerIndex)
-        {
-            if (controllerIndex < 0)
-            {
-                this.Input = InputDevice.CreateInputDevice(InputType.Keyboard, playerIndex);
-            }
-            else
-            {
-                this.Input = InputDevice.CreateInputDevice(InputType.Controller, playerIndex);
-            }
-
-
+            this.color = PlayerManager.Colors[(int)playerIndex];
+            this.Input = InputDevice.CreateInputDevice(type, playerIndex);
             this.controllerIndex = controllerIndex;
-            this.status = PlayerStatus.Ready;
-        }
-
-        public void leave()
-        {
-            this.status = PlayerStatus.nan;
+            this.TestString += playerIndex + " on controller " + controllerIndex;
         }
     }
 }

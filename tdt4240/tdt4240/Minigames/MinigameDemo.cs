@@ -17,7 +17,7 @@ namespace tdt4240.Minigames
         
         
         private SpriteFont font;
-        private Vector2 textPosition = new Vector2(200, 200);
+        private Vector2[] textPosition = new Vector2[4];
 
         public MinigameDemo(Board board) : base(board)
         {
@@ -39,11 +39,9 @@ namespace tdt4240.Minigames
 
         public override void HandleInput(GameTime gameTime, InputState input)
         {
-            foreach(Player player in PlayerManager.Instance.ActivePlayers)
+            foreach(Player player in PlayerManager.Instance.Players)
             {
-                textPosition += player.Input.GetThumbstickVector();
-
-
+                textPosition[(int)player.playerIndex] += player.Input.GetThumbstickVector();
             }
         }
 
@@ -58,8 +56,11 @@ namespace tdt4240.Minigames
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(font, "Test", textPosition, Color.HotPink);
-
+            
+            foreach (Player player in PlayerManager.Instance.Players)
+            {
+                spriteBatch.DrawString(font, player.TestString, textPosition[(int)player.playerIndex], player.color);
+            }
             spriteBatch.End();
         }
 
