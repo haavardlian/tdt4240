@@ -160,8 +160,9 @@ namespace tdt4240
             {
                 //TODO start the game
                 ScreenManager.RemoveScreen(this);
-                ScreenManager.AddScreen(new MinigameDemo(new Board()), null);
 
+                ScreenManager.AddScreen(new MinigameDemo(new Board()), null);
+                
                 //Add game screen
             }
         }

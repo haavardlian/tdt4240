@@ -42,6 +42,12 @@ namespace tdt4240.Minigames
             foreach(Player player in PlayerManager.Instance.Players)
             {
                 textPosition[(int)player.playerIndex] += player.Input.GetThumbstickVector();
+
+                if (player.Input.IsButtonPressed(GameButtons.X))
+                {
+                    ScreenManager.AddScreen(new DiceRoll(0, 100, this, player), null);
+                }
+
             }
         }
 
@@ -62,6 +68,11 @@ namespace tdt4240.Minigames
                 spriteBatch.DrawString(font, player.TestString, textPosition[(int)player.playerIndex], player.color);
             }
             spriteBatch.End();
+        }
+
+        public override void DiceResultHandler(Player player, int result)
+        {
+            System.Diagnostics.Debug.WriteLine(player.playerIndex + " rolled a " + result);
         }
 
     }

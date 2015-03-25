@@ -20,7 +20,7 @@ namespace tdt4240
     }
 
 
-    abstract class MiniGame : GameScreen
+    abstract class MiniGame : GameScreen, IDiceRoller
     {
         protected Board board;
         protected SupportedPlayers supportedPlayers;
@@ -50,6 +50,11 @@ namespace tdt4240
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
             }
+        }
+
+        public virtual void DiceResultHandler(Player player, int result)
+        {
+            throw new NotImplementedException();
         }
     }
 }
