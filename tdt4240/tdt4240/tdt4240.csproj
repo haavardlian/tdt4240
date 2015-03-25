@@ -76,7 +76,7 @@
     <Compile Include="DiceRoll.cs" />
     <Compile Include="GameScreen.cs" />
     <Compile Include="GameStates\Board.cs" />
-    <Compile Include="IDiceRoller.cs" />
+    <Compile Include="IRoller.cs" />
     <Compile Include="InputDevice.cs" />
     <Compile Include="Menu\Background.cs" />
     <Compile Include="MiniGame.cs" />

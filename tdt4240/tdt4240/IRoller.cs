@@ -5,8 +5,8 @@ using System.Text;
 
 namespace tdt4240
 {
-    interface IDiceRoller
+    interface IRoller
     {
-        void DiceResultHandler(Player player, int result);
+        void ResultHandler(Player player, int result);
     }
 }

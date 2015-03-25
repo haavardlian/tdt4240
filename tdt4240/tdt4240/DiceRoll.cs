@@ -15,21 +15,36 @@ namespace tdt4240
         private ContentManager content;
         private int target;
         private Random rnd = new Random();
-        private IDiceRoller rollee;
+        private IRoller rollee;
         private Player roller;
         private string text = "";
-        private int time = 2000;
+        private int time = 400;
         private int elapsed = 0;
-        private int total = 0;
         private int step = 100;
         private int wait = 0;
+        private int max;
+        int n = 0;
 
-        public DiceRoll(int min, int max, IDiceRoller rollee,  Player roller) : base()
+        private bool pressed = false;
+
+        public DiceRoll(int max, IRoller rollee,  Player roller) : base()
         {
             
-            this.target = rnd.Next(min, max);
+            this.target = rnd.Next(1, max);
             this.rollee = rollee;
             this.roller = roller;
+            this.max = max;
+        }
+
+        public override void HandleInput(GameTime gameTime, InputState input)
+        {
+            foreach (Player player in PlayerManager.Instance.Players)
+            {
+                if(ControllingPlayer.Value == player.playerIndex && player.Input.IsButtonPressed(GameButtons.A))
+                {
+                    pressed = true;
+                }
+            }
         }
 
         public override void Activate(bool instancePreserved)
@@ -48,23 +63,29 @@ namespace tdt4240
         {
             elapsed += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
 
-            if (elapsed > step)
+            if(pressed)
             {
-                text = "" + rnd.Next(0, 100);
-                total += elapsed;
-                elapsed = 0;
+                step++;
             }
 
-            if (total > time)
+            if(step >= time)
             {
-                text = "" + target;
+                text = "" + n;
                 wait += (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-            }
 
-            if (wait > time)
+                if(wait > 1000)
+                {
+                    rollee.ResultHandler(roller, n);
+                    ScreenManager.RemoveScreen(this);
+                }
+
+            }
+            else if (elapsed > step)
             {
-                rollee.DiceResultHandler(roller, target);
-                ScreenManager.RemoveScreen(this);
+                n++;
+                if (n >= 7) n = 1;
+                text = "" + n;
+                elapsed = 0;
             }
                 
 
@@ -73,12 +94,12 @@ namespace tdt4240
 
         public override void Draw(GameTime gameTime)
         {
+
+            GameScreen[] screens = ScreenManager.GetScreens();
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
-
             spriteBatch.DrawString(font, text, position, Color.HotPink);
-
             spriteBatch.End();
         }
     }

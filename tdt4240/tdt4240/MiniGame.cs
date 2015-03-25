@@ -20,7 +20,7 @@ namespace tdt4240
     }
 
 
-    abstract class MiniGame : GameScreen, IDiceRoller
+    abstract class MiniGame : GameScreen, IRoller
     {
         protected Board board;
         protected SupportedPlayers supportedPlayers;
@@ -52,7 +52,7 @@ namespace tdt4240
             }
         }
 
-        public virtual void DiceResultHandler(Player player, int result)
+        public virtual void ResultHandler(Player player, int result)
         {
             throw new NotImplementedException();
         }
