@@ -80,6 +80,7 @@
     <Compile Include="Board\IRoller.cs" />
     <Compile Include="InputDevice.cs" />
     <Compile Include="Background.cs" />
+    <Compile Include="Menu\OptionsMenuScreen.cs" />
     <Compile Include="MiniGame.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemo.cs" />
     <Compile Include="Player.cs" />

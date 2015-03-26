@@ -8,6 +8,7 @@
 #endregion
 
 #region Using Statements
+using menu.tdt4240;
 using Microsoft.Xna.Framework;
 #endregion
 
@@ -71,7 +72,7 @@ namespace tdt4240
         void OptionsMenuEntrySelected(object sender, PlayerEvent e)
         {
             //TODO create option menu
-            //ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
+            ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
         }
 
         void AboutMenuEntrySelected(object sender, PlayerEvent e)
