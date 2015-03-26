@@ -60,12 +60,12 @@ namespace tdt4240.Minigames
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
-
             
             foreach (Player player in PlayerManager.Instance.Players)
             {
                 spriteBatch.DrawString(font, player.TestString, textPosition[(int)player.playerIndex], player.color);
             }
+
             spriteBatch.End();
         }
 
