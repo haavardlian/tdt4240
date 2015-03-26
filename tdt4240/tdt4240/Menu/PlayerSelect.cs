@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using tdt4240.Minigames;
+using tdt4240.Minigames.MinigameDemo;
 
 namespace tdt4240
 {
