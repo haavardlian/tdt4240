@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using tdt4240.GameStates;
 
 namespace tdt4240.Minigames
 {

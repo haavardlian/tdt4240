@@ -57,7 +57,7 @@ namespace tdt4240
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                backgroundTexture = content.Load<Texture2D>("background");
+                backgroundTexture = content.Load<Texture2D>("main_menu");
             }
         }
 
@@ -101,8 +101,10 @@ namespace tdt4240
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(backgroundTexture, fullscreen,
-                             new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+     //       spriteBatch.Draw(backgroundTexture, fullscreen,
+         //                    new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
+
+            spriteBatch.Draw(backgroundTexture, Vector2.Zero, null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, Vector2.Zero, ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
 
             spriteBatch.End();
         }

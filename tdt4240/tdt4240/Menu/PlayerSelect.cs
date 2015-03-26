@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using tdt4240.GameStates;
 using tdt4240.Minigames;
 
 namespace tdt4240
@@ -161,7 +160,9 @@ namespace tdt4240
                 //TODO start the game
                 ScreenManager.RemoveScreen(this);
 
-                ScreenManager.AddScreen(new MinigameDemo(new Board()), null);
+                Board board = new Board();
+                ScreenManager.AddScreen(board, null);
+               // ScreenManager.AddScreen(new MinigameDemo(board), null);
                 
                 //Add game screen
             }

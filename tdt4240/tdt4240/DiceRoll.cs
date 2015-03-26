@@ -88,6 +88,7 @@ namespace tdt4240
                 elapsed = 0;
             }
                 
+            
 
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }

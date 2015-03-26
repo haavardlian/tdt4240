@@ -153,6 +153,12 @@ namespace tdt4240
             }
         }
 
+        public float GetScalingFactor()
+        {
+            int width = Game.GraphicsDevice.Viewport.Bounds.Width;
+
+            return width / 1920f;
+        }
 
         #endregion
 

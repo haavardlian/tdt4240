@@ -68,6 +68,9 @@ namespace tdt4240
             else
             {
                 spriteBatch.DrawString(font, StatusText, position, Player.color);
+
+             
+
             }
 
         }

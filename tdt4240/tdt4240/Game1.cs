@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using tdt4240.GameStates;
 
 namespace tdt4240
 {
@@ -23,22 +22,36 @@ namespace tdt4240
 
         SpriteFont font;
 
+        private float ratio = 16f / 9f;
+        private float ratio2 = 9f / 16f;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             screenManager = new ScreenManager(this);
             Components.Add(screenManager);
 
-               /*
-            graphics.PreferredBackBufferHeight = 768;
-            graphics.PreferredBackBufferWidth = 1366;
-                */
+
+            graphics.PreferredBackBufferHeight = 432;
+            graphics.PreferredBackBufferWidth = 768;
+
+            this.Window.AllowUserResizing = true;
+            this.Window.ClientSizeChanged += new EventHandler<EventArgs>(Window_ClientSizeChanged);
 
             Content.RootDirectory = "Content";
 
             screenManager.AddScreen(new Background(), null);
             screenManager.AddScreen(new MainMenu(), null);
 
+        }
+
+        void Window_ClientSizeChanged(object sender, EventArgs e)
+        {
+            graphics.PreferredBackBufferWidth = GraphicsDevice.Viewport.Bounds.Width;
+
+            graphics.PreferredBackBufferHeight = (int)(GraphicsDevice.Viewport.Bounds.Width * ratio2);
+
+            graphics.ApplyChanges();
         }
 
         /// <summary>
