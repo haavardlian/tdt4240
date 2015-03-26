@@ -55,7 +55,7 @@ namespace tdt4240
             {
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
-                font = content.Load<SpriteFont>("dice");
+                font = content.Load<SpriteFont>("fonts/dice");
             }
         }
 

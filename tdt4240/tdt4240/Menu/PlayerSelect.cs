@@ -35,7 +35,7 @@ namespace tdt4240
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                font = content.Load<SpriteFont>("menufont");
+                font = content.Load<SpriteFont>("fonts/menufont");
 
                 screenHeigthModifier = ScreenManager.GraphicsDevice.Viewport.Height / 4;
 
@@ -161,8 +161,8 @@ namespace tdt4240
                 ScreenManager.RemoveScreen(this);
 
                 Board board = new Board();
-                ScreenManager.AddScreen(board, null);
-               // ScreenManager.AddScreen(new MinigameDemo(board), null);
+                //ScreenManager.AddScreen(board, null);
+                ScreenManager.AddScreen(new MinigameDemo(board), null);
                 
                 //Add game screen
             }

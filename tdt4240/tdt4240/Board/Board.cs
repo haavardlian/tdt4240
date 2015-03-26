@@ -30,7 +30,7 @@ namespace tdt4240
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                font = content.Load<SpriteFont>("menufont");
+                font = content.Load<SpriteFont>("fonts/menufont");
                 LoadContent();
             }
         }
@@ -38,10 +38,10 @@ namespace tdt4240
         public void LoadContent()
         {
             System.Diagnostics.Debug.WriteLine(ScreenManager.GetScalingFactor());
-            backgroundTexture = content.Load<Texture2D>("board");
+            backgroundTexture = content.Load<Texture2D>("board/board");
             for(int i = 0; i < PlayerManager.Instance.NumberOfPlayers; i++)
             {
-                playerPieces.Add(content.Load<Texture2D>("piece"));
+                playerPieces.Add(content.Load<Texture2D>("board/piece"));
             }
         }
 

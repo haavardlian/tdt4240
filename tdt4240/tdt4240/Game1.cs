@@ -74,7 +74,7 @@ namespace tdt4240
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            font = Content.Load<SpriteFont>("font");
+            font = Content.Load<SpriteFont>("fonts/font");
 
 
         }

@@ -32,7 +32,7 @@ namespace tdt4240.Minigames
 
             if (!instancePreserved)
             {
-                font = content.Load<SpriteFont>("menufont");
+                font = content.Load<SpriteFont>("fonts/menufont");
             }
         }
 
