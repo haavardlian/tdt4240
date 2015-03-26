@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using tdt4240.Minigames.BirdHunt;
 using tdt4240.Minigames.MinigameDemo;
 
 namespace tdt4240
@@ -162,8 +163,9 @@ namespace tdt4240
 
                 Board board = new Board();
                 //ScreenManager.AddScreen(board, null);
-                ScreenManager.AddScreen(new MinigameDemo(board), null);
-                
+                //ScreenManager.AddScreen(new MinigameDemo(board), null);
+                ScreenManager.AddScreen(new BirdHunt(board),null);
+
                 //Add game screen
             }
         }

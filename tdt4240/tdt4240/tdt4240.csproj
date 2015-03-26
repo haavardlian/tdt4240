@@ -81,6 +81,8 @@
     <Compile Include="InputDevice.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="MiniGame.cs" />
+    <Compile Include="Minigames\BirdHunt\BirdHunt.cs" />
+    <Compile Include="Minigames\BirdHunt\CrossHair.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemo.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerManager.cs" />
