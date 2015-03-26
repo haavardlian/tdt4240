@@ -319,9 +319,9 @@ namespace tdt4240
         /// </summary>
         public void FadeBackBufferToBlack(float alpha)
         {
-            spriteBatch.Begin();
+            //spriteBatch.Begin();
             spriteBatch.Draw(blankTexture, GraphicsDevice.Viewport.Bounds, Color.Black * alpha);
-            spriteBatch.End();
+            //spriteBatch.End();
         }
 
         /// <summary>

@@ -128,6 +128,8 @@ namespace tdt4240
                         return state.IsButtonDown(Buttons.X);
                     case GameButtons.Y:
                         return state.IsButtonDown(Buttons.Y);
+                    case GameButtons.Start:
+                        return state.IsButtonDown(Buttons.Start);
                 }
                 
             }
@@ -152,6 +154,8 @@ namespace tdt4240
                         return state.IsKeyDown(Keys.D3);
                     case GameButtons.Y:
                         return state.IsKeyDown(Keys.D4);
+                    case GameButtons.Start:
+                        return state.IsKeyDown(Keys.Escape);
                 }
             }
             return false;
@@ -185,6 +189,7 @@ namespace tdt4240
         Up,
         Down,
         Left,
-        Right
+        Right,
+        Start
     }
 }

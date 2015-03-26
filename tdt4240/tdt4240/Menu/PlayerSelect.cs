@@ -157,12 +157,14 @@ namespace tdt4240
         {
             if (PlayerManager.Instance.NumberOfPlayers >= 1)
             {
-                //TODO start the game
-                ScreenManager.RemoveScreen(this);
+                //ScreenManager.RemoveScreen(this);
+
+                foreach (GameScreen screen in ScreenManager.GetScreens())
+                    screen.ExitScreen();
 
                 Board board = new Board();
-                //ScreenManager.AddScreen(board, null);
-                ScreenManager.AddScreen(new MinigameDemo(board), null);
+                ScreenManager.AddScreen(board, null);
+                //ScreenManager.AddScreen(new MinigameDemo(board), null);
                 
                 //Add game screen
             }
