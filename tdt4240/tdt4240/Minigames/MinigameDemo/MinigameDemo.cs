@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace tdt4240.Minigames
+namespace tdt4240.Minigames.MinigameDemo
 {
     class MinigameDemo : MiniGame
     {
