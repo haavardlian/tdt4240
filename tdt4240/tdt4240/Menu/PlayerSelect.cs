@@ -161,8 +161,8 @@ namespace tdt4240
                 ScreenManager.RemoveScreen(this);
 
                 Board board = new Board();
-                //ScreenManager.AddScreen(board, null);
-                ScreenManager.AddScreen(new MinigameDemo(board), null);
+                ScreenManager.AddScreen(board, null);
+                //ScreenManager.AddScreen(new MinigameDemo(board), null);
                 
                 //Add game screen
             }
