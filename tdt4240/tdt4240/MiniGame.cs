@@ -19,7 +19,7 @@ namespace tdt4240
     }
 
 
-    abstract class MiniGame : GameScreen, IRoller
+    abstract class MiniGame : GameScreen
     {
         protected Board board;
         protected SupportedPlayers supportedPlayers;
@@ -49,11 +49,6 @@ namespace tdt4240
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
             }
-        }
-
-        public virtual void ResultHandler(Player player, int result)
-        {
-            throw new NotImplementedException();
         }
     }
 }

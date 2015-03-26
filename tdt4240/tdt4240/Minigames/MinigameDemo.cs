@@ -44,7 +44,7 @@ namespace tdt4240.Minigames
 
                 if (player.Input.IsButtonPressed(GameButtons.X))
                 {
-                    ScreenManager.AddScreen(new DiceRoll(7, this, player), player.playerIndex);
+                    //DO stuff
                 }
 
             }
@@ -67,11 +67,6 @@ namespace tdt4240.Minigames
             }
 
             spriteBatch.End();
-        }
-
-        public override void ResultHandler(Player player, int result)
-        {
-            System.Diagnostics.Debug.WriteLine(player.playerIndex + " rolled a " + result);
         }
 
         public override void NotifyDone(int winnerIndex)
