@@ -69,9 +69,9 @@ namespace tdt4240.Minigames.MinigameDemo
             spriteBatch.End();
         }
 
-        public override void NotifyDone(int winnerIndex)
+        public override void NotifyDone(PlayerIndex winningPlayerIndex)
         {
-            base.NotifyDone(winnerIndex);
+            base.NotifyDone(winningPlayerIndex);
         }
 
     }
