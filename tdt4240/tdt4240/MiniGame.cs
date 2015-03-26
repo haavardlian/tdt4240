@@ -18,7 +18,6 @@ namespace tdt4240
         All = 7
     }
 
-
     abstract class MiniGame : GameScreen
     {
         protected Board board;
@@ -35,10 +34,10 @@ namespace tdt4240
             this.board = board;
         }
 
-        public virtual void NotifyDone(int winnerIndex)
+        public virtual void NotifyDone(PlayerIndex winningPlayerIndex)
         {
             //Send the winner id/player object
-            board.MiniGameDone(winnerIndex);
+            board.MiniGameDone(winningPlayerIndex);
         }
 
         //Gamescreen overiding

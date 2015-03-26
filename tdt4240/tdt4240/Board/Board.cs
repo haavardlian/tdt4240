@@ -16,8 +16,10 @@ namespace tdt4240
         List<Texture2D> playerPieces = new List<Texture2D>();
         Vector2[] offsets = new Vector2[] { new Vector2(-25, -25), new Vector2(25, -25), new Vector2(-25, 25), new Vector2(25, 25) };
 
-        public void MiniGameDone(int winnerIndex)
+        public void MiniGameDone(PlayerIndex winningPlayerIndex)
         {
+            Console.WriteLine("Player has won:");
+            Console.WriteLine(winningPlayerIndex);
             //TODO
             //Aword winner
             //Remove minigame
