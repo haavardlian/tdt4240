@@ -57,7 +57,7 @@ namespace tdt4240
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                backgroundTexture = content.Load<Texture2D>("main_menu");
+                backgroundTexture = content.Load<Texture2D>("background");
             }
         }
 
