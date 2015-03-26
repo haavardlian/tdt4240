@@ -74,5 +74,10 @@ namespace tdt4240.Minigames
             System.Diagnostics.Debug.WriteLine(player.playerIndex + " rolled a " + result);
         }
 
+        public override void NotifyDone(int winnerIndex)
+        {
+            base.NotifyDone(winnerIndex);
+        }
+
     }
 }

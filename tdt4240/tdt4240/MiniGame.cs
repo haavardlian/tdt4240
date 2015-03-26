@@ -35,7 +35,7 @@ namespace tdt4240
             this.board = board;
         }
 
-        public void NotifyDone(int winnerIndex)
+        public virtual void NotifyDone(int winnerIndex)
         {
             //Send the winner id/player object
             board.MiniGameDone(winnerIndex);
