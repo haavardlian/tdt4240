@@ -1,15 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using tdt4240.Minigames.MinigameDemo;
+using tdt4240.Boards;
 
-namespace tdt4240
+namespace tdt4240.Menu
 {
     class PlayerSelect : GameScreen
     {
@@ -63,7 +60,7 @@ namespace tdt4240
 
                 if (gamePadState.Buttons.Start == ButtonState.Pressed)
                 {
-                    startGame();
+                    StartGame();
                 }
             }
 
@@ -80,7 +77,7 @@ namespace tdt4240
             }
             if (keyboardState.IsKeyDown(Keys.Space))
             {
-                startGame();
+                StartGame();
             }
 
         }
@@ -146,14 +143,14 @@ namespace tdt4240
             else
             {
                 //If the player that entered the player select screen backs the game will return to the main menu
-                if (playerIndex == ControllingPlayer.Value)
+                if (playerIndex == ControllingPlayer)
                 {
                     ScreenManager.RemoveScreen(this);
                 }
             }
         }
 
-        private void startGame()
+        private void StartGame()
         {
             if (PlayerManager.Instance.NumberOfPlayers >= 1)
             {
@@ -162,7 +159,8 @@ namespace tdt4240
                 foreach (GameScreen screen in ScreenManager.GetScreens())
                     screen.ExitScreen();
 
-                Board board = new Board();
+                var board = new Board();
+
                 ScreenManager.AddScreen(board, null);
                 //ScreenManager.AddScreen(new MinigameDemo(board), null);
                 

@@ -10,6 +10,8 @@
 #region Using Statements
 using menu.tdt4240;
 using Microsoft.Xna.Framework;
+using tdt4240.Menu;
+
 #endregion
 
 namespace tdt4240

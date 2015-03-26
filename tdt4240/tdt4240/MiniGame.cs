@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using tdt4240.Boards;
 
 namespace tdt4240
 {
@@ -20,7 +17,7 @@ namespace tdt4240
 
     abstract class MiniGame : GameScreen
     {
-        protected Board board;
+        protected  Board board;
         protected SupportedPlayers supportedPlayers;
         protected ContentManager content;
 
@@ -29,7 +26,7 @@ namespace tdt4240
             get { return supportedPlayers; }
         }
 
-        public MiniGame(Board board) : base()
+        protected MiniGame(Board board)
         {
             this.board = board;
         }

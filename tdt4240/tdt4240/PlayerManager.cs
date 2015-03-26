@@ -1,83 +1,59 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace tdt4240
 {
     class PlayerManager
     {
         public static int MaxPlayers = 4;
-        private static PlayerManager _instance = null;
+        private static PlayerManager _instance;
 
-        private List<Player> _players = new List<Player>();
+        private readonly List<Player> _players = new List<Player>();
 
         public List<Player> Players
         {
             get { return _players;}
         }
 
-        private int _numberOfPlayers = 0;
-
-        public int NumberOfPlayers
-        {
-            get { return _numberOfPlayers; }
-        }
+        public int NumberOfPlayers { get; private set; }
 
         public static Color[] Colors = { Color.Green, Color.Red, Color.Blue, Color.Yellow };
 
-        public static PlayerManager Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new PlayerManager();
-                }
-                return _instance;
-            }
-        }
-
         public PlayerManager()
         {
+            NumberOfPlayers = 0;
         }
 
-        public Boolean PlayerExists(int controllerIndex)
+        public static PlayerManager Instance
         {
-            foreach (Player player in _players)
-            {
-                if (player.controllerIndex == controllerIndex)
-                    return true;
-            }
-            return false;
+            get { return _instance ?? (_instance = new PlayerManager()); }
         }
 
-        public Boolean PlayerExists(PlayerIndex playerIndex)
+        public bool PlayerExists(int controllerIndex)
         {
-            foreach (Player player in _players)
-            {
-                if (player.playerIndex == playerIndex)
-                    return true;
-            }
-            return false;
+            return _players.Any(player => player.controllerIndex == controllerIndex);
+        }
+
+        public bool PlayerExists(PlayerIndex playerIndex)
+        {
+            return _players.Any(player => player.playerIndex == playerIndex);
         }
 
         public void AddPlayer(int controllerIndex, InputType type)
         {
             if (PlayerExists(controllerIndex))
                 return;
-            else if(type == InputType.Keyboard)
+            if(type == InputType.Keyboard)
             {
-                foreach (Player player in _players)
+                if (_players.Any(player => player.Input.Type == InputType.Keyboard))
                 {
-                    if (player.Input.Type == InputType.Keyboard)
-                        return;
+                    return;
                 }
             }
 
-            _players.Add(new Player((PlayerIndex)_numberOfPlayers, controllerIndex, type));
-            _numberOfPlayers++;
+            _players.Add(new Player((PlayerIndex)NumberOfPlayers, controllerIndex, type));
+            NumberOfPlayers++;
           
         }
 
@@ -86,14 +62,11 @@ namespace tdt4240
             if (!PlayerExists(playerIndex))
                 return;
 
-            foreach(Player player in _players)
+            foreach (var player in _players.Where(player => player.playerIndex == playerIndex))
             {
-                if (player.playerIndex == playerIndex)
-                {
-                    _players.Remove(player);
-                    _numberOfPlayers--;
-                    return;
-                }
+                _players.Remove(player);
+                NumberOfPlayers--;
+                return;
             }
         }
 
@@ -102,5 +75,9 @@ namespace tdt4240
             return _players.Last();
         }
 
+        public Player GetPlayer(PlayerIndex? playerIndex)
+        {
+            return _players.FirstOrDefault(player => player.playerIndex == playerIndex);
+        }
     }
 }
