@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using menu.tdt4240;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -16,7 +17,9 @@ namespace tdt4240.Boards
         private SpriteFont _font;
         private readonly Vector2[] _offsets = { new Vector2(-25, -25), new Vector2(25, -25), new Vector2(-25, 25), new Vector2(25, 25) };
         private Player _currentPlayer;
-        private readonly List<BoardPosition> _positions = new List<BoardPosition>(); 
+        private readonly List<BoardPosition> _positions = new List<BoardPosition>();
+
+        private List<MiniGame> _miniGames;
 
         public void MiniGameDone(PlayerIndex winningPlayerIndex)
         {
@@ -42,6 +45,8 @@ namespace tdt4240.Boards
             PlayerManager.Instance.Players.ForEach(player => player.BoardPosition = _positions[0]);
 
             AddPositions();
+
+            _miniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers, this);
         }
 
         private void AddPositions()
@@ -131,6 +136,49 @@ namespace tdt4240.Boards
                 nextPlayerNumber = 0;
 
             _currentPlayer = PlayerManager.Instance.GetPlayer((PlayerIndex)nextPlayerNumber);
+        }
+
+        private void StartMinigame()
+        {
+            Random random = new Random();
+            int gameIndex = random.Next(_miniGames.Count);
+
+            ScreenManager.AddScreen(_miniGames[gameIndex], null);
+        }
+
+
+        private List<MiniGame> ViableMiniGames(int numberOfPlayers, Board board)
+        {
+            List<MiniGame> miniGames = new List<MiniGame>();
+            SupportedPlayers players = GetSupportedPlayers(numberOfPlayers);
+
+            foreach (Type type in Assembly.GetAssembly(typeof(MiniGame)).GetTypes()
+                .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(MiniGame))))
+            {
+                SupportedPlayers sp =
+                (SupportedPlayers)type.GetField("SupportedPlayers",
+                   BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
+
+                if (sp.HasFlag(players))
+                    miniGames.Add((MiniGame)Activator.CreateInstance(type, board));
+            }
+
+            return miniGames;
+        }
+
+        private SupportedPlayers GetSupportedPlayers(int numberOfPlayers)
+        {
+            switch (numberOfPlayers)
+            {
+                case 2:
+                    return SupportedPlayers.Two;
+                case 3:
+                    return SupportedPlayers.Three;
+                case 4:
+                    return SupportedPlayers.Four;
+                default:
+                    return SupportedPlayers.None;
+            }
         }
 
     }

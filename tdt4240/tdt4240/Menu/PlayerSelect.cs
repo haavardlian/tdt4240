@@ -157,52 +157,14 @@ namespace tdt4240.Menu
             int players = PlayerManager.Instance.NumberOfPlayers;
             if (players >= 1)
             {
-                //ScreenManager.RemoveScreen(this);
-
                 var board = new Board();
-                List<MiniGame> viableMiniGames = ViableMiniGames(players, board);
 
+                //Exit all screens
                 foreach (GameScreen screen in ScreenManager.GetScreens())
                     screen.ExitScreen();
 
                 ScreenManager.AddScreen(board, null);
                 //ScreenManager.AddScreen(new MinigameDemo(board), null);
-                
-                //Add game screen
-            }
-        }
-
-        private List<MiniGame> ViableMiniGames(int numberOfPlayers, Board board)
-        {
-            List<MiniGame> miniGames = new List<MiniGame>();
-            SupportedPlayers players = GetSupportedPlayers(numberOfPlayers);
-
-            foreach (Type type in Assembly.GetAssembly(typeof(MiniGame)).GetTypes()
-                .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(MiniGame))))
-            {
-                SupportedPlayers sp =
-                (SupportedPlayers)type.GetField("SupportedPlayers",
-                   BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
-
-                if (sp.HasFlag(players))
-                    miniGames.Add((MiniGame)Activator.CreateInstance(type, board));
-            }
-
-            return miniGames;
-        }
-
-        private SupportedPlayers GetSupportedPlayers(int numberOfPlayers)
-        {
-            switch (numberOfPlayers)
-            {
-                case 2:
-                    return SupportedPlayers.Two;
-                case 3:
-                    return SupportedPlayers.Three;
-                case 4:
-                    return SupportedPlayers.Four;
-                default:
-                    return SupportedPlayers.None;
             }
         }
     }
