@@ -8,6 +8,8 @@
 #endregion
 
 #region Using Statements
+
+using System;
 using Microsoft.Xna.Framework;
 using tdt4240;
 #endregion
@@ -31,22 +33,29 @@ namespace menu.tdt4240
         {
             // Create our menu entries.
             MenuItem resumeGameMenuEntry = new MenuItem("Resume Game");
+            MenuItem settingsGameMenuEntry = new MenuItem("Settings");
             MenuItem quitGameMenuEntry = new MenuItem("Quit Game");
 
             // Hook up menu event handlers.
             resumeGameMenuEntry.Selected += OnCancel;
             quitGameMenuEntry.Selected += QuitGameMenuEntrySelected;
+            settingsGameMenuEntry.Selected += SettingsGameMenuEntrySelected;
 
             // Add entries to the menu.
             MenuEntries.Add(resumeGameMenuEntry);
+            MenuEntries.Add(settingsGameMenuEntry);
             MenuEntries.Add(quitGameMenuEntry);
+            
         }
-
 
         #endregion
 
         #region Handle Input
 
+        private void SettingsGameMenuEntrySelected(object sender, PlayerEvent playerEvent)
+        {
+            ScreenManager.AddScreen(new OptionsMenuScreen(), null);
+        }
 
         /// <summary>
         /// Event handler for when the Quit Game menu entry is selected.

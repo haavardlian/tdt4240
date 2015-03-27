@@ -12,6 +12,7 @@ namespace tdt4240
 
         public bool Fullscreen
         {
+            //TODO: Go back to something other than HD ready. Have a list of resolutions?
             get { return _fullscreen; }
             set
             {
