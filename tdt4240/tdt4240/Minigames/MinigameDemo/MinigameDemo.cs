@@ -7,6 +7,8 @@ namespace tdt4240.Minigames.MinigameDemo
     class MinigameDemo : MiniGame
     {
 
+        public static SupportedPlayers SupportedPlayers = SupportedPlayers.Three;
+
         private int numberOfPlayers;
         
         
@@ -15,8 +17,9 @@ namespace tdt4240.Minigames.MinigameDemo
 
         public MinigameDemo(Board board) : base(board)
         {
-            this.supportedPlayers = SupportedPlayers.All;
+            //this.supportedPlayers = SupportedPlayers.All;
             this.numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
+            this.title = "Demo";
 
             //DO stuff based on the amount of players playing
         }
@@ -67,6 +70,11 @@ namespace tdt4240.Minigames.MinigameDemo
         public override void NotifyDone(PlayerIndex winningPlayerIndex)
         {
             base.NotifyDone(winningPlayerIndex);
+        }
+
+        public override string ToString()
+        {
+            return title;
         }
 
     }

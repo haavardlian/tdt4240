@@ -17,14 +17,16 @@ namespace tdt4240
 
     abstract class MiniGame : GameScreen
     {
-        protected  Board board;
-        protected SupportedPlayers supportedPlayers;
-        protected ContentManager content;
+        public static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
 
-        public SupportedPlayers SupportedPlayers
+        protected Board board;
+        protected ContentManager content;
+        protected String title = "Title not implemented";
+
+/*        public SupportedPlayers SupportedPlayers
         {
             get { return supportedPlayers; }
-        }
+        }*/
 
         protected MiniGame(Board board)
         {
