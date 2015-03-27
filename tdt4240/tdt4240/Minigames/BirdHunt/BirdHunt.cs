@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using tdt4240.Boards;
@@ -30,9 +28,11 @@ namespace tdt4240.Minigames.BirdHunt
 
             if (!instancePreserved)
             {
+                var sprite = content.Load<Texture2D>("minigames/BirdHunt/CrossHair");
+
                 for (int i = 0; i < _numberOfPlayers; i++)
                 {
-                    _crossHairs.Add(new CrossHair(content.Load<Texture2D>("minigames/BirdHunt/CrossHair"),PlayerManager.Instance.Players[i]));
+                    _crossHairs.Add(new CrossHair(PlayerManager.Instance.Players[i],sprite));
                 }
             }
         }
@@ -77,7 +77,7 @@ namespace tdt4240.Minigames.BirdHunt
 
             foreach (CrossHair crossHair in _crossHairs)
             {
-                spriteBatch.Draw(crossHair, crossHair.Position, crossHair.Color);
+                spriteBatch.Draw(crossHair.Sprite, crossHair.Position, Color.White);
             }
 
             spriteBatch.End();

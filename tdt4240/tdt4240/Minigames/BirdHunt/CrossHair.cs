@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace tdt4240.Minigames.BirdHunt
 {
-    class CrossHair : Texture2D
+    class CrossHair
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -14,16 +15,32 @@ namespace tdt4240.Minigames.BirdHunt
 
         public Color Color { get; set; }
 
-        private CrossHair(GraphicsDevice graphicsDevice, int width, int height) : base(graphicsDevice, width, height)
+        public Texture2D Sprite { get; set; }
+
+        public CrossHair(Player player, Texture2D sprite)
         {
+            X = 200;
+            Y = 200;
+            Position = new Vector2(200,200);
+            Owner = player;
+            Color = player.color;
+
+            DrawColorAndSetSprite(sprite);
+
         }
 
-        public CrossHair(Texture2D sprite, Player player) : this(sprite.GraphicsDevice,sprite.Width,sprite.Height)
+        private void DrawColorAndSetSprite(Texture2D sprite)
         {
-            X = 50;
-            Y = 50;
-            Position = new Vector2(50,50);
-            Color = player.color;
+            var data = new Color[sprite.Height * sprite.Width];
+            sprite.GetData(data);
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i].Equals(Color.Black))
+                    data[i] = Color;
+            }
+            sprite.SetData(data);
+            Sprite = sprite;
         }
 
         public Vector2 GetPosition()
