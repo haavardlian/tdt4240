@@ -52,6 +52,8 @@ namespace tdt4240
         #region Properties
 
 
+        public GraphicsDeviceManager Graphics { get; private set; }
+
         /// <summary>
         /// A default SpriteBatch shared by all the screens. This saves
         /// each screen having to bother creating their own local instance.
@@ -101,12 +103,13 @@ namespace tdt4240
         /// <summary>
         /// Constructs a new screen manager component.
         /// </summary>
-        public ScreenManager(Game game)
+        public ScreenManager(Game game, GraphicsDeviceManager graphics)
             : base(game)
         {
             // we must set EnabledGestures before we can query for them, but
             // we don't assume the game wants to read them.
             TouchPanel.EnabledGestures = GestureType.None;
+            Graphics = graphics;
         }
 
 
@@ -116,6 +119,8 @@ namespace tdt4240
         public override void Initialize()
         {
             base.Initialize();
+
+            Settings.Instance.ScreenManager = this;
 
             isInitialized = true;
         }
@@ -319,9 +324,9 @@ namespace tdt4240
         /// </summary>
         public void FadeBackBufferToBlack(float alpha)
         {
-            spriteBatch.Begin();
+            //spriteBatch.Begin();
             spriteBatch.Draw(blankTexture, GraphicsDevice.Viewport.Bounds, Color.Black * alpha);
-            spriteBatch.End();
+            //spriteBatch.End();
         }
 
         /// <summary>

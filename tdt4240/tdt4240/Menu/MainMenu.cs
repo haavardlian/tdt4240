@@ -8,7 +8,10 @@
 #endregion
 
 #region Using Statements
+using menu.tdt4240;
 using Microsoft.Xna.Framework;
+using tdt4240.Menu;
+
 #endregion
 
 namespace tdt4240
@@ -71,7 +74,7 @@ namespace tdt4240
         void OptionsMenuEntrySelected(object sender, PlayerEvent e)
         {
             //TODO create option menu
-            //ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
+            ScreenManager.AddScreen(new OptionsMenuScreen(), e.PlayerIndex);
         }
 
         void AboutMenuEntrySelected(object sender, PlayerEvent e)
@@ -85,6 +88,8 @@ namespace tdt4240
         /// </summary>
         protected override void OnCancel(PlayerIndex playerIndex)
         {
+
+            ScreenManager.Game.Exit();
             //const string message = "Are you sure you want to exit this sample?";
 
             //MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen(message);

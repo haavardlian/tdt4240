@@ -4,20 +4,22 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using tdt4240.Boards;
 
 namespace tdt4240.Minigames.BirdHunt
 {
     class BirdHunt : MiniGame
     {
-        private int numberOfPlayers;
-        private List<CrossHair> crossHairs;
+        private readonly int _numberOfPlayers;
+        private readonly List<CrossHair> _crossHairs;
+        public new static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
+
 
         public BirdHunt(Board board) : base(board)
         {
-            this.supportedPlayers = SupportedPlayers.All;
-            this.numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
+            _numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
             
-            crossHairs = new List<CrossHair>();
+            _crossHairs = new List<CrossHair>();
         }
 
         public override void Activate(bool instancePreserved)
@@ -28,9 +30,9 @@ namespace tdt4240.Minigames.BirdHunt
 
             if (!instancePreserved)
             {
-                for (int i = 0; i < numberOfPlayers; i++)
+                for (int i = 0; i < _numberOfPlayers; i++)
                 {
-                    crossHairs.Add(new CrossHair(content.Load<Texture2D>("minigames/BirdHunt/CrossHair"),PlayerManager.Instance.Players[i]));
+                    _crossHairs.Add(new CrossHair(content.Load<Texture2D>("minigames/BirdHunt/CrossHair"),PlayerManager.Instance.Players[i]));
                 }
             }
         }
@@ -51,7 +53,7 @@ namespace tdt4240.Minigames.BirdHunt
         /// </summary>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
-            foreach (CrossHair crossHair in crossHairs)
+            foreach (CrossHair crossHair in _crossHairs)
             {
                 crossHair.Position += crossHair.Owner.Input.GetThumbstickVector();
 
@@ -73,7 +75,7 @@ namespace tdt4240.Minigames.BirdHunt
 
             spriteBatch.Begin();
 
-            foreach (CrossHair crossHair in crossHairs)
+            foreach (CrossHair crossHair in _crossHairs)
             {
                 spriteBatch.Draw(crossHair, crossHair.Position, crossHair.Color);
             }

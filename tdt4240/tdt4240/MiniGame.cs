@@ -1,10 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using tdt4240.Boards;
 
 namespace tdt4240
 {
@@ -18,26 +15,29 @@ namespace tdt4240
         All = 7
     }
 
-    abstract class MiniGame : GameScreen
+    internal abstract class MiniGame : GameScreen
     {
-        protected Board board;
-        protected SupportedPlayers supportedPlayers;
-        protected ContentManager content;
+        public static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
 
-        public SupportedPlayers SupportedPlayers
+        protected Board board;
+        protected ContentManager content;
+        protected String title = "Title not implemented";
+
+        protected Background background;
+
+        public Background Background
         {
-            get { return supportedPlayers; }
+            get { return background; }
         }
 
-        public MiniGame(Board board) : base()
+        protected MiniGame(Board board)
         {
             this.board = board;
         }
 
         public virtual void NotifyDone(PlayerIndex winningPlayerIndex)
         {
-            //Send the winner id/player object
-            board.MiniGameDone(winningPlayerIndex);
+            board.MiniGameDone(winningPlayerIndex, this);
         }
 
         //Gamescreen overiding

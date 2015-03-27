@@ -1,16 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using tdt4240.Boards;
 
 namespace tdt4240.Minigames.MinigameDemo
 {
     class MinigameDemo : MiniGame
     {
+
+        public static SupportedPlayers SupportedPlayers = SupportedPlayers.Three;
 
         private int numberOfPlayers;
         
@@ -20,8 +17,9 @@ namespace tdt4240.Minigames.MinigameDemo
 
         public MinigameDemo(Board board) : base(board)
         {
-            this.supportedPlayers = SupportedPlayers.All;
+            //this.supportedPlayers = SupportedPlayers.All;
             this.numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
+            this.title = "Demo";
 
             //DO stuff based on the amount of players playing
         }
@@ -33,6 +31,8 @@ namespace tdt4240.Minigames.MinigameDemo
             if (!instancePreserved)
             {
                 font = content.Load<SpriteFont>("fonts/menufont");
+                background = new Background();
+                ScreenManager.AddScreen(background, null);
             }
         }
 
@@ -44,7 +44,7 @@ namespace tdt4240.Minigames.MinigameDemo
 
                 if (player.Input.IsButtonPressed(GameButtons.X))
                 {
-                    //DO stuff
+                    NotifyDone(PlayerIndex.One);
                 }
 
             }
@@ -69,9 +69,14 @@ namespace tdt4240.Minigames.MinigameDemo
             spriteBatch.End();
         }
 
-        public override void NotifyDone(PlayerIndex winnerIndex)
+        public override void NotifyDone(PlayerIndex winningPlayerIndex)
         {
-            base.NotifyDone(winnerIndex);
+            base.NotifyDone(winningPlayerIndex);
+        }
+
+        public override string ToString()
+        {
+            return title;
         }
 
     }
