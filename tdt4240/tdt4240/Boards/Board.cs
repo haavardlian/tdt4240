@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using menu.tdt4240;
@@ -19,15 +20,15 @@ namespace tdt4240.Boards
         private Player _currentPlayer;
         private readonly List<BoardPosition> _positions = new List<BoardPosition>();
 
-        private List<MiniGame> _miniGames;
+        private List<Type> _miniGames;
 
-        public void MiniGameDone(PlayerIndex winningPlayerIndex)
+        public void MiniGameDone(PlayerIndex winningPlayerIndex, MiniGame miniGame)
         {
-            Console.WriteLine("Player has won:");
-            Console.WriteLine(winningPlayerIndex);
+            Console.WriteLine("Player has won: " + winningPlayerIndex);
             //TODO
             //Award winner
-            //Remove minigame
+            ScreenManager.RemoveScreen(miniGame.Background);
+            ScreenManager.RemoveScreen(miniGame);
         }
 
         public override void Activate(bool instancePreserved)
@@ -77,6 +78,16 @@ namespace tdt4240.Boards
             if (currentPlayerInput.IsButtonPressed(GameButtons.X))
             {
                 ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), _currentPlayer.playerIndex);
+            }
+
+            //Tempcode for testing minigame functionality
+
+            foreach (Player player in PlayerManager.Instance.Players)
+            {
+                if (player.Input.IsButtonPressed(GameButtons.B))
+                {
+                    StartMinigame();
+                }
             }
         }
 
@@ -143,13 +154,15 @@ namespace tdt4240.Boards
             Random random = new Random();
             int gameIndex = random.Next(_miniGames.Count);
 
-            ScreenManager.AddScreen(_miniGames[gameIndex], null);
+            MiniGame minigame = (MiniGame) Activator.CreateInstance(_miniGames[gameIndex], this);
+
+            ScreenManager.AddScreen(minigame, null);
         }
 
 
-        private List<MiniGame> ViableMiniGames(int numberOfPlayers, Board board)
+        private List<Type> ViableMiniGames(int numberOfPlayers, Board board)
         {
-            List<MiniGame> miniGames = new List<MiniGame>();
+            List<Type> miniGames = new List<Type>();
             SupportedPlayers players = GetSupportedPlayers(numberOfPlayers);
 
             foreach (Type type in Assembly.GetAssembly(typeof(MiniGame)).GetTypes()
@@ -160,7 +173,7 @@ namespace tdt4240.Boards
                    BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
 
                 if (sp.HasFlag(players))
-                    miniGames.Add((MiniGame)Activator.CreateInstance(type, board));
+                    miniGames.Add(type);
             }
 
             return miniGames;

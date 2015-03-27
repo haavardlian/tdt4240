@@ -31,6 +31,8 @@ namespace tdt4240.Minigames.MinigameDemo
             if (!instancePreserved)
             {
                 font = content.Load<SpriteFont>("fonts/menufont");
+                background = new Background();
+                ScreenManager.AddScreen(background, null);
             }
         }
 
@@ -42,7 +44,7 @@ namespace tdt4240.Minigames.MinigameDemo
 
                 if (player.Input.IsButtonPressed(GameButtons.X))
                 {
-                    //DO stuff
+                    NotifyDone(PlayerIndex.One);
                 }
 
             }

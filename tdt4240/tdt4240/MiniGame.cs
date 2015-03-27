@@ -15,7 +15,7 @@ namespace tdt4240
         All = 7
     }
 
-    abstract class MiniGame : GameScreen
+    internal abstract class MiniGame : GameScreen
     {
         public static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
 
@@ -23,10 +23,12 @@ namespace tdt4240
         protected ContentManager content;
         protected String title = "Title not implemented";
 
-/*        public SupportedPlayers SupportedPlayers
+        protected Background background;
+
+        public Background Background
         {
-            get { return supportedPlayers; }
-        }*/
+            get { return background; }
+        }
 
         protected MiniGame(Board board)
         {
@@ -35,8 +37,7 @@ namespace tdt4240
 
         public virtual void NotifyDone(PlayerIndex winningPlayerIndex)
         {
-            //Send the winner id/player object
-            board.MiniGameDone(winningPlayerIndex);
+            board.MiniGameDone(winningPlayerIndex, this);
         }
 
         //Gamescreen overiding
