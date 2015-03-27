@@ -9,6 +9,7 @@
 
 #region Using Statements
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using tdt4240;
 #endregion
 
@@ -23,12 +24,8 @@ namespace menu.tdt4240
     {
         #region Fields
 
-        MenuItem soundMenuEntry;
-        MenuItem fullscreenMenuEntry;
-
-        //TODO move to global
-        bool sound = true;
-        bool fullscreen = true;
+        readonly MenuItem soundMenuEntry;
+        readonly MenuItem fullscreenMenuEntry;
 
         #endregion
 
@@ -47,7 +44,7 @@ namespace menu.tdt4240
 
             SetMenuEntryText();
 
-            MenuItem back = new MenuItem("Back");
+            var back = new MenuItem("Back");
 
             // Hook up menu event handlers.
             soundMenuEntry.Selected += SoundMenuEntrySelected;
@@ -66,8 +63,8 @@ namespace menu.tdt4240
         /// </summary>
         void SetMenuEntryText()
         {
-            soundMenuEntry.Text = "Sound: " + (sound ? " on" : "off");
-            fullscreenMenuEntry.Text = "Fullscreen: " + (fullscreen ? " on" : "off");
+            soundMenuEntry.Text = "Sound: " + (Settings.Instance.Sound ? " on" : "off");
+            fullscreenMenuEntry.Text = "Fullscreen: " + (Settings.Instance.Fullscreen ? " on" : "off");
         }
 
 
@@ -77,14 +74,14 @@ namespace menu.tdt4240
 
         void SoundMenuEntrySelected(object sender, PlayerEvent e)
         {
-            sound = !sound;
+            Settings.Instance.Sound = !Settings.Instance.Sound;
             SetMenuEntryText();
         }
 
 
         void FullscreenMenuEntrySelected(object sender, PlayerEvent e)
         {
-            fullscreen = !fullscreen;
+            Settings.Instance.Fullscreen = !Settings.Instance.Fullscreen;
             SetMenuEntryText();
         }
 

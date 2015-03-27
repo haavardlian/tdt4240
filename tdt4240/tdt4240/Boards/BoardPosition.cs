@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace tdt4240.Boards
 {
@@ -14,6 +15,7 @@ namespace tdt4240.Boards
     {
         public Vector2 Position { get; set; }
         public Action<Player> NavigateTo { get; set; }
+        public Texture2D Background { get; set; }
 
         public BoardPosition(Vector2 position)
         {
@@ -35,6 +37,11 @@ namespace tdt4240.Boards
             }
         }
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            if (Background == null) return;
+            spriteBatch.Draw(Background, Vector2.Zero, Color.White);
+        }
 
         public static void OnNavigateToDefault(Player player)
         {

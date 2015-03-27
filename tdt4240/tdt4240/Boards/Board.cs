@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using menu.tdt4240;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -13,16 +14,16 @@ namespace tdt4240.Boards
         private Texture2D _pieceTexture;
         private ContentManager _content;
         private SpriteFont _font;
-        private readonly Vector2[] _offsets = new Vector2[] { new Vector2(-25, -25), new Vector2(25, -25), new Vector2(-25, 25), new Vector2(25, 25) };
+        private readonly Vector2[] _offsets = { new Vector2(-25, -25), new Vector2(25, -25), new Vector2(-25, 25), new Vector2(25, 25) };
         private Player _currentPlayer;
-        private List<BoardPosition> _positions = new List<BoardPosition>(); 
+        private readonly List<BoardPosition> _positions = new List<BoardPosition>(); 
 
         public void MiniGameDone(PlayerIndex winningPlayerIndex)
         {
             Console.WriteLine("Player has won:");
             Console.WriteLine(winningPlayerIndex);
             //TODO
-            //Aword winner
+            //Award winner
             //Remove minigame
         }
 
@@ -40,16 +41,30 @@ namespace tdt4240.Boards
             
             PlayerManager.Instance.Players.ForEach(player => player.BoardPosition = _positions[0]);
 
+            AddPositions();
+        }
+
+        private void AddPositions()
+        {
+            var factor = 2;
+            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
+            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
+            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
+            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
+            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
+            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
+            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
+            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
+            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
+            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
         }
 
         public override void HandleInput(GameTime gameTime, InputState input)
         {
-            foreach (var player in PlayerManager.Instance.Players)
+            foreach (var player in PlayerManager.Instance.Players.Where(player => player.Input.IsButtonPressed(GameButtons.Back)))
             {
-                if (player.Input.IsButtonPressed(GameButtons.Start))
-                {
-                    ScreenManager.AddScreen(new PauseMenuScreen(), player.playerIndex);
-                }
+                ScreenManager.AddScreen(new PauseMenuScreen(), player.playerIndex);
+                break;
             }
 
             var currentPlayerInput = _currentPlayer.Input;
@@ -79,6 +94,8 @@ namespace tdt4240.Boards
 
             spriteBatch.Draw(_backgroundTexture, Vector2.Zero, null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, Vector2.Zero, ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
 
+            _positions.ForEach(x => x.Draw(spriteBatch));
+
             foreach (var player in PlayerManager.Instance.Players)
             {
                 var pos = player.BoardPosition.Position;
@@ -96,22 +113,24 @@ namespace tdt4240.Boards
         {
             Console.WriteLine(_currentPlayer.playerIndex + " rolled a " + result);
             //TODO: Move player to new position
+
+            var index = _positions.IndexOf(_currentPlayer.BoardPosition);
+
+            if (index + result >= _positions.Count)
+            {
+                Console.WriteLine(_currentPlayer + "Is the winner!!!");
+                return;
+            }
+             
+
+            _currentPlayer.BoardPosition = _positions[index + result];
+
             var nextPlayerNumber = (int) _currentPlayer.playerIndex + 1;
 
             if (nextPlayerNumber >= PlayerManager.Instance.NumberOfPlayers)
                 nextPlayerNumber = 0;
 
             _currentPlayer = PlayerManager.Instance.GetPlayer((PlayerIndex)nextPlayerNumber);
-        }
-
-        public void OnNavigateToPowerUp(object sender, Player player)
-        {
-
-        }
-
-        public void OnNavigateToExtraRoll(object sender, Player player)
-        {
-
         }
 
     }
