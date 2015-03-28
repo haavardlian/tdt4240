@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -14,9 +15,9 @@ namespace tdt4240.Minigames.BirdHunt
             get { return _position; }
             set
             {
-                if (value.X > 0 && value.X < 1920)
+                if (value.X + (CrossHair.Width/2) > 0 && value.X + (CrossHair.Width/2) < ScreenManager.MaxWidt)
                     _position.X = value.X;
-                if (value.Y > 0 && value.Y < 1080)
+                if (value.Y + (CrossHair.Height / 2) > 0 && value.Y + (CrossHair.Height / 2) < ScreenManager.MaxHeight)
                     _position.Y = value.Y;
             }
         }
@@ -34,15 +35,16 @@ namespace tdt4240.Minigames.BirdHunt
 
         private int _shotFramCount;
 
-        public Gun(Player player, Texture2D sprite, Texture2D shot)
+        public Gun(Player player, Texture2D crossHair, Texture2D shot)
         {
-            Position = new Vector2(200,200);
+            
             Player = player;
             _random = new Random();
             Color = player.color;
 
-            DrawColorAndSetSprite(sprite);
+            DrawColorAndSetSprite(crossHair);
             Shot = shot;
+            Position = new Vector2(200, 200);
 
         }
 
