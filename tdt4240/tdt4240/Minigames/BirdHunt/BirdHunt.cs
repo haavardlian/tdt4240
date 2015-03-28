@@ -8,16 +8,18 @@ namespace tdt4240.Minigames.BirdHunt
 {
     class BirdHunt : MiniGame
     {
+        private const double AimingDifficulty = 0.2;
         private readonly int _numberOfPlayers;
-        private readonly List<CrossHair> _crossHairs;
+        private readonly List<Gun> _guns;
         public new static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
+        private readonly Random _random;
 
 
         public BirdHunt(Board board) : base(board)
         {
             _numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
-            
-            _crossHairs = new List<CrossHair>();
+            _random = new Random();
+            _guns = new List<Gun>();
         }
 
         public override void Activate(bool instancePreserved)
@@ -28,11 +30,12 @@ namespace tdt4240.Minigames.BirdHunt
 
             if (!instancePreserved)
             {
-                var sprite = content.Load<Texture2D>("minigames/BirdHunt/CrossHair");
+                var crossHair = content.Load<Texture2D>("minigames/BirdHunt/CrossHair");
+                var shot = content.Load<Texture2D>("minigames/BirdHunt/Shot");
 
-                for (int i = 0; i < _numberOfPlayers; i++)
+                for (var i = 0; i < _numberOfPlayers; i++)
                 {
-                    _crossHairs.Add(new CrossHair(PlayerManager.Instance.Players[i],sprite));
+                    _guns.Add(new Gun(PlayerManager.Instance.Players[i],crossHair,shot));
                 }
             }
         }
@@ -44,6 +47,12 @@ namespace tdt4240.Minigames.BirdHunt
         /// </summary>
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
+            foreach (var gun in _guns)
+            {
+                if(_random.NextDouble()<AimingDifficulty)
+                    gun.UpdateAccuracy();
+                    gun.Position += gun.Accuracy;
+            }
         }
 
         /// <summary>
@@ -53,13 +62,14 @@ namespace tdt4240.Minigames.BirdHunt
         /// </summary>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
-            foreach (CrossHair crossHair in _crossHairs)
+            foreach (var gun in _guns)
             {
-                crossHair.Position += crossHair.Owner.Input.GetThumbstickVector();
+                gun.Position += gun.Player.Input.GetThumbstickVector()*3;
 
-                if (crossHair.Owner.Input.IsButtonPressed(GameButtons.X))
+                if (gun.Player.Input.IsButtonPressed(GameButtons.X))
                 {
-                    //SHOOOOT
+                    gun.Fire();
+                    Console.WriteLine("fired");
                 }
 
             }
@@ -74,10 +84,11 @@ namespace tdt4240.Minigames.BirdHunt
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
-
-            foreach (CrossHair crossHair in _crossHairs)
+            foreach (var gun in _guns)
             {
-                spriteBatch.Draw(crossHair.Sprite, crossHair.Position, Color.White);
+                spriteBatch.Draw(gun.CrossHair, gun.Position*ScreenManager.GetScalingFactor(), null, Color.White, 0f, new Vector2(0,0),ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f );
+                if(gun.Fired)
+                    spriteBatch.Draw(gun.Shot, gun.Position * ScreenManager.GetScalingFactor(), null, Color.White, 0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             }
 
             spriteBatch.End();
