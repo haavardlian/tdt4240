@@ -23,7 +23,7 @@ namespace tdt4240.Minigames.BirdHunt
 
         private int _shotFramCount;
 
-        public Gun(Player player, Texture2D crossHair, Texture2D shot) : base(new Vector2(crossHair.Width/2,crossHair.Height/2))
+        public Gun(Player player, Texture2D crossHair, Texture2D shot) : base(crossHair)
         {
             
             Player = player;

@@ -31,9 +31,10 @@ namespace tdt4240.Assets
         public Texture2D Texture { get; set; }
 
 
-        public GraphicsObject(Vector2 center)
+        public GraphicsObject(Texture2D texture )
         {
-            Center = center;
+            Texture = texture;
+            Center = new Vector2(texture.Width / 2, texture.Height / 2);
         }
 
     }
