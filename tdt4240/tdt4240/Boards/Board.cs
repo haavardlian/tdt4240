@@ -15,7 +15,7 @@ namespace tdt4240.Boards
         private Texture2D _pieceTexture;
         private ContentManager _content;
         private SpriteFont _font;
-        private readonly Vector2[] _offsets = { new Vector2(-25, -25), new Vector2(25, -25), new Vector2(-25, 25), new Vector2(25, 25) };
+        private readonly Vector2[] _offsets = { new Vector2(-24, -32), new Vector2(24, -32), new Vector2(-24, 16), new Vector2(24, 16) };
         private Player _currentPlayer;
         private readonly List<BoardPosition> _positions = new List<BoardPosition>();
 
@@ -96,7 +96,7 @@ namespace tdt4240.Boards
         public void LoadContent()
         {
             _backgroundTexture = _content.Load<Texture2D>("board/board");
-            _pieceTexture = _content.Load<Texture2D>("board/piece");
+            _pieceTexture = _content.Load<Texture2D>("board/piece2");
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
@@ -114,13 +114,27 @@ namespace tdt4240.Boards
 
             _positions.ForEach(x => x.Draw(spriteBatch));
 
+
+            BoardPosition lastPosition = null;
+            var index = 0;
             foreach (var player in PlayerManager.Instance.Players)
             {
+                if (lastPosition == player.BoardPosition)
+                {
+                    index++;
+                }
+                else
+                {
+                    index = 0;
+                    lastPosition = player.BoardPosition;
+                }
+
+                if (player.BoardPosition == null) continue;
                 var pos = player.BoardPosition.Position;
-                pos += _offsets[(int)player.PlayerIndex];
+                pos += _offsets[index];
                 pos *= ScreenManager.GetScalingFactor();
 
-                spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(20, 10), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+                spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(32, 32), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             }
             
             
@@ -130,18 +144,16 @@ namespace tdt4240.Boards
         public void HandleDiceRollResult(int result)
         {
             Console.WriteLine(_currentPlayer.PlayerIndex + " rolled a " + result);
-            //TODO: Move player to new position
+            var index = _positions.IndexOf(_currentPlayer.BoardPosition) + result;
 
-            var index = _positions.IndexOf(_currentPlayer.BoardPosition);
-
-            if (index + result >= _positions.Count)
+            if (index >= _positions.Count)
             {
                 Console.WriteLine(_currentPlayer + "Is the winner!!!");
                 return;
             }
              
 
-            _currentPlayer.BoardPosition = _positions[index + result];
+            _currentPlayer.BoardPosition = _positions[index];
 
             var nextPlayerNumber = (int) _currentPlayer.PlayerIndex + 1;
 

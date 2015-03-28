@@ -142,6 +142,8 @@
   <ItemGroup>
     <Compile Include="background3.jpg">
       <Name>background3</Name>
+    <Compile Include="board\piece2.png">
+      <Name>piece2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

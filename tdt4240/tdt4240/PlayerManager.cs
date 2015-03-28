@@ -79,5 +79,11 @@ namespace tdt4240
         {
             return _players.FirstOrDefault(player => player.PlayerIndex == playerIndex);
         }
+
+        public void Reset()
+        {
+            _players.Clear();
+            NumberOfPlayers = 0;
+        }
     }
 }

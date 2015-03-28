@@ -45,6 +45,8 @@ namespace tdt4240.Menu
             MenuEntries.Add(playGameMenuEntry);
             MenuEntries.Add(optionsMenuEntry);
             MenuEntries.Add(exitMenuEntry);
+
+            PlayerManager.Instance.Reset();
         }
 
 

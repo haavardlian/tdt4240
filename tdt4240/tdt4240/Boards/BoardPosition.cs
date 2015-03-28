@@ -15,6 +15,7 @@ namespace tdt4240.Boards
     {
         public Vector2 Position { get; set; }
         public Action<Player> NavigateTo { get; set; }
+        public Action<Player> NavigateFrom { get; private set; }
         public Texture2D Background { get; set; }
 
         public BoardPosition(Vector2 position)
@@ -43,12 +44,12 @@ namespace tdt4240.Boards
             spriteBatch.Draw(Background, Vector2.Zero, Color.White);
         }
 
-        public static void OnNavigateToDefault(Player player)
+        public void OnNavigateToDefault(Player player)
         {
             Console.WriteLine(player.PlayerIndex + " navigated to a new position");
         }
 
-        public static void OnNavigateToStart(Player player)
+        public void OnNavigateToStart(Player player)
         {
             Console.WriteLine(player.PlayerIndex + " navigated to start");
         }
