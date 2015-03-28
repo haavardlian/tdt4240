@@ -2,31 +2,19 @@
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using tdt4240.Assets;
 
 namespace tdt4240.Minigames.BirdHunt
 {
-    class Gun
+    class Gun :GraphicsObject
     {
         public const int AccuracyLimit = 2;
-        private Vector2 _position;
-
-        public Vector2 Position
-        {
-            get { return _position; }
-            set
-            {
-                if (value.X + (CrossHair.Width/2) > 0 && value.X + (CrossHair.Width/2) < ScreenManager.MaxWidt)
-                    _position.X = value.X;
-                if (value.Y + (CrossHair.Height / 2) > 0 && value.Y + (CrossHair.Height / 2) < ScreenManager.MaxHeight)
-                    _position.Y = value.Y;
-            }
-        }
+       
 
         public Player Player { get; set; }
 
         public Color Color { get; set; }
 
-        public Texture2D CrossHair { get; set; }
         public Texture2D Shot { get; set; }
 
         public Vector2 Accuracy { get; private set; }
@@ -35,7 +23,7 @@ namespace tdt4240.Minigames.BirdHunt
 
         private int _shotFramCount;
 
-        public Gun(Player player, Texture2D crossHair, Texture2D shot)
+        public Gun(Player player, Texture2D crossHair, Texture2D shot) : base(new Vector2(crossHair.Width/2,crossHair.Height/2))
         {
             
             Player = player;
@@ -69,7 +57,7 @@ namespace tdt4240.Minigames.BirdHunt
                     data[i] = Color;
             }
             sprite.SetData(data);
-            CrossHair = sprite;
+            Texture = sprite;
         }
 
         public void UpdateAccuracy()
