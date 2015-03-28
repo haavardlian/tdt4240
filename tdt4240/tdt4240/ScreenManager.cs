@@ -38,6 +38,9 @@ namespace tdt4240
 
         List<GameScreen> screens = new List<GameScreen>();
         List<GameScreen> tempScreensList = new List<GameScreen>();
+        public const int MaxWidt = 1920;
+        public const int MaxHeight = 1080;
+
 
         InputState input = new InputState();
 

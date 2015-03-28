@@ -1,10 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using Microsoft.Xna.Framework.Graphics;
 using tdt4240.Boards;
 
 namespace tdt4240
 {
 
+    public enum Effect
+    {
+        Freeze,
+        DoubleRoll,
+        HalfRollRange
+    }
 
 
     class Player : EventArgs
@@ -15,6 +22,9 @@ namespace tdt4240
         public InputDevice Input;
         public string TestString = "This is player ";
         private BoardPosition _boardPosition;
+        private Effect _effect;
+
+
         public BoardPosition BoardPosition
         {
             get
@@ -26,6 +36,12 @@ namespace tdt4240
                 _boardPosition = value;
                 BoardPosition.NavigateTo(this);
             }
+        }
+
+        public Effect Effect
+        {
+            get { return _effect; }
+            set { _effect = value; }
         }
 
 
