@@ -166,8 +166,8 @@ namespace tdt4240.Menu
                     screen.ExitScreen();
 
                 
-                ScreenManager.AddScreen(new BirdHunt(board), null);
-                //ScreenManager.AddScreen(board, null);
+                //ScreenManager.AddScreen(new BirdHunt(board), null);
+                ScreenManager.AddScreen(board, null);
                 //ScreenManager.AddScreen(new MinigameDemo(board), null);
             }
         }

@@ -11,7 +11,7 @@ namespace tdt4240.Minigames.BirdHunt
     class Bird : GraphicsObject
 
     {
-        public const int SpeedLimit = 2;
+        public const int SpeedLimit = 4;
 
 
         public Vector2 Speed { get; private set; }
