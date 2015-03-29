@@ -33,9 +33,9 @@ namespace tdt4240.Minigames.BirdHunt
             _birds = new List<Bird>();
 
             _corners = new[]{new Vector2(ScreenPadding, ScreenPadding),
-            new Vector2(ScreenManager.MaxWidt - ScreenPadding, ScreenPadding),
+            new Vector2(ScreenManager.MaxWidth - ScreenPadding, ScreenPadding),
             new Vector2(ScreenPadding, ScreenManager.MaxHeight - ScreenPadding),
-            new Vector2(ScreenManager.MaxWidt - ScreenPadding, ScreenManager.MaxHeight - ScreenPadding)};
+            new Vector2(ScreenManager.MaxWidth - ScreenPadding, ScreenManager.MaxHeight - ScreenPadding)};
         }
 
         public override void Activate(bool instancePreserved)

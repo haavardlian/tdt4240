@@ -19,7 +19,7 @@ namespace tdt4240.Minigames.BirdHunt
 
         public Bird GenerateBird()
         {
-            return new Bird(_birdTexture, new Vector2(_random.Next(0,ScreenManager.MaxWidt), ScreenManager.MaxHeight - _birdTexture.Height));
+            return new Bird(_birdTexture, new Vector2(_random.Next(0,ScreenManager.MaxWidth), ScreenManager.MaxHeight - _birdTexture.Height));
         }
 
         public void SetTexture(Texture2D birdTexture)

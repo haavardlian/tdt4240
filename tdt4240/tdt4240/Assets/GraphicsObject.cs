@@ -20,7 +20,7 @@ namespace tdt4240.Assets
             get { return _position; }
             set
             {
-                if (value.X + Center.X > 0 && value.X + Center.X < ScreenManager.MaxWidt)
+                if (value.X + Center.X > 0 && value.X + Center.X < ScreenManager.MaxWidth)
                     _position.X = value.X;
                 if (value.Y + Center.Y > 0 && value.Y + Center.Y < ScreenManager.MaxHeight)
                     _position.Y = value.Y;
