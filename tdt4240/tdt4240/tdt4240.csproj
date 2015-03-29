@@ -74,6 +74,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\GraphicsObject.cs" />
     <Compile Include="Boards\BoardPosition.cs" />
     <Compile Include="Boards\DiceRoll.cs" />
     <Compile Include="GameScreen.cs" />
@@ -83,6 +84,8 @@
     <Compile Include="Menu\OptionsMenuScreen.cs" />
     <Compile Include="Menu\PauseMenuScreen.cs" />
     <Compile Include="MiniGame.cs" />
+    <Compile Include="Minigames\BirdHunt\Bird.cs" />
+    <Compile Include="Minigames\BirdHunt\BirdFactory.cs" />
     <Compile Include="Minigames\BirdHunt\BirdHunt.cs" />
     <Compile Include="Minigames\BirdHunt\Gun.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemo.cs" />

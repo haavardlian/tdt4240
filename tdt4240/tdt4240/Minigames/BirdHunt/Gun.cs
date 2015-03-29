@@ -9,7 +9,6 @@ namespace tdt4240.Minigames.BirdHunt
     class Gun :GraphicsObject
     {
         public const int AccuracyLimit = 2;
-       
 
         public Player Player { get; set; }
 
@@ -19,7 +18,13 @@ namespace tdt4240.Minigames.BirdHunt
 
         public Vector2 Accuracy { get; private set; }
 
-        private readonly Random _random;
+        public int Score { get; set; }
+        /// <summary>
+        /// The corner which this player belongs to, this is where the score will be displayed
+        /// </summary>
+        public Vector2 Corner { get; set; }
+
+
 
         private int _shotFramCount;
 
@@ -27,12 +32,12 @@ namespace tdt4240.Minigames.BirdHunt
         {
             
             Player = player;
-            _random = new Random();
             Color = player.color;
 
             DrawColorAndSetSprite(crossHair);
             Shot = shot;
             Position = new Vector2(200, 200);
+            Score = 0;
 
         }
 
@@ -63,13 +68,13 @@ namespace tdt4240.Minigames.BirdHunt
         public void UpdateAccuracy()
         {
             var current = Accuracy;
-            current.X += _random.Next(-1, 2);
+            current.X += Random.Next(-1, 2);
             if (current.X > AccuracyLimit)
                 current.X = AccuracyLimit;
             else if (current.X < AccuracyLimit*-1)
                 current.X = AccuracyLimit*-1;
 
-            current.Y += _random.Next(-1, 2);
+            current.Y += Random.Next(-1, 2);
             if (current.Y > AccuracyLimit)
                 current.Y = AccuracyLimit;
             else if (current.Y < AccuracyLimit * -1)
@@ -78,9 +83,12 @@ namespace tdt4240.Minigames.BirdHunt
             Accuracy = current;
         }
 
-        public void Fire()
+        public bool Fire()
         {
-            _shotFramCount = 60;
+            if (Fired)
+                return false;
+            _shotFramCount = 10;
+            return true;
         }
     }
 }
