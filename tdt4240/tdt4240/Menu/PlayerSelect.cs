@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using tdt4240.Minigames.BirdHunt;
 using tdt4240.Boards;
 
 namespace tdt4240.Menu
@@ -157,11 +158,14 @@ namespace tdt4240.Menu
             int players = PlayerManager.Instance.NumberOfPlayers;
             if (players >= 1)
             {
+
                 var board = new Board();
 
                 //Exit all screens
                 ScreenManager.ExitAllScreens();
 
+                
+                //ScreenManager.AddScreen(new BirdHunt(board), null);
                 ScreenManager.AddScreen(board, null);
                 //ScreenManager.AddScreen(new MinigameDemo(board), null);
             }
