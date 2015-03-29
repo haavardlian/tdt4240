@@ -8,18 +8,13 @@ namespace tdt4240.Minigames.MinigameDemo
     {
 
         public static SupportedPlayers SupportedPlayers = SupportedPlayers.Three;
-
-        private int numberOfPlayers;
-        
         
         private SpriteFont font;
         private Vector2[] textPosition = new Vector2[4];
 
         public MinigameDemo(Board board) : base(board)
         {
-            //this.supportedPlayers = SupportedPlayers.All;
-            this.numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
-            this.title = "Demo";
+            this.Title = "Demo";
 
             //DO stuff based on the amount of players playing
         }
@@ -31,8 +26,8 @@ namespace tdt4240.Minigames.MinigameDemo
             if (!instancePreserved)
             {
                 font = content.Load<SpriteFont>("fonts/menufont");
-                background = new Background();
-                ScreenManager.AddScreen(background, null);
+                Background = new Background("background");
+                ScreenManager.AddScreen(Background, null);
             }
         }
 
@@ -42,7 +37,7 @@ namespace tdt4240.Minigames.MinigameDemo
             {
                 textPosition[(int)player.playerIndex] += player.Input.GetThumbstickVector();
 
-                if (player.Input.IsButtonPressed(GameButtons.X))
+                if (player.Input.IsButtonPressed(GameButtons.Y))
                 {
                     NotifyDone(PlayerIndex.One);
                 }
@@ -76,7 +71,7 @@ namespace tdt4240.Minigames.MinigameDemo
 
         public override string ToString()
         {
-            return title;
+            return Title;
         }
 
     }

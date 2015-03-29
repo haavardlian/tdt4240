@@ -19,25 +19,22 @@ namespace tdt4240
     {
         public static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
 
-        protected Board board;
+        protected Board Board;
         protected ContentManager content;
-        protected String title = "Title not implemented";
+        protected String Title = "Title not implemented";
 
-        protected Background background;
-
-        public Background Background
-        {
-            get { return background; }
-        }
+        protected Background Background;
 
         protected MiniGame(Board board)
         {
-            this.board = board;
+            this.Board = board;
         }
 
         public virtual void NotifyDone(PlayerIndex winningPlayerIndex)
         {
-            board.MiniGameDone(winningPlayerIndex, this);
+            Background.ExitScreen();
+            this.ExitScreen();
+            Board.MiniGameDone(winningPlayerIndex, this);
         }
 
         //Gamescreen overiding

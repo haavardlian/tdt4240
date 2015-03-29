@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using menu.tdt4240;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using tdt4240.Menu;
 
 namespace tdt4240.Boards
 {
@@ -21,14 +21,15 @@ namespace tdt4240.Boards
         private readonly List<BoardPosition> _positions = new List<BoardPosition>();
 
         private List<Type> _miniGames;
+        private List<Type> _powerUps;
 
         public void MiniGameDone(PlayerIndex winningPlayerIndex, MiniGame miniGame)
         {
-            Console.WriteLine("Player has won: " + winningPlayerIndex);
-            //TODO
-            //Award winner
-            ScreenManager.RemoveScreen(miniGame.Background);
-            ScreenManager.RemoveScreen(miniGame);
+            PowerUp powerUp = GetRandomPowerUp();
+            Player winner = PlayerManager.Instance.GetPlayer(winningPlayerIndex);
+            winner.AddPowerUp(powerUp);
+
+            ScreenManager.AddScreen(new MinigameWinnerScreen(winner, powerUp), null);
         }
 
         public override void Activate(bool instancePreserved)
@@ -48,6 +49,7 @@ namespace tdt4240.Boards
             AddPositions();
 
             _miniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers, this);
+            _powerUps = PowerUps();
         }
 
         private void AddPositions()
@@ -84,7 +86,7 @@ namespace tdt4240.Boards
 
             foreach (Player player in PlayerManager.Instance.Players)
             {
-                if (player.Input.IsButtonPressed(GameButtons.B))
+                if (player.Input.IsButtonPressed(GameButtons.A))
                 {
                     StartMinigame();
                 }
@@ -194,5 +196,27 @@ namespace tdt4240.Boards
             }
         }
 
+
+        private List<Type> PowerUps()
+        {
+            List<Type> powerUps = new List<Type>();
+
+            foreach (Type type in Assembly.GetAssembly(typeof(PowerUp)).GetTypes()
+                .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(PowerUp))))
+            {
+                    powerUps.Add(type);
+            }
+
+            return powerUps;
+        }
+
+        private PowerUp GetRandomPowerUp()
+        {
+
+            Random random = new Random();
+            int powerUpIndex = random.Next(_powerUps.Count);
+
+            return (PowerUp)Activator.CreateInstance(_powerUps[powerUpIndex]);
+        }
     }
 }

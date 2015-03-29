@@ -27,6 +27,7 @@ namespace tdt4240
 
         ContentManager content;
         Texture2D backgroundTexture;
+        private String _background;
 
         #endregion
 
@@ -36,10 +37,11 @@ namespace tdt4240
         /// <summary>
         /// Constructor.
         /// </summary>
-        public Background()
+        public Background(String background)
         {
             TransitionOnTime = TimeSpan.FromSeconds(0.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+            _background = background;
         }
 
 
@@ -57,7 +59,7 @@ namespace tdt4240
                 if (content == null)
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                backgroundTexture = content.Load<Texture2D>("background");
+                backgroundTexture = content.Load<Texture2D>(_background);
             }
         }
 

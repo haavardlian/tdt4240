@@ -160,8 +160,7 @@ namespace tdt4240.Menu
                 var board = new Board();
 
                 //Exit all screens
-                foreach (GameScreen screen in ScreenManager.GetScreens())
-                    screen.ExitScreen();
+                ScreenManager.ExitAllScreens();
 
                 ScreenManager.AddScreen(board, null);
                 //ScreenManager.AddScreen(new MinigameDemo(board), null);

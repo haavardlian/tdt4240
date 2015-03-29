@@ -28,7 +28,7 @@ namespace tdt4240
 
             Content.RootDirectory = "Content";
 
-            screenManager.AddScreen(new Background(), null);
+            screenManager.AddScreen(new Background("background"), null);
             screenManager.AddScreen(new MainMenu(), null);
 
         }

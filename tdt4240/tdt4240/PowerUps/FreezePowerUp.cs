@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿
 namespace tdt4240.PowerUps
 {
     class FreezePowerUp : PowerUp
@@ -10,8 +6,10 @@ namespace tdt4240.PowerUps
 
         public FreezePowerUp()
         {
-            this.target = Target.Enemy;
+            this.Target = Target.Enemy;
             this.effect += FreezeEffect;
+            this.Title = "Freeze";
+            this.Description = "Prevents the targeted player from using his turn";
         }
 
         void FreezeEffect(object sender, PowerUpEvent powerUpEvent)

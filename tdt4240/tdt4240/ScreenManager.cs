@@ -331,6 +331,13 @@ namespace tdt4240
             //spriteBatch.End();
         }
 
+
+        public void ExitAllScreens()
+        {
+            foreach (GameScreen screen in GetScreens())
+                RemoveScreen(screen);
+        }
+
         /// <summary>
         /// Informs the screen manager to serialize its state to disk.
         /// </summary>

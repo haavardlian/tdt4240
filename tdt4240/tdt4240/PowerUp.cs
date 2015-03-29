@@ -16,7 +16,14 @@ namespace tdt4240
 
     abstract class PowerUp
     {
-        protected Target target;
+        protected Target Target;
         protected event EventHandler<PowerUpEvent> effect;
+        protected String Title;
+        protected String Description;
+
+        public override String ToString()
+        {
+            return Title;
+        }
     }
 }

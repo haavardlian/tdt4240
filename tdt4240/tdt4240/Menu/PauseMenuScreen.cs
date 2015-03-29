@@ -63,7 +63,7 @@ namespace menu.tdt4240
         void QuitGameMenuEntrySelected(object sender, PlayerEvent e)
         {
 
-            ScreenManager.AddScreen(new Background(), null);
+            ScreenManager.AddScreen(new Background("background"), null);
             ScreenManager.AddScreen(new MainMenu(), null);
 
             /*
