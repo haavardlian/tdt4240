@@ -49,6 +49,9 @@ namespace tdt4240.Minigames.BirdHunt
                 _birdFactory.SetTexture(content.Load<Texture2D>("minigames/BirdHunt/Bird"));
                 var crossHair = content.Load<Texture2D>("minigames/BirdHunt/CrossHair");
                 var shot = content.Load<Texture2D>("minigames/BirdHunt/Shot");
+                Background = new Background("background");
+                ScreenManager.AddScreen(Background, null);
+
 
                 for (var i = 0; i < _numberOfPlayers; i++)
                 {
