@@ -33,12 +33,11 @@ namespace tdt4240
         #region Fields
 
         private const string StateFilename = "ScreenManagerState.xml";
-        public const int MaxWidt = 1920;
+        public const int MaxWidth = 1920;
         public const int MaxHeight = 1080;
-
+        
         List<GameScreen> screens = new List<GameScreen>();
         List<GameScreen> tempScreensList = new List<GameScreen>();
-
 
         InputState input = new InputState();
 

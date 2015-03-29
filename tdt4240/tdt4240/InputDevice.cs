@@ -141,13 +141,13 @@ namespace tdt4240
                 switch (button)
                 {
                     case GameButtons.Up:
-                        return state.IsKeyDown(Keys.W);
+                        return state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Up);
                     case GameButtons.Down:
-                        return state.IsKeyDown(Keys.S);
+                        return state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
                     case GameButtons.Left:
-                        return state.IsKeyDown(Keys.A);
+                        return state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.Left);
                     case GameButtons.Right:
-                        return state.IsKeyDown(Keys.D);
+                        return state.IsKeyDown(Keys.D) || state.IsKeyDown(Keys.Right);
                     case GameButtons.A:
                         return state.IsKeyDown(Keys.D1);
                     case GameButtons.B:
