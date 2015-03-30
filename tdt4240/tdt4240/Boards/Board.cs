@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using tdt4240.Menu;
+using tdt4240.Minigames.MinigameDemo;
 
 namespace tdt4240.Boards
 {
@@ -23,7 +24,7 @@ namespace tdt4240.Boards
         private List<Type> _miniGames;
         private List<Type> _powerUps;
 
-        public void MiniGameDone(PlayerIndex winningPlayerIndex, MiniGame miniGame)
+        public void MiniGameDone(PlayerIndex winningPlayerIndex)
         {
             PowerUp powerUp = GetRandomPowerUp();
             Player winner = PlayerManager.Instance.GetPlayer(winningPlayerIndex);
@@ -48,7 +49,7 @@ namespace tdt4240.Boards
 
             AddPositions();
 
-            _miniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers, this);
+            _miniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers);
             _powerUps = PowerUps();
         }
 
@@ -88,7 +89,8 @@ namespace tdt4240.Boards
             {
                 if (player.Input.IsButtonPressed(GameButtons.A))
                 {
-                    StartMinigame();
+                    //StartMinigame();
+                    ScreenManager.AddScreen(new MinigameDemoIntro(), null);
                 }
             }
         }
@@ -156,13 +158,15 @@ namespace tdt4240.Boards
             Random random = new Random();
             int gameIndex = random.Next(_miniGames.Count);
 
-            MiniGame minigame = (MiniGame) Activator.CreateInstance(_miniGames[gameIndex], this);
+            //MiniGame minigame = (MiniGame) Activator.CreateInstance(_miniGames[gameIndex], this);
+
+            MiniGame minigame = (MiniGame)Activator.CreateInstance(_miniGames[1], this);
 
             ScreenManager.AddScreen(minigame, null);
         }
 
 
-        private List<Type> ViableMiniGames(int numberOfPlayers, Board board)
+        private List<Type> ViableMiniGames(int numberOfPlayers)
         {
             List<Type> miniGames = new List<Type>();
             SupportedPlayers players = GetSupportedPlayers(numberOfPlayers);
@@ -170,8 +174,7 @@ namespace tdt4240.Boards
             foreach (Type type in Assembly.GetAssembly(typeof(MiniGame)).GetTypes()
                 .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(MiniGame))))
             {
-                SupportedPlayers sp =
-                (SupportedPlayers)type.GetField("SupportedPlayers",
+                SupportedPlayers sp = (SupportedPlayers)type.GetField("SupportedPlayers",
                    BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
 
                 if (sp.HasFlag(players))

@@ -28,6 +28,8 @@ namespace tdt4240.Minigames.MinigameDemo
                 font = content.Load<SpriteFont>("fonts/menufont");
                 Background = new Background("background");
                 ScreenManager.AddScreen(Background, null);
+
+                ScreenManager.AddScreen(new MinigameDemoIntro(), null);
             }
         }
 

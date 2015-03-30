@@ -34,7 +34,7 @@ namespace tdt4240
         {
             Background.ExitScreen();
             this.ExitScreen();
-            Board.MiniGameDone(winningPlayerIndex, this);
+            Board.MiniGameDone(winningPlayerIndex);
         }
 
         //Gamescreen overiding
