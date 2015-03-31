@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Input;
 #endregion
 
@@ -174,8 +173,17 @@ namespace tdt4240
             // the movement slow down as it nears the end).
             float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
 
+            float y = 0;
+
+            for (int i = 0; i < menuEntries.Count; i++)
+            {
+                y += menuEntries[i].GetHeight(this);
+            }
+
+            float center = (ScreenManager.MaxHeight * ScreenManager.GetScalingFactor()/2) - y / 2 + 50;
+
             // start at Y = 175; each X value is generated per entry
-            Vector2 position = new Vector2(0f, 175f);
+            Vector2 position = new Vector2(0f, center);
 
             // update each menu entry's location in turn
             for (int i = 0; i < menuEntries.Count; i++)
@@ -228,6 +236,7 @@ namespace tdt4240
             GraphicsDevice graphics = ScreenManager.GraphicsDevice;
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
             SpriteFont font = ScreenManager.Font;
+            SpriteFont titleFont = ScreenManager.TitleFont;
 
             spriteBatch.Begin();
 
@@ -247,14 +256,17 @@ namespace tdt4240
             float transitionOffset = (float)Math.Pow(TransitionPosition, 2);
 
             // Draw the menu title centered on the screen
-            Vector2 titlePosition = new Vector2(graphics.Viewport.Width / 2, 80);
-            Vector2 titleOrigin = font.MeasureString(menuTitle) / 2;
+
+            float center = (ScreenManager.MaxWidth*ScreenManager.GetScalingFactor()/2);
+
+            Vector2 titlePosition = new Vector2(center, 80);
+            Vector2 titleOrigin = titleFont.MeasureString(menuTitle) / 2;
             Color titleColor = new Color(192, 192, 192) * TransitionAlpha;
             float titleScale = 1.25f;
 
             titlePosition.Y -= transitionOffset * 100;
 
-            spriteBatch.DrawString(font, menuTitle, titlePosition, titleColor, 0,
+            spriteBatch.DrawString(titleFont, menuTitle, titlePosition, titleColor, 0,
                                    titleOrigin, titleScale, SpriteEffects.None, 0);
 
             spriteBatch.End();

@@ -1,30 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using tdt4240.Minigames.BirdHunt;
 using tdt4240.Boards;
 
 namespace tdt4240.Menu
 {
     class PlayerSelect : GameScreen
     {
-        ContentManager content;
-        SpriteFont font;
-        int screenHeigthModifier;
-        float fade;
+        private const int MinimumAllowedPlayers = 1;
 
-        List<PlayerSelectStatus> playerSelectStatuses = new List<PlayerSelectStatus>();
+        private ContentManager _content;
+        private SpriteFont _font;
+
+        readonly List<PlayerSelectStatus> _playerSelectStatuses = new List<PlayerSelectStatus>();
 
         public PlayerSelect()
         {
             for (int i = 0; i < PlayerManager.MaxPlayers; i++)
             {
-                playerSelectStatuses.Add(new PlayerSelectStatus(i));
+                _playerSelectStatuses.Add(new PlayerSelectStatus(i));
             }
         }
 
@@ -32,13 +29,10 @@ namespace tdt4240.Menu
         {
             if (!instancePreserved)
             {
-                if (content == null)
-                    content = new ContentManager(ScreenManager.Game.Services, "Content");
+                if (_content == null)
+                    _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                font = content.Load<SpriteFont>("fonts/menufont");
-
-                screenHeigthModifier = ScreenManager.GraphicsDevice.Viewport.Height / 4;
-
+                _font = ScreenManager.Font;
             }
         }
 
@@ -54,7 +48,7 @@ namespace tdt4240.Menu
                 if (gamePadState.Buttons.A == ButtonState.Pressed)
                 {
                     AddPlayer(i, InputType.Controller);
-                    playerSelectStatuses[PlayerManager.Instance.NumberOfPlayers - 1].Player = PlayerManager.Instance.LatestPlayer();
+                    _playerSelectStatuses[PlayerManager.Instance.NumberOfPlayers - 1].Player = PlayerManager.Instance.LatestPlayer();
                 }
                 if (gamePadState.Buttons.B == ButtonState.Pressed)
                 {
@@ -72,7 +66,7 @@ namespace tdt4240.Menu
             if (keyboardState.IsKeyDown(Keys.A))
             {
                 AddPlayer(-1, InputType.Keyboard);
-                playerSelectStatuses[PlayerManager.Instance.NumberOfPlayers-1].Player = PlayerManager.Instance.LatestPlayer();
+                _playerSelectStatuses[PlayerManager.Instance.NumberOfPlayers-1].Player = PlayerManager.Instance.LatestPlayer();
             }
             if (keyboardState.IsKeyDown(Keys.Back))
             {
@@ -89,9 +83,11 @@ namespace tdt4240.Menu
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
 
-            foreach (PlayerSelectStatus playerSelectStatus in playerSelectStatuses)
+            int screenHeigthModifier = ScreenManager.GraphicsDevice.Viewport.Height / 4;
+
+            foreach (PlayerSelectStatus playerSelectStatus in _playerSelectStatuses)
             {
-                playerSelectStatus.updatePosition(ScreenManager.GraphicsDevice.Viewport.Width, screenHeigthModifier, font);
+                playerSelectStatus.updatePosition(ScreenManager.GraphicsDevice.Viewport.Width, screenHeigthModifier, _font);
             }
 
         }
@@ -102,31 +98,21 @@ namespace tdt4240.Menu
 
             spriteBatch.Begin();
 
-            foreach (PlayerSelectStatus playerSelectStatus in playerSelectStatuses)
+            foreach (PlayerSelectStatus playerSelectStatus in _playerSelectStatuses)
             {
-                playerSelectStatus.draw(spriteBatch, font, gameTime);
+                playerSelectStatus.draw(spriteBatch, _font, gameTime);
             }
 
-            if (PlayerManager.Instance.NumberOfPlayers >= 2) 
+            if (PlayerManager.Instance.NumberOfPlayers >= MinimumAllowedPlayers)
             {
+                float x = ScreenManager.MaxWidth*ScreenManager.GetScalingFactor()/2
+                          - (_font.MeasureString("Press Start to play").X/2);
 
-                float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
+                float y = ScreenManager.MaxHeight*ScreenManager.GetScalingFactor()*90/100;
 
-                fade = Math.Min(fade + fadeSpeed, 1);
+                Vector2 position = new Vector2(x, y);
 
-                // Pulsate the size of the selected menu entry.
-                double time = gameTime.TotalGameTime.TotalSeconds;
-
-                float pulsate = (float)Math.Sin(time * 6) + 1;
-
-                float scale = 1 + pulsate * 0.05f * fade;
-
-                Vector2 origin = new Vector2(0, font.LineSpacing / 2);
-
-                Vector2 position = new Vector2(200, 300);
-
-                spriteBatch.DrawString(font, "Press start to play", position, Color.Yellow, 0,
-                origin, scale, SpriteEffects.None, 0);
+                PulsatingText.Draw(spriteBatch, gameTime, _font, "Press Start to play", position, Color.Yellow);
             }
 
             spriteBatch.End();
@@ -156,18 +142,12 @@ namespace tdt4240.Menu
         private void StartGame()
         {
             int players = PlayerManager.Instance.NumberOfPlayers;
-            if (players >= 1)
+            if (players >= MinimumAllowedPlayers)
             {
-
                 var board = new Board();
 
-                //Exit all screens
                 ScreenManager.ExitAllScreens();
-
-                
-                //ScreenManager.AddScreen(new BirdHunt(board), null);
                 ScreenManager.AddScreen(board, null);
-                //ScreenManager.AddScreen(new MinigameDemo(board), null);
             }
         }
     }

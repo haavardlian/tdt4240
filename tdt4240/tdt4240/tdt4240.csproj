@@ -84,6 +84,7 @@
     <Compile Include="Menu\MinigameWinnerScreen.cs" />
     <Compile Include="Menu\OptionsMenuScreen.cs" />
     <Compile Include="Menu\PauseMenuScreen.cs" />
+    <Compile Include="Menu\PulsatingText.cs" />
     <Compile Include="MiniGame.cs" />
     <Compile Include="MinigameIntro.cs" />
     <Compile Include="Minigames\BirdHunt\Bird.cs" />

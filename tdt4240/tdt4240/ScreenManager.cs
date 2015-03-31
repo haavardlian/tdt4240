@@ -43,6 +43,8 @@ namespace tdt4240
 
         SpriteBatch spriteBatch;
         SpriteFont font;
+        SpriteFont titleFont;
+        private SpriteFont menuFont;
         Texture2D blankTexture;
 
         bool isInitialized;
@@ -73,6 +75,16 @@ namespace tdt4240
         public SpriteFont Font
         {
             get { return font; }
+        }
+
+        public SpriteFont TitleFont
+        {
+            get { return titleFont; }
+        }
+
+        public SpriteFont MenuFont
+        {
+            get { return menuFont; }
         }
 
 
@@ -137,7 +149,9 @@ namespace tdt4240
             ContentManager content = Game.Content;
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = content.Load<SpriteFont>("fonts/menufont");
+            font = content.Load<SpriteFont>("fonts/font");
+            titleFont = content.Load<SpriteFont>("fonts/title");
+            menuFont = content.Load<SpriteFont>("fonts/menufont");
 
             blankTexture = content.Load<Texture2D>("blank");
 

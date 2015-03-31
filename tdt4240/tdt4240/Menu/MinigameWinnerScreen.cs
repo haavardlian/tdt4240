@@ -1,10 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using tdt4240.Boards;
 using Microsoft.Xna.Framework.Content;
 
 namespace tdt4240.Menu
@@ -12,7 +8,6 @@ namespace tdt4240.Menu
     class MinigameWinnerScreen : GameScreen
     {
 
-        ContentManager content;
         private SpriteFont _font;
         private Background _background;
 
@@ -43,11 +38,9 @@ namespace tdt4240.Menu
 
             if (!instancePreserved)
             {
-                if (content == null)
-                    content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                _font = content.Load<SpriteFont>("fonts/menufont");
-                _background = new Background("background2");
+                _font = ScreenManager.Font;
+                _background = new Background("background3");
                 ScreenManager.AddScreen(_background, null);
             }
         }

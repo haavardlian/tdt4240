@@ -25,11 +25,9 @@ namespace tdt4240.Minigames.MinigameDemo
 
             if (!instancePreserved)
             {
-                font = content.Load<SpriteFont>("fonts/menufont");
+                font = ScreenManager.Font;
                 Background = new Background("background");
                 ScreenManager.AddScreen(Background, null);
-
-                ScreenManager.AddScreen(new MinigameDemoIntro(), null);
             }
         }
 
@@ -70,11 +68,5 @@ namespace tdt4240.Minigames.MinigameDemo
         {
             base.NotifyDone(winningPlayerIndex);
         }
-
-        public override string ToString()
-        {
-            return Title;
-        }
-
     }
 }

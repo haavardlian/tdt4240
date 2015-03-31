@@ -159,7 +159,7 @@ namespace tdt4240
             // Draw text, centered on the middle of each line.
             ScreenManager screenManager = screen.ScreenManager;
             SpriteBatch spriteBatch = screenManager.SpriteBatch;
-            SpriteFont font = screenManager.Font;
+            SpriteFont font = screenManager.MenuFont;
 
             Vector2 origin = new Vector2(0, font.LineSpacing / 2);
 
@@ -173,7 +173,7 @@ namespace tdt4240
         /// </summary>
         public virtual int GetHeight(MenuScreen screen)
         {
-            return screen.ScreenManager.Font.LineSpacing;
+            return screen.ScreenManager.MenuFont.LineSpacing;
         }
 
 
@@ -182,7 +182,7 @@ namespace tdt4240
         /// </summary>
         public virtual int GetWidth(MenuScreen screen)
         {
-            return (int)screen.ScreenManager.Font.MeasureString(Text).X;
+            return (int)screen.ScreenManager.MenuFont.MeasureString(Text).X;
         }
 
 

@@ -46,5 +46,9 @@ namespace tdt4240
                     content = new ContentManager(ScreenManager.Game.Services, "Content");
             }
         }
+        public override string ToString()
+        {
+            return Title;
+        }
     }
 }

@@ -89,8 +89,8 @@ namespace tdt4240.Boards
             {
                 if (player.Input.IsButtonPressed(GameButtons.A))
                 {
-                    //StartMinigame();
-                    ScreenManager.AddScreen(new MinigameDemoIntro(), null);
+                    StartMinigame();
+                    //ScreenManager.AddScreen(new MinigameDemoIntro(), null);
                 }
             }
         }
@@ -158,11 +158,11 @@ namespace tdt4240.Boards
             Random random = new Random();
             int gameIndex = random.Next(_miniGames.Count);
 
-            //MiniGame minigame = (MiniGame) Activator.CreateInstance(_miniGames[gameIndex], this);
+            MinigameIntro minigameIntro = (MinigameIntro)Activator.CreateInstance(_miniGames[gameIndex], this);
 
-            MiniGame minigame = (MiniGame)Activator.CreateInstance(_miniGames[1], this);
+            //MiniGame minigame = (MiniGame)Activator.CreateInstance(_miniGames[1], this);
 
-            ScreenManager.AddScreen(minigame, null);
+            ScreenManager.AddScreen(minigameIntro, null);
         }
 
 
@@ -171,8 +171,8 @@ namespace tdt4240.Boards
             List<Type> miniGames = new List<Type>();
             SupportedPlayers players = GetSupportedPlayers(numberOfPlayers);
 
-            foreach (Type type in Assembly.GetAssembly(typeof(MiniGame)).GetTypes()
-                .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(MiniGame))))
+            foreach (Type type in Assembly.GetAssembly(typeof(MinigameIntro)).GetTypes()
+                .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(MinigameIntro))))
             {
                 SupportedPlayers sp = (SupportedPlayers)type.GetField("SupportedPlayers",
                    BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
