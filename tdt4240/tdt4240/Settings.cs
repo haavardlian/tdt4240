@@ -15,29 +15,35 @@ namespace tdt4240
                 _fullscreen = value;
 
                 if (_fullscreen)
-                {
-                    ScreenManager.Graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-                    ScreenManager.Graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-                }
+                    ScreenManager.SetFullScreen();
                 else
-                {
-                    ScreenManager.Graphics.PreferredBackBufferHeight = 720;
-                    ScreenManager.Graphics.PreferredBackBufferWidth = 1280;
-                }
-                
-                ScreenManager.Graphics.IsFullScreen = _fullscreen;
-                ScreenManager.Graphics.ApplyChanges();
+                    ScreenManager.SetResolution(1280, 720);
+
+                Stored.Default.Fullscreen = _fullscreen;
+                Stored.Default.Save();
             }
         }
 
-        public bool Sound { get; set; }
+        public bool Sound
+        {
+            get { return _sound; }
+            set
+            {
+                _sound = value;
+                Stored.Default.Sound = _sound;
+                Stored.Default.Save();
+            }
+        }
+
+        private bool _sound;
+
         public ScreenManager ScreenManager { get; set; }
         private static Settings _instance;
 
         private Settings()
         {
-            _fullscreen = false;
-            Sound = true;
+            _fullscreen = Stored.Default.Fullscreen;
+            Sound = Stored.Default.Sound;
         }
 
         public static Settings Instance

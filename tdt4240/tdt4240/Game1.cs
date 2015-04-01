@@ -19,9 +19,13 @@ namespace tdt4240
             var screenManager = new ScreenManager(this, _graphics);
             Components.Add(screenManager);
 
-
-            _graphics.PreferredBackBufferHeight = 432;
-            _graphics.PreferredBackBufferWidth = 768;
+            if (Settings.Instance.Fullscreen)
+                screenManager.SetFullScreen();
+            else
+            {
+                _graphics.PreferredBackBufferHeight = 432;
+                _graphics.PreferredBackBufferWidth = 768;
+            }
 
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;

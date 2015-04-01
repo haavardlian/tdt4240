@@ -348,6 +348,22 @@ namespace tdt4240
                 RemoveScreen(screen);
         }
 
+        public void SetFullScreen()
+        {
+            Graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            Graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            Graphics.IsFullScreen = true;
+            Graphics.ApplyChanges();
+        }
+
+        public void SetResolution(int width, int heigth)
+        {
+            Graphics.PreferredBackBufferHeight = heigth;
+            Graphics.PreferredBackBufferWidth = width;
+            Graphics.IsFullScreen = false;
+            Graphics.ApplyChanges();
+        }
+
         /// <summary>
         /// Informs the screen manager to serialize its state to disk.
         /// </summary>
