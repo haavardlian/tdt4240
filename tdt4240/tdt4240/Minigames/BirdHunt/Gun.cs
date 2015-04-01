@@ -32,7 +32,7 @@ namespace tdt4240.Minigames.BirdHunt
         {
             
             Player = player;
-            Color = player.color;
+            Color = player.Color;
 
             DrawColorAndSetSprite(crossHair);
             Shot = shot;

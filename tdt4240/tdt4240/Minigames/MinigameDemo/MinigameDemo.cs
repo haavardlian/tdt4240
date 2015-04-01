@@ -7,14 +7,14 @@ namespace tdt4240.Minigames.MinigameDemo
     class MinigameDemo : MiniGame
     {
 
-        public static SupportedPlayers SupportedPlayers = SupportedPlayers.Three;
+        public new static SupportedPlayers SupportedPlayers = SupportedPlayers.Three;
         
-        private SpriteFont font;
-        private Vector2[] textPosition = new Vector2[4];
+        private SpriteFont _font;
+        private readonly Vector2[] _textPosition = new Vector2[4];
 
         public MinigameDemo(Board board) : base(board)
         {
-            this.Title = "Demo";
+            Title = "Demo";
 
             //DO stuff based on the amount of players playing
         }
@@ -25,7 +25,7 @@ namespace tdt4240.Minigames.MinigameDemo
 
             if (!instancePreserved)
             {
-                font = ScreenManager.Font;
+                _font = ScreenManager.Font;
                 Background = new Background("background");
                 ScreenManager.AddScreen(Background, null);
             }
@@ -35,7 +35,7 @@ namespace tdt4240.Minigames.MinigameDemo
         {
             foreach(Player player in PlayerManager.Instance.Players)
             {
-                textPosition[(int)player.playerIndex] += player.Input.GetThumbstickVector();
+                _textPosition[(int)player.PlayerIndex] += player.Input.GetThumbstickVector();
 
                 if (player.Input.IsButtonPressed(GameButtons.Y))
                 {
@@ -48,6 +48,8 @@ namespace tdt4240.Minigames.MinigameDemo
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+
+            //Update sprite coordinates
         }
 
         public override void Draw(GameTime gameTime)
@@ -58,7 +60,7 @@ namespace tdt4240.Minigames.MinigameDemo
             
             foreach (Player player in PlayerManager.Instance.Players)
             {
-                spriteBatch.DrawString(font, player.TestString, textPosition[(int)player.playerIndex], player.color);
+                spriteBatch.DrawString(_font, player.TestString, _textPosition[(int)player.PlayerIndex], player.Color);
             }
 
             spriteBatch.End();

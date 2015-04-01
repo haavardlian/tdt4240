@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
 using tdt4240.Boards;
 
 namespace tdt4240
@@ -20,16 +19,29 @@ namespace tdt4240
         private const int MaxPowerUps = 2;
 
 
-        public PlayerIndex playerIndex;
-        public int controllerIndex;
-        public Color color;
+        private readonly PlayerIndex _playerIndex;
+        private readonly int _controllerIndex;
+        private readonly Color _color;
         public InputDevice Input;
         public string TestString = "This is player ";
         
         private BoardPosition _boardPosition;
-        private Effect _effect;
-        private List<PowerUp> _powerUps = new List<PowerUp>(); 
+        private readonly List<PowerUp> _powerUps = new List<PowerUp>();
 
+        public PlayerIndex PlayerIndex
+        {
+            get { return _playerIndex; }
+        }
+
+        public int ControllerIndex
+        {
+            get { return _controllerIndex; }
+        }
+
+        public Color Color
+        {
+            get { return _color; }
+        }
 
         public BoardPosition BoardPosition
         {
@@ -44,11 +56,7 @@ namespace tdt4240
             }
         }
 
-        public Effect Effect
-        {
-            get { return _effect; }
-            set { _effect = value; }
-        }
+        public Effect Effect { get; set; }
 
         public List<PowerUp> PowerUps  
         {
@@ -58,11 +66,11 @@ namespace tdt4240
 
         public Player(PlayerIndex playerIndex, int controllerIndex, InputType type)
         {
-            this.playerIndex = playerIndex;
-            this.color = PlayerManager.Colors[(int)playerIndex];
-            this.Input = InputDevice.CreateInputDevice(type, playerIndex);
-            this.controllerIndex = controllerIndex;
-            this.TestString += playerIndex + " on controller " + controllerIndex;
+            _playerIndex = playerIndex;
+            _color = PlayerManager.Colors[(int)playerIndex];
+            Input = InputDevice.CreateInputDevice(type, playerIndex);
+            _controllerIndex = controllerIndex;
+            TestString += playerIndex + " on controller " + controllerIndex;
         }
 
         public void AddPowerUp(PowerUp powerUp)

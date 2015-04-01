@@ -70,7 +70,7 @@ namespace tdt4240.Menu
             }
             if (keyboardState.IsKeyDown(Keys.Back))
             {
-                RemovePlayer((PlayerIndex)0);
+                RemovePlayer(0);
             }
             if (keyboardState.IsKeyDown(Keys.Space))
             {
@@ -87,7 +87,7 @@ namespace tdt4240.Menu
 
             foreach (PlayerSelectStatus playerSelectStatus in _playerSelectStatuses)
             {
-                playerSelectStatus.updatePosition(ScreenManager.GraphicsDevice.Viewport.Width, screenHeigthModifier, _font);
+                playerSelectStatus.UpdatePosition(ScreenManager.GraphicsDevice.Viewport.Width, screenHeigthModifier, _font);
             }
 
         }
@@ -100,7 +100,7 @@ namespace tdt4240.Menu
 
             foreach (PlayerSelectStatus playerSelectStatus in _playerSelectStatuses)
             {
-                playerSelectStatus.draw(spriteBatch, _font, gameTime);
+                playerSelectStatus.Draw(spriteBatch, _font, gameTime);
             }
 
             if (PlayerManager.Instance.NumberOfPlayers >= MinimumAllowedPlayers)

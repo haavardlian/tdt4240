@@ -6,10 +6,10 @@ namespace tdt4240.PowerUps
 
         public FreezePowerUp()
         {
-            this.Target = Target.Enemy;
-            this.effect += FreezeEffect;
-            this.Title = "Freeze";
-            this.Description = "Prevents the targeted player from using his turn";
+            Target = Target.Enemy;
+            effect += FreezeEffect;
+            Title = "Freeze";
+            Description = "Prevents the targeted player from using his turn";
         }
 
         void FreezeEffect(object sender, PowerUpEvent powerUpEvent)

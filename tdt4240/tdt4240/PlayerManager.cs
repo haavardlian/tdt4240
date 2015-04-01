@@ -32,12 +32,12 @@ namespace tdt4240
 
         public bool PlayerExists(int controllerIndex)
         {
-            return _players.Any(player => player.controllerIndex == controllerIndex);
+            return _players.Any(player => player.ControllerIndex == controllerIndex);
         }
 
         public bool PlayerExists(PlayerIndex playerIndex)
         {
-            return _players.Any(player => player.playerIndex == playerIndex);
+            return _players.Any(player => player.PlayerIndex == playerIndex);
         }
 
         public void AddPlayer(int controllerIndex, InputType type)
@@ -62,7 +62,7 @@ namespace tdt4240
             if (!PlayerExists(playerIndex))
                 return;
 
-            foreach (var player in _players.Where(player => player.playerIndex == playerIndex))
+            foreach (var player in _players.Where(player => player.PlayerIndex == playerIndex))
             {
                 _players.Remove(player);
                 NumberOfPlayers--;
@@ -77,7 +77,7 @@ namespace tdt4240
 
         public Player GetPlayer(PlayerIndex? playerIndex)
         {
-            return _players.FirstOrDefault(player => player.playerIndex == playerIndex);
+            return _players.FirstOrDefault(player => player.PlayerIndex == playerIndex);
         }
     }
 }

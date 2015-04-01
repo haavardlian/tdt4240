@@ -8,13 +8,12 @@
 #endregion
 
 #region Using Statements
-using menu.tdt4240;
+
 using Microsoft.Xna.Framework;
-using tdt4240.Menu;
 
 #endregion
 
-namespace tdt4240
+namespace tdt4240.Menu
 {
     /// <summary>
     /// The main menu screen is the first thing displayed when the game starts up.
@@ -82,33 +81,10 @@ namespace tdt4240
             //TODO create about page
         }
 
-
-        /// <summary>
-        /// When the user cancels the main menu, ask if they want to exit the sample.
-        /// </summary>
         protected override void OnCancel(PlayerIndex playerIndex)
         {
-
-            ScreenManager.Game.Exit();
-            //const string message = "Are you sure you want to exit this sample?";
-
-            //MessageBoxScreen confirmExitMessageBox = new MessageBoxScreen(message);
-
-            //confirmExitMessageBox.Accepted += ConfirmExitMessageBoxAccepted;
-
-            //ScreenManager.AddScreen(confirmExitMessageBox, playerIndex);
-        }
-
-
-        /// <summary>
-        /// Event handler for when the user selects ok on the "are you sure
-        /// you want to exit" message box.
-        /// </summary>
-        void ConfirmExitMessageBoxAccepted(object sender, PlayerEvent e)
-        {
             ScreenManager.Game.Exit();
         }
-
 
         #endregion
     }

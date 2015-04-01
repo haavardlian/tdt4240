@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 
 namespace tdt4240.Menu
 {
@@ -9,27 +7,21 @@ namespace tdt4240.Menu
     {
 
         private SpriteFont _font;
+        private SpriteFont _titleFont;
         private Background _background;
 
-
-        private String _winnerText;
-        private String _powerUpText;
-        private Vector2 _winnerPosition;
+        private Vector2 _titlePosition;
+        private Vector2 _playerPosition;
         private Vector2 _powerUpPosition;
         
 
-        private Player _player;
+        private readonly Player _player;
+        private readonly PowerUp _powerUp;
          
         public MinigameWinnerScreen(Player player, PowerUp powerUp)
         {
             _player = player;
-
-            _winnerText = "Winner is: Player " + player.playerIndex;
-            _powerUpText = "Reward: " + powerUp.ToString();
-
-            //TODO set proper position
-            _winnerPosition = new Vector2(250, 200);
-            _powerUpPosition = new Vector2(250, 300);
+            _powerUp = powerUp;
         }
 
         public override void Activate(bool instancePreserved)
@@ -40,6 +32,7 @@ namespace tdt4240.Menu
             {
 
                 _font = ScreenManager.Font;
+                _titleFont = ScreenManager.TitleFont;
                 _background = new Background("background3");
                 ScreenManager.AddScreen(_background, null);
             }
@@ -52,10 +45,26 @@ namespace tdt4240.Menu
                 if (player.Input.IsButtonPressed(GameButtons.A) || player.Input.IsButtonPressed(GameButtons.Start))
                 {
                     _background.ExitScreen();
-                    this.ExitScreen();
+                    ExitScreen();
                 }
 
             }
+        }
+
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        {
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+
+            float center = (ScreenManager.MaxWidth*ScreenManager.GetScalingFactor())/2;
+
+            _titlePosition.X = center - _titleFont.MeasureString("Winner").X/2;
+            _titlePosition.Y = 20;
+
+            _playerPosition.X = center - _font.MeasureString("Player " + _player.PlayerIndex).X/2;
+            _playerPosition.Y = 100;
+
+            _powerUpPosition.X = center - _font.MeasureString("Reward: " + _powerUp).X / 2;
+            _powerUpPosition.Y = 150;
         }
 
         public override void Draw(GameTime gameTime)
@@ -63,9 +72,11 @@ namespace tdt4240.Menu
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
-            
-            spriteBatch.DrawString(_font, _winnerText, _winnerPosition, _player.color);
-            spriteBatch.DrawString(_font, _powerUpText, _powerUpPosition, Color.Yellow);
+
+            spriteBatch.DrawString(_titleFont, "Winner", _titlePosition, new Color(192, 192, 192) * TransitionAlpha);
+
+            spriteBatch.DrawString(_font, "Player " + _player.PlayerIndex, _playerPosition, _player.Color);
+            spriteBatch.DrawString(_font, "Reward: " + _powerUp, _powerUpPosition, Color.Yellow);
 
             spriteBatch.End();
         }

@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using menu.tdt4240;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using tdt4240.Menu;
-using tdt4240.Minigames.MinigameDemo;
 
 namespace tdt4240.Boards
 {
@@ -72,7 +70,7 @@ namespace tdt4240.Boards
         {
             foreach (var player in PlayerManager.Instance.Players.Where(player => player.Input.IsButtonPressed(GameButtons.Back)))
             {
-                ScreenManager.AddScreen(new PauseMenuScreen(), player.playerIndex);
+                ScreenManager.AddScreen(new PauseMenuScreen(), player.PlayerIndex);
                 break;
             }
 
@@ -80,7 +78,7 @@ namespace tdt4240.Boards
 
             if (currentPlayerInput.IsButtonPressed(GameButtons.X))
             {
-                ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), _currentPlayer.playerIndex);
+                ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), _currentPlayer.PlayerIndex);
             }
 
             //Tempcode for testing minigame functionality
@@ -119,10 +117,10 @@ namespace tdt4240.Boards
             foreach (var player in PlayerManager.Instance.Players)
             {
                 var pos = player.BoardPosition.Position;
-                pos += _offsets[(int)player.playerIndex];
+                pos += _offsets[(int)player.PlayerIndex];
                 pos *= ScreenManager.GetScalingFactor();
 
-                spriteBatch.Draw(_pieceTexture, pos, null, player.color, 0f, new Vector2(20, 10), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+                spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(20, 10), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             }
             
             
@@ -131,7 +129,7 @@ namespace tdt4240.Boards
 
         public void HandleDiceRollResult(int result)
         {
-            Console.WriteLine(_currentPlayer.playerIndex + " rolled a " + result);
+            Console.WriteLine(_currentPlayer.PlayerIndex + " rolled a " + result);
             //TODO: Move player to new position
 
             var index = _positions.IndexOf(_currentPlayer.BoardPosition);
@@ -145,7 +143,7 @@ namespace tdt4240.Boards
 
             _currentPlayer.BoardPosition = _positions[index + result];
 
-            var nextPlayerNumber = (int) _currentPlayer.playerIndex + 1;
+            var nextPlayerNumber = (int) _currentPlayer.PlayerIndex + 1;
 
             if (nextPlayerNumber >= PlayerManager.Instance.NumberOfPlayers)
                 nextPlayerNumber = 0;

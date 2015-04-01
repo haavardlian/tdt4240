@@ -25,8 +25,8 @@ namespace tdt4240
     {
         #region Fields
 
-        ContentManager content;
-        Texture2D backgroundTexture;
+        private ContentManager _content;
+        private Texture2D _backgroundTexture;
         private String _background;
 
         #endregion
@@ -56,10 +56,10 @@ namespace tdt4240
         {
             if (!instancePreserved)
             {
-                if (content == null)
-                    content = new ContentManager(ScreenManager.Game.Services, "Content");
+                if (_content == null)
+                    _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                backgroundTexture = content.Load<Texture2D>(_background);
+                _backgroundTexture = _content.Load<Texture2D>(_background);
             }
         }
 
@@ -69,7 +69,7 @@ namespace tdt4240
         /// </summary>
         public override void Unload()
         {
-            content.Unload();
+            _content.Unload();
         }
 
 
@@ -98,16 +98,10 @@ namespace tdt4240
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            Viewport viewport = ScreenManager.GraphicsDevice.Viewport;
-            Rectangle fullscreen = new Rectangle(0, 0, viewport.Width, viewport.Height);
 
             spriteBatch.Begin();
-
-     //       spriteBatch.Draw(backgroundTexture, fullscreen,
-         //                    new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha));
-
-            spriteBatch.Draw(backgroundTexture, Vector2.Zero, null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, Vector2.Zero, ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
-
+            spriteBatch.Draw(_backgroundTexture, Vector2.Zero, null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 
+                0f, Vector2.Zero, ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             spriteBatch.End();
         }
 

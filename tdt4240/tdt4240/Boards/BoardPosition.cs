@@ -45,12 +45,12 @@ namespace tdt4240.Boards
 
         public static void OnNavigateToDefault(Player player)
         {
-            Console.WriteLine(player.playerIndex + " navigated to a new position");
+            Console.WriteLine(player.PlayerIndex + " navigated to a new position");
         }
 
         public static void OnNavigateToStart(Player player)
         {
-            Console.WriteLine(player.playerIndex + " navigated to start");
+            Console.WriteLine(player.PlayerIndex + " navigated to start");
         }
     }
 }

@@ -20,13 +20,13 @@ namespace tdt4240
         private ContentManager _content;
         private Background _background;
 
-        private Vector2 _controllerPosition = new Vector2();
-        private Vector2 _keyboardPosition = new Vector2();
-        private Vector2 _titlePosition = new Vector2();
-        private Rectangle _coverPosition = new Rectangle();
-        private Vector2 _descriptionPosition = new Vector2();
-        private Vector2 _goalPosition = new Vector2();
-        private Vector2 _startPosition = new Vector2();
+        private Vector2 _controllerPosition;
+        private Vector2 _keyboardPosition;
+        private Vector2 _titlePosition;
+        private Rectangle _coverPosition;
+        private Vector2 _descriptionPosition;
+        private Vector2 _goalPosition;
+        private Vector2 _startPosition;
 
         protected Dictionary<Buttons, string> ControllerButtons = new Dictionary<Buttons, string>();
         protected Dictionary<Keys, string> KeyboardButtons = new Dictionary<Keys, string>();
@@ -116,7 +116,7 @@ namespace tdt4240
 
             spriteBatch.Begin();
 
-            spriteBatch.DrawString(_titleFont, MiniGame.ToString(), _titlePosition, Color.Red);
+            spriteBatch.DrawString(_titleFont, MiniGame.ToString(), _titlePosition, new Color(192, 192, 192) * TransitionAlpha);
 
             spriteBatch.Draw(Cover,_coverPosition, Color.White);
 

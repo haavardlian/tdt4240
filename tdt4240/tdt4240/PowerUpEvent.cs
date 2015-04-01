@@ -9,7 +9,6 @@
 
 #region Using Statements
 using System;
-using Microsoft.Xna.Framework;
 #endregion
 
 namespace tdt4240
