@@ -14,44 +14,57 @@ namespace tdt4240.Boards
     class BoardPosition
     {
         public Vector2 Position { get; set; }
-        public Action<Player> NavigateTo { get; set; }
-        public Action<Player> NavigateFrom { get; private set; }
+        public event EventHandler NavigateTo;
         public Texture2D Background { get; set; }
 
         public BoardPosition(Vector2 position)
         {
             Position = position;
-            NavigateTo = OnNavigateToDefault;
+            NavigateTo += NavigateToDefault;
         }
 
-        public BoardPosition(Vector2 position, PositionType type)
+        public BoardPosition(Vector2 position, PositionType type, Texture2D background)
         {
             Position = position;
+            Background = background;
             switch (type)
             {
                 case PositionType.Start:
-                    NavigateTo = OnNavigateToStart;
+                    NavigateTo += NavigateToStart;
                     break;
                 default:
-                    NavigateTo = OnNavigateToDefault;
+                    NavigateTo += NavigateToDefault;
                     break;
             }
+        }
+
+        public void OnNavigateTo(object sender, EventArgs args)
+        {
+            if (NavigateTo == null) return;
+            NavigateTo(sender, args);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             if (Background == null) return;
-            spriteBatch.Draw(Background, Vector2.Zero, Color.White);
+            spriteBatch.Draw(Background, Position * ScreenManager.Instance.GetScalingFactor(), null, Color.Gray, 0f, (new Vector2(48, 48)) * ScreenManager.Instance.GetScalingFactor(), ScreenManager.Instance.GetScalingFactor(), SpriteEffects.None, 0f);
         }
 
-        public void OnNavigateToDefault(Player player)
+        private void NavigateToDefault(object sender, EventArgs args)
         {
+            var player = args as Player;
             Console.WriteLine(player.PlayerIndex + " navigated to a new position");
         }
 
-        public void OnNavigateToStart(Player player)
+        private void NavigateToStart(object sender, EventArgs args)
         {
+            var player = args as Player;
             Console.WriteLine(player.PlayerIndex + " navigated to start");
+        }
+
+        private void NavigateToPowerUp(object sender, EventArgs args)
+        {
+            var player = args as Player;
         }
     }
 }

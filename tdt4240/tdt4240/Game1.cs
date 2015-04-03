@@ -16,7 +16,8 @@ namespace tdt4240
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            var screenManager = new ScreenManager(this, _graphics);
+            ScreenManager.CreateInstance(this, _graphics);
+            var screenManager = ScreenManager.Instance;
             Components.Add(screenManager);
 
             if (Settings.Instance.Fullscreen)

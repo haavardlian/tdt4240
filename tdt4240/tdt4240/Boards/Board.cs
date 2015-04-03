@@ -13,9 +13,10 @@ namespace tdt4240.Boards
     {
         private Texture2D _backgroundTexture;
         private Texture2D _pieceTexture;
+        private Texture2D _tileTexture;
         private ContentManager _content;
         private SpriteFont _font;
-        private readonly Vector2[] _offsets = { new Vector2(-24, -32), new Vector2(24, -32), new Vector2(-24, 16), new Vector2(24, 16) };
+        private readonly Vector2[] _offsets = { new Vector2(-20, -40), new Vector2(20, -40), new Vector2(-20, 10), new Vector2(20, 10) };
         private Player _currentPlayer;
         private readonly List<BoardPosition> _positions = new List<BoardPosition>();
 
@@ -37,33 +38,71 @@ namespace tdt4240.Boards
             if (_content == null)
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-            _font = _content.Load<SpriteFont>("fonts/menufont");
+            
             LoadContent();
             _currentPlayer = PlayerManager.Instance.Players[0];
 
-            _positions.Add(new BoardPosition(new Vector2(78, 1004), PositionType.Start));
+            _positions.Add(new BoardPosition(new Vector2(96, 1000), PositionType.Start, _tileTexture));
             
             PlayerManager.Instance.Players.ForEach(player => player.BoardPosition = _positions[0]);
 
             AddPositions();
 
+            _positions.Last().NavigateTo += OnFinish;
+
             _miniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers);
             _powerUps = PowerUps();
         }
 
+        private void OnFinish(object sender, EventArgs eventArgs)
+        {
+            var player = eventArgs as Player;
+
+            Console.WriteLine(player + " is the winner!!!");
+        }
+
         private void AddPositions()
         {
-            var factor = 2;
-            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
-            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
-            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
-            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
-            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
-            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
-            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
-            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
-            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
-            _positions.Add(new BoardPosition(new Vector2(78 * (++factor), 1004), PositionType.Default));
+            var factor = 1;
+            var width = 96;
+            var row = 1000;
+
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (++factor), row), PositionType.Default, _tileTexture));
+
+            _positions.Add(new BoardPosition(new Vector2(width * (factor), row - 96), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (factor), row - (2*96)), PositionType.Default, _tileTexture));
+            row -= 2*96;
+
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+            _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
+
         }
 
         public override void HandleInput(GameTime gameTime, InputState input)
@@ -95,8 +134,10 @@ namespace tdt4240.Boards
 
         public void LoadContent()
         {
-            _backgroundTexture = _content.Load<Texture2D>("board/board");
+            //_backgroundTexture = _content.Load<Texture2D>("board/board");
             _pieceTexture = _content.Load<Texture2D>("board/piece2");
+            _font = _content.Load<SpriteFont>("fonts/menufont");
+            _tileTexture = _content.Load<Texture2D>("board/tile");
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
@@ -110,8 +151,8 @@ namespace tdt4240.Boards
 
             spriteBatch.Begin();
 
-            spriteBatch.Draw(_backgroundTexture, Vector2.Zero, null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, Vector2.Zero, ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
-
+            //spriteBatch.Draw(_backgroundTexture, Vector2.Zero, null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, Vector2.Zero, ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+            ScreenManager.GraphicsDevice.Clear(Color.LightGreen);
             _positions.ForEach(x => x.Draw(spriteBatch));
 
 
@@ -134,7 +175,7 @@ namespace tdt4240.Boards
                 pos += _offsets[index];
                 pos *= ScreenManager.GetScalingFactor();
 
-                spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(32, 32), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+                spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(32, 32) * ScreenManager.GetScalingFactor(), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             }
             
             
@@ -148,7 +189,7 @@ namespace tdt4240.Boards
 
             if (index >= _positions.Count)
             {
-                Console.WriteLine(_currentPlayer + "Is the winner!!!");
+                _currentPlayer.BoardPosition = _positions.Last();
                 return;
             }
              

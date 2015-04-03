@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.InteropServices;
+using System.Security.Permissions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,7 +10,7 @@ namespace tdt4240.Boards
     class DiceRoll : GameScreen
     {
         private SpriteFont _font;
-        private readonly Vector2 _position = new Vector2(350, 120);
+        private readonly Vector2 _position = new Vector2(900, 400);
         private ContentManager _content;
         private readonly Action<int> _callback; 
         private string _text = "";
@@ -87,7 +89,8 @@ namespace tdt4240.Boards
             var spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(_font, _text, _position, Color.HotPink);
+            spriteBatch.DrawString(_font, _text, _position*ScreenManager.GetScalingFactor(), Color.HotPink, 0.0f,
+                new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
             spriteBatch.End();
         }
     }

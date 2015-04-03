@@ -8,6 +8,9 @@
 #endregion
 
 #region Using Statements
+
+using System;
+using System.CodeDom;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
@@ -29,6 +32,7 @@ namespace tdt4240
         #region Fields
 
         private const string StateFilename = "ScreenManagerState.xml";
+        private static ScreenManager _instance;
         public const int MaxWidth = 1920;
         public const int MaxHeight = 1080;
         
@@ -73,6 +77,16 @@ namespace tdt4240
             get { return font; }
         }
 
+        public static ScreenManager Instance
+        {
+            get
+            {
+                if(_instance == null)
+                    throw new Exception("Need to init screen manager by calling ScreenManager.CreateInstance");
+                return _instance;
+            }
+        }
+
         public SpriteFont TitleFont
         {
             get { return titleFont; }
@@ -113,7 +127,7 @@ namespace tdt4240
         /// <summary>
         /// Constructs a new screen manager component.
         /// </summary>
-        public ScreenManager(Game game, GraphicsDeviceManager graphics)
+        private ScreenManager(Game game, GraphicsDeviceManager graphics)
             : base(game)
         {
             // we must set EnabledGestures before we can query for them, but
@@ -176,6 +190,12 @@ namespace tdt4240
             int width = Game.GraphicsDevice.Viewport.Bounds.Width;
 
             return width / 1920f;
+        }
+
+        public static void CreateInstance(Game game, GraphicsDeviceManager graphics)
+        {
+            if(_instance == null)
+                _instance = new ScreenManager(game, graphics);
         }
 
         #endregion

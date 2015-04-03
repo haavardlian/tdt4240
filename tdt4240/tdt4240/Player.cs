@@ -52,7 +52,7 @@ namespace tdt4240
             set
             {
                 _boardPosition = value;
-                _boardPosition.NavigateTo(this);
+                _boardPosition.OnNavigateTo(this, this);
             }
         }
 

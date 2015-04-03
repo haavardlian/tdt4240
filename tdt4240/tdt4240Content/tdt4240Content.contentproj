@@ -59,13 +59,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="board\piece.png">
-      <Name>piece</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="main_menu.jpg">
       <Name>main_menu</Name>
       <Importer>TextureImporter</Importer>
@@ -140,6 +133,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="background3.jpg">
+      <Name>background3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="board\piece.png">
+      <Name>piece</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="board\piece2.png">
       <Name>piece2</Name>
       <Importer>TextureImporter</Importer>
@@ -147,12 +152,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="background3.jpg">
-      <Name>background3</Name>
+    <Compile Include="board\tile.png">
+      <Name>tile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-      </Compile>
-    </ItemGroup>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
