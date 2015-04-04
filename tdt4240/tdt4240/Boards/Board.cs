@@ -158,9 +158,9 @@ namespace tdt4240.Boards
             Random random = new Random();
             int gameIndex = random.Next(_miniGames.Count);
 
-            MinigameIntro minigameIntro = (MinigameIntro)Activator.CreateInstance(_miniGames[gameIndex], this);
+            //MinigameIntro minigameIntro = (MinigameIntro)Activator.CreateInstance(_miniGames[gameIndex], this);
 
-            //MiniGame minigame = (MiniGame)Activator.CreateInstance(_miniGames[1], this);
+            MiniGame minigame = (MiniGame)Activator.CreateInstance(_miniGames[1], this);
 
             ScreenManager.AddScreen(minigameIntro, null);
         }
