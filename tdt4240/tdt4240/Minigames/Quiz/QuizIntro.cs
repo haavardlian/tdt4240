@@ -17,7 +17,7 @@ namespace tdt4240.Minigames.Quiz
         {
             MiniGame = new Quiz(board);
 
-            ThumbstickDescription = "Move the string around";
+            //ThumbstickDescription = "Move the string around";
             GameDescription = "Quiz game";
             Goal = "Answer 3 questions correctly";
 

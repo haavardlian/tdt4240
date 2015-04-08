@@ -61,6 +61,7 @@ namespace tdt4240.Minigames.Quiz
                 spriteBatch.DrawString(font, player.TestString, textPosition[(int)player.playerIndex], player.color);
             }
 
+
             spriteBatch.End();
         }
 
