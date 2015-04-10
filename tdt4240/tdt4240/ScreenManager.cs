@@ -189,7 +189,7 @@ namespace tdt4240
         {
             int width = Game.GraphicsDevice.Viewport.Bounds.Width;
 
-            return width / 1920f;
+            return (float)width / MaxWidth;
         }
 
         public static void CreateInstance(Game game, GraphicsDeviceManager graphics)
