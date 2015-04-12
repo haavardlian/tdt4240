@@ -16,9 +16,8 @@ namespace tdt4240.Minigames.BirdHunt
 
         public Vector2 Speed { get; private set; }
 
-        public Bird(Texture2D texture, Vector2 position) : base(texture)
+        public Bird(Texture2D texture, Vector2 position) : base(texture,position)
         {
-            Position = position;
         }
 
         public float getDistanceFactor()

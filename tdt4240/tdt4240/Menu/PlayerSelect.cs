@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using tdt4240.Boards;
+using tdt4240.Minigames.AvoidObstacles;
 
 namespace tdt4240.Menu
 {
@@ -147,7 +148,8 @@ namespace tdt4240.Menu
                 var board = new Board();
 
                 ScreenManager.ExitAllScreens();
-                ScreenManager.AddScreen(board, null);
+                //ScreenManager.AddScreen(board, null);
+                ScreenManager.AddScreen(new AvoidObstacles(board),null );
             }
         }
     }
