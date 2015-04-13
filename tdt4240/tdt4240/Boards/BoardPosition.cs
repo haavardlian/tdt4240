@@ -16,6 +16,7 @@ namespace tdt4240.Boards
         public Vector2 Position { get; set; }
         public event EventHandler NavigateTo;
         public Texture2D Background { get; set; }
+        public Texture2D Icon { get; set; }
 
         public BoardPosition(Vector2 position)
         {
@@ -48,6 +49,11 @@ namespace tdt4240.Boards
         {
             if (Background == null) return;
             spriteBatch.Draw(Background, Position * ScreenManager.Instance.GetScalingFactor(), null, Color.Gray, 0f, (new Vector2(48, 48)) * ScreenManager.Instance.GetScalingFactor(), ScreenManager.Instance.GetScalingFactor(), SpriteEffects.None, 0f);
+
+            if (Icon != null)
+            {
+                spriteBatch.Draw(Icon, Position * ScreenManager.Instance.GetScalingFactor(), null, Color.White, 0f, (new Vector2(32, 32)) * ScreenManager.Instance.GetScalingFactor(), ScreenManager.Instance.GetScalingFactor(), SpriteEffects.None, 0f);
+            }
         }
 
         private void NavigateToDefault(object sender, EventArgs args)

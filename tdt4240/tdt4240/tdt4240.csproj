@@ -77,6 +77,7 @@
     <Compile Include="Assets\GraphicsObject.cs" />
     <Compile Include="Boards\BoardPosition.cs" />
     <Compile Include="Boards\DiceRoll.cs" />
+    <Compile Include="Boards\PowerUpRoll.cs" />
     <Compile Include="GameScreen.cs" />
     <Compile Include="Boards\Board.cs" />
     <Compile Include="InputDevice.cs" />
