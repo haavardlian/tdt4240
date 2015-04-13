@@ -93,6 +93,8 @@
     <Compile Include="Minigames\BirdHunt\Gun.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemoIntro.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemo.cs" />
+    <Compile Include="Minigames\Quiz\Alternative.cs" />
+    <Compile Include="Minigames\Quiz\Question.cs" />
     <Compile Include="Minigames\Quiz\QuestionRepository.cs" />
     <Compile Include="Minigames\Quiz\Quiz.cs" />
     <Compile Include="Minigames\Quiz\QuizIntro.cs" />
@@ -119,6 +121,10 @@
     <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DataTypes\DataTypes.csproj">
+      <Project>{a7ea8063-bb8e-4f59-b135-bfe0ef831821}</Project>
+      <Name>DataTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\tdt4240Content\tdt4240Content.contentproj">
       <Name>tdt4240Content</Name>
       <XnaReferenceType>Content</XnaReferenceType>

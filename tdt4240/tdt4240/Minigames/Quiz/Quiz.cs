@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using tdt4240.Boards;
+using DataTypes;
 
 namespace tdt4240.Minigames.Quiz
 {
@@ -11,12 +12,16 @@ namespace tdt4240.Minigames.Quiz
 
         public static SupportedPlayers SupportedPlayers = SupportedPlayers.Three;
         private SpriteFont font;
+        private QuestionRepository _questionRepository;
         private Vector2[] textPosition = new Vector2[4];
 
 
         public Quiz(Board board) : base(board)
         {
             this.Title = "Quiz";
+            font = ScreenManager.Font;
+            Vector2 _questionVector = new Vector2(ScreenManager.MaxWidth / 2);
+            _questionRepository = new QuestionRepository(font,content.Load<SerializableQuestion[]>("minigames/quiz/questions.xml"));
         }
 
         public override void Activate(bool instancePreserved)
@@ -28,6 +33,7 @@ namespace tdt4240.Minigames.Quiz
                 font = ScreenManager.Font;
                 Background = new Background("background");
                 ScreenManager.AddScreen(Background, null);
+
             }
         }
 

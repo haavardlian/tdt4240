@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <!-- TODO: replace this Asset with your own XML asset data. -->
+  <Asset Type="DataTypes.SerializableQuestion[]">
+    <Item>
+      <Question>The UAE is made up of how many countries?</Question>
+      <Alternative_1>3</Alternative_1>
+      <Alternative_2>5</Alternative_2>
+      <Alternative_3>7</Alternative_3>
+      <Alternative_4>9</Alternative_4>
+      <CorrectAlternative>7</CorrectAlternative>
+    </Item>
+    <Item>
+      <Question>How many republics exist within the Russian Federation(Russia)</Question>
+      <Alternative_1>1</Alternative_1>
+      <Alternative_2>3</Alternative_2>
+      <Alternative_3>17</Alternative_3>
+      <Alternative_4>21</Alternative_4>
+      <CorrectAlternative>21</CorrectAlternative>
+    </Item>
+  </Asset>
+</XnaContent>
