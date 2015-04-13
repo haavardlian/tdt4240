@@ -27,13 +27,13 @@ namespace tdt4240.Boards
         private List<Type> _miniGames;
         private List<Type> _powerUps;
 
+        private PlayerIndex _currentWinner;
+
         public void MiniGameDone(PlayerIndex winningPlayerIndex)
         {
-            var powerUp = GetRandomPowerUp();
-            var winner = PlayerManager.Instance.GetPlayer(winningPlayerIndex);
-            winner.AddPowerUp(powerUp);
-
-            ScreenManager.AddScreen(new MinigameWinnerScreen(winner, powerUp), null);
+            _currentWinner = winningPlayerIndex;
+            ScreenManager.AddScreen(new PowerUpRoll(HandlePowerUpRollResult), winningPlayerIndex);
+         
         }
 
         public override void Activate(bool instancePreserved)
@@ -158,6 +158,7 @@ namespace tdt4240.Boards
             if (currentPlayerInput.IsButtonPressed(GameButtons.X))
             {
                 ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), _currentPlayer.PlayerIndex);
+                //ScreenManager.AddScreen(new PowerUpRoll(HandlePowerUpRollResult), _currentPlayer.PlayerIndex);
             }
 
             ////Tempcode for testing minigame functionality
@@ -256,6 +257,14 @@ namespace tdt4240.Boards
                 StartMinigame();
             }
 
+        }
+
+        public void HandlePowerUpRollResult(PowerUp powerUp)
+        {
+            var winner = PlayerManager.Instance.GetPlayer(_currentWinner);
+            winner.AddPowerUp(powerUp);
+
+            ScreenManager.AddScreen(new MinigameWinnerScreen(winner, powerUp), null);
         }
 
         private void StartMinigame()
