@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using tdt4240.Menu;
+using tdt4240.PowerUps;
 
 namespace tdt4240.Boards
 {
@@ -15,6 +16,7 @@ namespace tdt4240.Boards
         private Texture2D _pieceTexture;
         private Texture2D _tileTexture;
         private Texture2D _playerBackground;
+        private Texture2D _emptyPowerUp;
         private ContentManager _content;
         private SpriteFont _font;
         private readonly Vector2[] _offsets = { new Vector2(-20, -40), new Vector2(20, -40), new Vector2(-20, 10), new Vector2(20, 10) };
@@ -22,6 +24,7 @@ namespace tdt4240.Boards
         private readonly List<BoardPosition> _positions = new List<BoardPosition>();
 
         private List<Vector2> _playerBackgroundPositions = new List<Vector2>();
+        private List<Vector2> _playerInfoPositions = new List<Vector2>();
         private float _scale;
 
         private List<Type> _miniGames;
@@ -53,6 +56,7 @@ namespace tdt4240.Boards
             for (int i = 0; i < 4; i++)
             {
                 _playerBackgroundPositions.Add(new Vector2());
+                _playerInfoPositions.Add(new Vector2());
             }
 
             AddPositions();
@@ -61,6 +65,9 @@ namespace tdt4240.Boards
 
             _miniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers);
             _powerUps = PowerUps();
+
+            //tempcode for testing powerups
+            PlayerManager.Instance.GetPlayer(PlayerIndex.One).AddPowerUp(new FreezePowerUp());
         }
 
         private void OnFinish(object sender, EventArgs eventArgs)
@@ -144,9 +151,10 @@ namespace tdt4240.Boards
         {
             //_backgroundTexture = _content.Load<Texture2D>("board/board");
             _pieceTexture = _content.Load<Texture2D>("board/piece2");
-            _font = _content.Load<SpriteFont>("fonts/menufont");
+            _font = _content.Load<SpriteFont>("fonts/smallfont");
             _tileTexture = _content.Load<Texture2D>("board/tile");
             _playerBackground = _content.Load<Texture2D>("black_circle");
+            _emptyPowerUp = _content.Load<Texture2D>("powerups/empty");
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
@@ -162,6 +170,16 @@ namespace tdt4240.Boards
                 + _playerBackground.Width, -160);
             _playerBackgroundPositions[3] = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width 
                 + _playerBackground.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+
+
+
+            float x = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - _font.MeasureString("Player 4").X;
+            float y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - _playerBackground.Height/2;
+
+            _playerInfoPositions[0] = new Vector2(0, 0);
+            _playerInfoPositions[1] = new Vector2(x, 0);
+            _playerInfoPositions[2] = new Vector2(0, y);
+            _playerInfoPositions[3] = new Vector2(x, y);
         }
 
         public override void Draw(GameTime gameTime)
@@ -173,6 +191,12 @@ namespace tdt4240.Boards
             //spriteBatch.Draw(_backgroundTexture, Vector2.Zero, null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, Vector2.Zero, ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             ScreenManager.GraphicsDevice.Clear(Color.LightGreen);
             _positions.ForEach(x => x.Draw(spriteBatch));
+
+            foreach (Vector2 position in _playerBackgroundPositions)
+            {
+                spriteBatch.Draw(_playerBackground, position * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
+                    new Vector2(0, 0), _scale, SpriteEffects.None, 0f);
+            }
 
 
             BoardPosition lastPosition = null;
@@ -195,17 +219,59 @@ namespace tdt4240.Boards
                 pos *= ScreenManager.GetScalingFactor();
 
                 spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(32, 32) * ScreenManager.GetScalingFactor(), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+
+                DrawStatus(spriteBatch, player);
             }
 
-            foreach (Vector2 position in _playerBackgroundPositions)
+            /*
+            for (int i = 0; i < 4; i++)
             {
+                spriteBatch.DrawString(_font, "Player " + i, _playerInfoPositions[i], PlayerManager.Colors[i]);
 
-                spriteBatch.Draw(_playerBackground, position * ScreenManager.GetScalingFactor(), null, Color.Black, 0f, 
-                    new Vector2(0, 0), _scale, SpriteEffects.None, 0f);
+                float diff = ScreenManager.GetScalingFactor()*50;
+                float scale = ScreenManager.GetScalingFactor() * 0.1f;
+
+                Vector2 powerUpPosition = new Vector2(_playerInfoPositions[i].X + 20, _playerInfoPositions[i].Y + diff);
+
+                spriteBatch.Draw(_emptyPowerUp, powerUpPosition, null, Color.White, 0f,
+                    new Vector2(0, 0), scale, SpriteEffects.None, 0f);
+
+                powerUpPosition = new Vector2(powerUpPosition.X + diff * 1.5f, powerUpPosition.Y);
+
+                spriteBatch.Draw(_emptyPowerUp, powerUpPosition, null, Color.White, 0f,
+                    new Vector2(0, 0), scale, SpriteEffects.None, 0f);
             }
-            
-            
+             */
+
             spriteBatch.End();
+        }
+
+        private void DrawStatus(SpriteBatch spriteBatch, Player player)
+        {
+            int playerIndex = (int) player.PlayerIndex;
+            spriteBatch.DrawString(_font, "Player " + playerIndex + 1, _playerInfoPositions[playerIndex], player.Color);
+
+            float diff = ScreenManager.GetScalingFactor() * 50;
+            float scale = ScreenManager.GetScalingFactor() * 0.1f;
+
+            Vector2 powerUpPosition = new Vector2(_playerInfoPositions[playerIndex].X + 20, _playerInfoPositions[playerIndex].Y + diff);
+
+            for (int i = 0; i < Player.MaxPowerUps; i++)
+            {
+                try
+                {
+                    Texture2D icon = _content.Load<Texture2D>(player.PowerUps[i].IconPath);
+                    spriteBatch.Draw(icon, powerUpPosition, null, Color.White, 0f,
+                        new Vector2(0, 0), scale, SpriteEffects.None, 0f);
+                }
+                catch (ArgumentOutOfRangeException e)
+                {
+                    spriteBatch.Draw(_emptyPowerUp, powerUpPosition, null, Color.White, 0f,
+                        new Vector2(0, 0), scale, SpriteEffects.None, 0f);
+                }
+
+                powerUpPosition = new Vector2(powerUpPosition.X + diff * 1.5f, powerUpPosition.Y);
+            }
         }
 
         public void HandleDiceRollResult(int result)
