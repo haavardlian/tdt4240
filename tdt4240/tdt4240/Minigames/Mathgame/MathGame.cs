@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using tdt4240.Boards;
+using tdt4240.Minigames.Mathgame;
 
 namespace tdt4240.Minigames.MathGame
 {
