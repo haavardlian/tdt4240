@@ -101,6 +101,11 @@ namespace tdt4240
                 if(state.IsKeyDown(Keys.D))
                         vec.X += 1;
 
+                if (vec.Length() > 1)
+                {
+                    vec *= 1 / vec.Length();
+                }
+
                 return vec;
             }
         }
