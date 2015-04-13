@@ -14,11 +14,15 @@ namespace tdt4240.Boards
         private Texture2D _backgroundTexture;
         private Texture2D _pieceTexture;
         private Texture2D _tileTexture;
+        private Texture2D _playerBackground;
         private ContentManager _content;
         private SpriteFont _font;
         private readonly Vector2[] _offsets = { new Vector2(-20, -40), new Vector2(20, -40), new Vector2(-20, 10), new Vector2(20, 10) };
         private Player _currentPlayer;
         private readonly List<BoardPosition> _positions = new List<BoardPosition>();
+
+        private List<Vector2> _playerBackgroundPositions = new List<Vector2>();
+        private float _scale;
 
         private List<Type> _miniGames;
         private List<Type> _powerUps;
@@ -45,6 +49,11 @@ namespace tdt4240.Boards
             _positions.Add(new BoardPosition(new Vector2(96, 1000), PositionType.Start, _tileTexture));
             
             PlayerManager.Instance.Players.ForEach(player => player.BoardPosition = _positions[0]);
+
+            for (int i = 0; i < 4; i++)
+            {
+                _playerBackgroundPositions.Add(new Vector2());
+            }
 
             AddPositions();
 
@@ -102,7 +111,6 @@ namespace tdt4240.Boards
             _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
             _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
             _positions.Add(new BoardPosition(new Vector2(width * (--factor), row), PositionType.Default, _tileTexture));
-
         }
 
         public override void HandleInput(GameTime gameTime, InputState input)
@@ -138,11 +146,22 @@ namespace tdt4240.Boards
             _pieceTexture = _content.Load<Texture2D>("board/piece2");
             _font = _content.Load<SpriteFont>("fonts/menufont");
             _tileTexture = _content.Load<Texture2D>("board/tile");
+            _playerBackground = _content.Load<Texture2D>("black_circle");
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             base.Update(gameTime, otherScreenHasFocus, false);
+
+            _scale = ScreenManager.GetScalingFactor() * 2;
+
+            //Update corner positions
+            _playerBackgroundPositions[0] = new Vector2(-160, -160);
+            _playerBackgroundPositions[1] = new Vector2(-160, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
+            _playerBackgroundPositions[2] = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width 
+                + _playerBackground.Width, -160);
+            _playerBackgroundPositions[3] = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width 
+                + _playerBackground.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
         }
 
         public override void Draw(GameTime gameTime)
@@ -176,6 +195,13 @@ namespace tdt4240.Boards
                 pos *= ScreenManager.GetScalingFactor();
 
                 spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(32, 32) * ScreenManager.GetScalingFactor(), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+            }
+
+            foreach (Vector2 position in _playerBackgroundPositions)
+            {
+
+                spriteBatch.Draw(_playerBackground, position * ScreenManager.GetScalingFactor(), null, Color.Black, 0f, 
+                    new Vector2(0, 0), _scale, SpriteEffects.None, 0f);
             }
             
             
