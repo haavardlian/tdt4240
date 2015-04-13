@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,6 +17,7 @@ namespace tdt4240.Boards
         private Texture2D _pieceTexture;
         private Texture2D _tileTexture;
         private Texture2D _downTexture;
+        private Texture2D _starTexture;
         private ContentManager _content;
         private SpriteFont _font;
         private readonly Vector2[] _offsets = { new Vector2(-20, -20), new Vector2(20, -20), new Vector2(-20, 20), new Vector2(20, 20) };
@@ -51,6 +53,7 @@ namespace tdt4240.Boards
             AddPositions();
 
             _positions.Last().NavigateTo += OnFinish;
+            _positions.Last().Icon = _starTexture;
 
             _miniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers);
             _powerUps = PowerUps();
@@ -157,16 +160,16 @@ namespace tdt4240.Boards
                 ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), _currentPlayer.PlayerIndex);
             }
 
-            //Tempcode for testing minigame functionality
+            ////Tempcode for testing minigame functionality
 
-            foreach (Player player in PlayerManager.Instance.Players)
-            {
-                if (player.Input.IsButtonPressed(GameButtons.A))
-                {
-                    StartMinigame();
-                    //ScreenManager.AddScreen(new MinigameDemoIntro(), null);
-                }
-            }
+            //foreach (Player player in PlayerManager.Instance.Players)
+            //{
+            //    if (player.Input.IsButtonPressed(GameButtons.A))
+            //    {
+            //        StartMinigame();
+            //        //ScreenManager.AddScreen(new MinigameDemoIntro(), null);
+            //    }
+            //}
         }
 
         public void LoadContent()
@@ -176,6 +179,7 @@ namespace tdt4240.Boards
             _font = _content.Load<SpriteFont>("fonts/menufont");
             _tileTexture = _content.Load<Texture2D>("board/tile");
             _downTexture = _content.Load<Texture2D>("powers/down");
+            _starTexture = _content.Load<Texture2D>("powers/star");
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
@@ -240,9 +244,18 @@ namespace tdt4240.Boards
             var nextPlayerNumber = (int) _currentPlayer.PlayerIndex + 1;
 
             if (nextPlayerNumber >= PlayerManager.Instance.NumberOfPlayers)
+            {
                 nextPlayerNumber = 0;
+            }
+                
 
             _currentPlayer = PlayerManager.Instance.GetPlayer((PlayerIndex)nextPlayerNumber);
+
+            if (nextPlayerNumber == 0)
+            {
+                StartMinigame();
+            }
+
         }
 
         private void StartMinigame()
