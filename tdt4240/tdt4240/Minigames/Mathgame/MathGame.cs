@@ -15,15 +15,20 @@ namespace tdt4240.Minigames.MathGame
         private Vector2[] _corners;
         private readonly int _numberOfPlayers;
         private SpriteFont number;
-        private Vector2 fontPos;
-        private String fontOutput;
+        private SpriteFont equation;
+        private Vector2 fontPosNumber;
+        private Vector2 fontPosEquation;
+        private String fontOutputNumber;
+        private String fontOutputEquation;
         private DateTime _nextNumberTime;
         private string _currentNumber;
-        private string _currentExpression;
+        private string _currentEquation;
 
         private static readonly Random rnd = new Random();
         private static readonly TimeSpan MaxTimePerNumber = TimeSpan.FromSeconds(10);
         private static readonly TimeSpan MaxTimePerExpression = TimeSpan.FromSeconds(2);
+
+        Problem problem = new Problem();
 
         public MathGame(Board board) : base(board)
         {
@@ -47,7 +52,7 @@ namespace tdt4240.Minigames.MathGame
         private void ShowNewCombo()
         {
             _currentNumber = GetRandomNumber();
-            //_currentExpression = GetRandomExpression();
+            _currentEquation = problem.GenerateEquation();
             _nextNumberTime = DateTime.Now + MaxTimePerNumber;
         }
 
@@ -57,9 +62,12 @@ namespace tdt4240.Minigames.MathGame
 
             if (!instancePreserved)
             {
-                fontPos = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2,
+                fontPosNumber = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2,
                     ScreenManager.GraphicsDevice.Viewport.Height / 5);
+                fontPosEquation = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2,
+                    ScreenManager.GraphicsDevice.Viewport.Height / 3);
                 number = ScreenManager.Font;
+                equation = ScreenManager.Font;
                 Background = new Background("background");
                 ScreenManager.AddScreen(Background, null);
             }
@@ -101,11 +109,15 @@ namespace tdt4240.Minigames.MathGame
 
             spriteBatch.Begin();
 
-            fontOutput = _currentNumber;
+            fontOutputNumber = _currentNumber;
+            fontOutputEquation = _currentEquation;
 
-            Vector2 FontOrigin = number.MeasureString(fontOutput) / 2;
-            spriteBatch.DrawString(number, fontOutput, fontPos, Color.Black,
-                0, FontOrigin, 1.0f, SpriteEffects.None, 0.5f);
+            Vector2 FontOriginNumber = number.MeasureString(fontOutputNumber) / 2;
+            Vector2 FontOriginEquation = equation.MeasureString(fontOutputEquation) / 2;
+            spriteBatch.DrawString(number, fontOutputNumber, fontPosNumber, Color.Black,
+                0, FontOriginNumber, 1.0f, SpriteEffects.None, 0.5f);
+            spriteBatch.DrawString(equation, fontOutputEquation, fontPosEquation, Color.Black,
+                0, FontOriginEquation, 1.0f, SpriteEffects.None, 0.5f);
 
             spriteBatch.End();
         }

@@ -19,7 +19,7 @@ namespace tdt4240.Minigames.MathGame
 
         }
 
-        public void generateEquation()
+        public String GenerateEquation()
         {
             Random rnd = new Random();
             StringBuilder builder = new StringBuilder();
@@ -58,6 +58,8 @@ namespace tdt4240.Minigames.MathGame
             Expression e = new Expression(builder.ToString());
             
             Console.WriteLine(builder.ToString() + " = " + e.Evaluate());
+
+            return builder.ToString();
         }
 
     }
