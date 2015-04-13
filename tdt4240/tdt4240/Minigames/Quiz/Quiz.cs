@@ -20,6 +20,7 @@ namespace tdt4240.Minigames.Quiz
         {
             this.Title = "Quiz";
             font = ScreenManager.Font;
+            Vector2 _questionVector = new Vector2(ScreenManager.MaxWidth / 2);
             _questionRepository = new QuestionRepository(font,content.Load<SerializableQuestion[]>("minigames/quiz/questions.xml"));
         }
 
