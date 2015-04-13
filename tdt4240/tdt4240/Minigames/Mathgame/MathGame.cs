@@ -27,6 +27,13 @@ namespace tdt4240.Minigames.MathGame
 
         public override void Activate(bool instancePreserved)
         {
+            base.Activate(instancePreserved);
+
+            if (!instancePreserved)
+            {
+                Background = new Background("background");
+                ScreenManager.AddScreen(Background, null);
+            }
 
         }
 
