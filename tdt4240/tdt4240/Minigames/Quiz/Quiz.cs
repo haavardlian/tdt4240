@@ -21,7 +21,13 @@ namespace tdt4240.Minigames.Quiz
             this.Title = "Quiz";
             font = ScreenManager.Font;
             Vector2 _questionVector = new Vector2(ScreenManager.MaxWidth / 2);
-            _questionRepository = new QuestionRepository(font,content.Load<SerializableQuestion[]>("minigames/quiz/questions.xml"));
+            Vector2[] _alternativeVectors = {
+                                            new Vector2(ScreenManager.MaxWidth / 2),
+                                            new Vector2(ScreenManager.MaxWidth / 2),
+                                            new Vector2(ScreenManager.MaxWidth / 2),
+                                            new Vector2(ScreenManager.MaxWidth / 2)
+                                            };
+            _questionRepository = new QuestionRepository(font, content.Load<SerializableQuestion[]>("minigames/quiz/questions.xml"), _questionVector, _alternativeVectors);
         }
 
         public override void Activate(bool instancePreserved)

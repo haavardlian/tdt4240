@@ -21,11 +21,12 @@ namespace tdt4240.Minigames.Quiz
         private Vector2[] _alternativePositions;
         private Texture2D[] _alternativeTextures;
         
-        public QuestionRepository(SpriteFont font, SerializableQuestion[] questions)
+        public QuestionRepository(SpriteFont font, SerializableQuestion[] questions, Vector2 questionVector, Vector2[] alternativeVector)
         {
             _font = font;
             _seralizedQuestions = questions;
-            
+            _questionPosition = questionVector;
+            _alternativePositions = alternativeVector;
         }
 
         private void BuildQuestions()
