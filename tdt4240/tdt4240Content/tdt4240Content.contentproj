@@ -165,7 +165,7 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-   <ItemGroup>
+  <ItemGroup>
     <Compile Include="powers\down.png">
       <Name>down</Name>
       <Importer>TextureImporter</Importer>
@@ -189,6 +189,13 @@
   <ItemGroup>
     <Compile Include="powers\star.png">
       <Name>star</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="powerups\unknown.png">
+      <Name>unknown</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -8,6 +8,7 @@ namespace tdt4240
 
     public enum Effect
     {
+        None,
         Freeze,
         DoubleRoll,
         HalfRollRange

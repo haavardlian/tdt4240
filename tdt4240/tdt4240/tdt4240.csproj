@@ -106,6 +106,7 @@
     <Compile Include="Menu\PlayerSelectStatus.cs" />
     <Compile Include="PowerUp.cs" />
     <Compile Include="PowerUpEvent.cs" />
+    <Compile Include="PowerUps\DoubleRollPowerUp.cs" />
     <Compile Include="PowerUps\FreezePowerUp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

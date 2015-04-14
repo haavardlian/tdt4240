@@ -70,7 +70,8 @@ namespace tdt4240.Boards
             _powerUps = PowerUps();
 
             //tempcode for testing powerups
-            PlayerManager.Instance.GetPlayer(PlayerIndex.One).AddPowerUp(new FreezePowerUp());
+            PlayerManager.Instance.GetPlayer(PlayerIndex.One).AddPowerUp(new DoubleRollPowerUp());
+            PlayerManager.Instance.GetPlayer(PlayerIndex.One).Effect = Effect.DoubleRoll;
         }
 
         private void OnFinish(object sender, EventArgs eventArgs)
@@ -267,6 +268,7 @@ namespace tdt4240.Boards
                 spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(32, 45) * ScreenManager.GetScalingFactor(), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             }
 
+            //Tempcode for testing positions for all 4 players
             /*
             for (int i = 0; i < 4; i++)
             {
@@ -284,8 +286,12 @@ namespace tdt4240.Boards
 
                 spriteBatch.Draw(_emptyPowerUp, powerUpPosition, null, Color.White, 0f,
                     new Vector2(0, 0), scale, SpriteEffects.None, 0f);
+
+                Vector2 statusPosition = new Vector2(_playerInfoPositions[i].X, _playerInfoPositions[i].Y + diff * 2);
+
+                spriteBatch.DrawString(_font, "Frozen", statusPosition, Color.OrangeRed);
             }
-             */
+            */
 
             spriteBatch.End();
         }
@@ -315,6 +321,13 @@ namespace tdt4240.Boards
                 }
 
                 powerUpPosition = new Vector2(powerUpPosition.X + diff * 1.5f, powerUpPosition.Y);
+            }
+
+            if (player.Effect != Effect.None)
+            {
+                Vector2 statusPosition = new Vector2(_playerInfoPositions[playerIndex].X, _playerInfoPositions[playerIndex].Y + diff * 2);
+
+                spriteBatch.DrawString(_font, player.Effect.ToString(), statusPosition, Color.OrangeRed);
             }
         }
 

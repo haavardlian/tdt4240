@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace tdt4240
 {
@@ -18,7 +17,7 @@ namespace tdt4240
         protected event EventHandler<PowerUpEvent> effect;
         protected String Title;
         protected String Description;
-        protected String iconPath;
+        protected String iconPath = "powerups/unknown";
 
         public String IconPath
         {
