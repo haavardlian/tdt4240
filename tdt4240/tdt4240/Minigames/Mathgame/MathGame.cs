@@ -11,6 +11,11 @@ namespace tdt4240.Minigames.MathGame
 {
     class MathGame : MiniGame
     {
+
+        public static SupportedPlayers SupportedPlayers = SupportedPlayers.Four;
+        private SpriteFont _font;
+        private readonly Vector2[] _textPosition = new Vector2[4];
+
         private const int ScreenPadding = 10;
         private Vector2[] _corners;
         private readonly int _numberOfPlayers;
@@ -32,6 +37,7 @@ namespace tdt4240.Minigames.MathGame
 
         public MathGame(Board board) : base(board)
         {
+            Title = "Math game";
             _numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
 
             _corners = new[]{new Vector2(ScreenPadding, ScreenPadding),
@@ -66,6 +72,7 @@ namespace tdt4240.Minigames.MathGame
 
         public override void Activate(bool instancePreserved)
         {
+
             base.Activate(instancePreserved);
 
             if (!instancePreserved)
@@ -76,6 +83,7 @@ namespace tdt4240.Minigames.MathGame
                     ScreenManager.GraphicsDevice.Viewport.Height / 3);
                 number = ScreenManager.Font;
                 equation = ScreenManager.Font;
+                _font = ScreenManager.Font;
                 Background = new Background("background");
                 ScreenManager.AddScreen(Background, null);
             }
@@ -104,7 +112,16 @@ namespace tdt4240.Minigames.MathGame
         /// </summary>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
+            foreach (Player player in PlayerManager.Instance.Players)
+            {
+                _textPosition[(int)player.PlayerIndex] += player.Input.GetThumbstickVector();
 
+                if (player.Input.IsButtonPressed(GameButtons.Y))
+                {
+                    NotifyDone(PlayerIndex.One);
+                }
+
+            }
         }
 
 
@@ -116,6 +133,11 @@ namespace tdt4240.Minigames.MathGame
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
+
+            foreach (Player player in PlayerManager.Instance.Players)
+            {
+                spriteBatch.DrawString(_font, player.TestString, _textPosition[(int)player.PlayerIndex], player.Color);
+            }
 
             fontOutputNumber = _currentNumber;
             fontOutputEquation = _currentEquation;
