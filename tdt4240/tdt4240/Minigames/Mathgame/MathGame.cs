@@ -20,13 +20,13 @@ namespace tdt4240.Minigames.MathGame
         private Vector2 fontPosEquation;
         private String fontOutputNumber;
         private String fontOutputEquation;
-        private DateTime _nextNumberTime;
+        private DateTime _nextEquationTime;
         private string _currentNumber;
         private string _currentEquation;
+        private int equationNumber = 0;
 
         private static readonly Random rnd = new Random();
-        private static readonly TimeSpan MaxTimePerNumber = TimeSpan.FromSeconds(10);
-        private static readonly TimeSpan MaxTimePerExpression = TimeSpan.FromSeconds(2);
+        private static readonly TimeSpan MaxTimePerEquation = TimeSpan.FromSeconds(5);
 
         Problem problem = new Problem();
 
@@ -39,21 +39,29 @@ namespace tdt4240.Minigames.MathGame
             new Vector2(ScreenPadding, ScreenManager.MaxHeight - ScreenPadding),
             new Vector2(ScreenManager.MaxWidth - ScreenPadding, ScreenManager.MaxHeight - ScreenPadding)};
 
-            _nextNumberTime = DateTime.Now;
-            ShowNewCombo();
+            _nextEquationTime = DateTime.Now;
+            ShowNewProblem();
 
         }
 
-        private string GetRandomNumber()
+        private void ShowNewProblem()
         {
-            return rnd.Next(101).ToString();
+            problem = new Problem();
+            _currentNumber = problem.answer;
+            equationNumber = 0;
+            ShowNewEquation();
         }
 
-        private void ShowNewCombo()
+        private void ShowNewEquation()
         {
-            _currentNumber = GetRandomNumber();
-            _currentEquation = problem.GenerateEquation();
-            _nextNumberTime = DateTime.Now + MaxTimePerNumber;
+            if (equationNumber >= problem.numberOfEquations)
+            {
+                ShowNewProblem();
+            }
+            _currentEquation = problem.equationTable[equationNumber]._equation;
+            _nextEquationTime = DateTime.Now + MaxTimePerEquation;
+            equationNumber++;
+            
         }
 
         public override void Activate(bool instancePreserved)
@@ -81,13 +89,13 @@ namespace tdt4240.Minigames.MathGame
         /// </summary>
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
-            if (_nextNumberTime <= DateTime.Now)
+            if (_nextEquationTime <= DateTime.Now)
             {
-                ShowNewCombo();
-                Console.WriteLine(ScreenManager.GetScalingFactor());
+                ShowNewEquation();
             }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
+
 
         /// <summary>
         /// Allows the screen to handle user input. Unlike Update, this method
@@ -114,6 +122,7 @@ namespace tdt4240.Minigames.MathGame
 
             Vector2 FontOriginNumber = number.MeasureString(fontOutputNumber) / 2;
             Vector2 FontOriginEquation = equation.MeasureString(fontOutputEquation) / 2;
+
             spriteBatch.DrawString(number, fontOutputNumber, fontPosNumber, Color.Black,
                 0, FontOriginNumber, 1.0f, SpriteEffects.None, 0.5f);
             spriteBatch.DrawString(equation, fontOutputEquation, fontPosEquation, Color.Black,

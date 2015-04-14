@@ -10,17 +10,17 @@ namespace tdt4240.Minigames.Mathgame
 {
     class Equation
     {
-        private Equation _equation;
+        public String _equation;
         private Boolean _correctAnswer;
 
         //Constructor
-        public Equation ()
+        public Equation (String equation, Boolean correctAnswer)
         {
-            //TODO get equation from problem
-            //TODO get correctAnswer from problem
+            _equation = equation;
+            _correctAnswer = correctAnswer;
         }
 
-        public Equation equation
+        public String equation
         {
             get { return _equation; }
             set { _equation = value; }

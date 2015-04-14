@@ -6,20 +6,56 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using tdt4240.Assets;
 using NCalc;
+using tdt4240.Minigames.Mathgame;
 
 namespace tdt4240.Minigames.MathGame
 {
     class Problem
     {
+        private string _answer = "0";
+        private static int _numberOfEquations = 10;
+        private static Equation[] _equationTable = new Equation[_numberOfEquations];
         
 
         //Constructor
         public Problem()
         {
 
+            for (int i = 0; i < _numberOfEquations; i++)
+            {
+                {
+                    _equationTable[i] = GenerateEquation();
+                }
+            }
+            _answer = new Expression(_equationTable[9]._equation).Evaluate().ToString();
+            RandomizeCorrectAnswerPosition();
+            Console.WriteLine("Answer: " + _answer);
         }
 
-        public String GenerateEquation()
+        public string answer
+        {
+            get { return _answer; }
+            set { _answer = value; }
+        }
+
+        public int numberOfEquations
+        {
+            get { return _numberOfEquations; }
+            set { _numberOfEquations = value; }
+        }
+
+        public Equation[] equationTable
+        {
+            get { return _equationTable; }
+            set { _equationTable = value; }
+        }
+
+        public void RandomizeCorrectAnswerPosition()
+        {
+            //TODO
+        }
+
+        public Equation GenerateEquation()
         {
             Random rnd = new Random();
             StringBuilder builder = new StringBuilder();
@@ -52,14 +88,20 @@ namespace tdt4240.Minigames.MathGame
                 
                 builder.Append(operand);
             }
-            randomNumber = rnd.Next(20);
+            randomNumber = rnd.Next(11);
             builder.Append(randomNumber);
 
             Expression e = new Expression(builder.ToString());
             
             Console.WriteLine(builder.ToString() + " = " + e.Evaluate());
+            
+            Boolean correct = false;
+            if (e.Evaluate() == _answer.ToString())
+            {
+                correct = true;
+            }
 
-            return builder.ToString();
+            return new Equation(builder.ToString(), correct);
         }
 
     }
