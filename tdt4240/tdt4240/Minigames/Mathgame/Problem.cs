@@ -15,6 +15,7 @@ namespace tdt4240.Minigames.MathGame
         private string _answer = "0";
         private static int _numberOfEquations = 10;
         private static Equation[] _equationTable = new Equation[_numberOfEquations];
+        Random rnd = new Random();
         
 
         //Constructor
@@ -52,7 +53,12 @@ namespace tdt4240.Minigames.MathGame
 
         public void RandomizeCorrectAnswerPosition()
         {
-            //TODO
+            int randomize = rnd.Next(11);
+
+            Equation temp = _equationTable[9];
+            _equationTable[9] = _equationTable[randomize];
+            _equationTable[randomize] = temp;
+            Console.WriteLine("Randomize" + randomize);
         }
 
         public Equation GenerateEquation()
