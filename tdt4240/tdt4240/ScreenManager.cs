@@ -134,6 +134,7 @@ namespace tdt4240
             // we don't assume the game wants to read them.
             TouchPanel.EnabledGestures = GestureType.None;
             Graphics = graphics;
+            AssetManager.CreateInstance(game);
         }
 
 

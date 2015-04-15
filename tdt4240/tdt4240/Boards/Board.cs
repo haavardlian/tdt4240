@@ -69,6 +69,10 @@ namespace tdt4240.Boards
             _miniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers);
             _powerUps = PowerUps();
 
+            AssetManager.Instance.AddAsset("powerups/empty");
+            AssetManager.Instance.AddAsset("powerups/freeze");
+            AssetManager.Instance.AddAsset("powerups/unknown");
+
             //tempcode for testing powerups
             PlayerManager.Instance.GetPlayer(PlayerIndex.One).AddPowerUp(new DoubleRollPowerUp());
             PlayerManager.Instance.GetPlayer(PlayerIndex.One).Effect = Effect.DoubleRoll;
@@ -262,8 +266,6 @@ namespace tdt4240.Boards
                     pos += _offsets[index];
                 pos *= ScreenManager.GetScalingFactor();
 
-                spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(32, 32) * ScreenManager.GetScalingFactor(), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
-
                 DrawStatus(spriteBatch, player);
                 spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(32, 45) * ScreenManager.GetScalingFactor(), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             }
@@ -310,11 +312,11 @@ namespace tdt4240.Boards
             {
                 try
                 {
-                    Texture2D icon = _content.Load<Texture2D>(player.PowerUps[i].IconPath);
+                    Texture2D icon = AssetManager.Instance.GetAsset(player.PowerUps[i].IconPath);
                     spriteBatch.Draw(icon, powerUpPosition, null, Color.White, 0f,
                         new Vector2(0, 0), scale, SpriteEffects.None, 0f);
                 }
-                catch (ArgumentOutOfRangeException e)
+                catch (Exception e)
                 {
                     spriteBatch.Draw(_emptyPowerUp, powerUpPosition, null, Color.White, 0f,
                         new Vector2(0, 0), scale, SpriteEffects.None, 0f);
@@ -379,7 +381,9 @@ namespace tdt4240.Boards
 
             //MiniGame minigame = (MiniGame)Activator.CreateInstance(_miniGames[1], this);
 
-            ScreenManager.AddScreen(minigameIntro, null);
+       
+
+            ScreenManager.AddScreen(new Countdown(3, minigameIntro), null);
         }
 
 
