@@ -168,7 +168,7 @@ namespace tdt4240.Boards
         {
             foreach (var player in PlayerManager.Instance.Players.Where(player => player.Input.IsButtonPressed(GameButtons.Back)))
             {
-                ScreenManager.AddScreen(new PauseMenuScreen(), player.PlayerIndex);
+                ScreenManager.AddScreen(new PauseMenuScreen(), null);
                 break;
             }
 
@@ -365,6 +365,13 @@ namespace tdt4240.Boards
             if (nextPlayerNumber == 0)
             {
                 StartMinigame();
+            }
+            else
+            {
+                if(_currentPlayer.PowerUps.Count > 0)
+                    ScreenManager.AddScreen(new ItemSelectScreen(), _currentPlayer.PlayerIndex);
+                else
+                    ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), _currentPlayer.PlayerIndex);
             }
 
         }

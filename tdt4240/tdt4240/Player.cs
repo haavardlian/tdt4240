@@ -69,7 +69,7 @@ namespace tdt4240
         {
             _playerIndex = playerIndex;
             _color = PlayerManager.Colors[(int)playerIndex];
-            Input = InputDevice.CreateInputDevice(type, playerIndex);
+            Input = InputDevice.CreateInputDevice(type, (PlayerIndex) controllerIndex);
             _controllerIndex = controllerIndex;
             TestString += playerIndex + " on controller " + controllerIndex;
         }

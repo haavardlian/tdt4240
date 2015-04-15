@@ -61,6 +61,8 @@ namespace tdt4240.Menu
                     _powerUp = null;
                     _background.ExitScreen();
                     ExitScreen();
+                    if(PlayerManager.Instance.GetPlayer(PlayerIndex.One).PowerUps.Count > 0)
+                        ScreenManager.AddScreen(new ItemSelectScreen(), PlayerIndex.One);
                 }
 
             }
