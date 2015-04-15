@@ -63,7 +63,7 @@ namespace tdt4240.Boards
             var spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(_font, ""+_waitAmount, _position*ScreenManager.GetScalingFactor(), Color.HotPink, 0.0f,
+            spriteBatch.DrawString(_font, ""+_waitAmount, _position*ScreenManager.GetScalingFactor(), Color.Green, 0.0f,
                 new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
             spriteBatch.End();
         }

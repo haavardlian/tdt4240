@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using tdt4240.Boards;
 
 namespace tdt4240.Menu
 {
@@ -16,11 +17,16 @@ namespace tdt4240.Menu
         
 
         private readonly Player _player;
-        private readonly PowerUp _powerUp;
+        private PowerUp _powerUp;
          
-        public MinigameWinnerScreen(Player player, PowerUp powerUp)
+        public MinigameWinnerScreen(Player player)
         {
             _player = player;
+            
+        }
+
+        void HandlePowerUpResult(PowerUp powerUp)
+        {
             _powerUp = powerUp;
         }
 
@@ -35,7 +41,15 @@ namespace tdt4240.Menu
                 _titleFont = ScreenManager.TitleFont;
                 _background = new Background("background3");
                 ScreenManager.AddScreen(_background, null);
+
+               
             }
+        }
+
+        public override void Added()
+        {
+            PowerUpRoll roll = new PowerUpRoll(HandlePowerUpResult);
+            ScreenManager.AddScreen(roll, _player.PlayerIndex);
         }
 
         public override void HandleInput(GameTime gameTime, InputState input)
@@ -44,6 +58,7 @@ namespace tdt4240.Menu
             {
                 if (player.Input.IsButtonPressed(GameButtons.A) || player.Input.IsButtonPressed(GameButtons.Start))
                 {
+                    _powerUp = null;
                     _background.ExitScreen();
                     ExitScreen();
                 }

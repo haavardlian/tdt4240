@@ -29,5 +29,10 @@ namespace tdt4240
         {
             return Title;
         }
+
+        public PowerUp Clone()
+        {
+            return (PowerUp)MemberwiseClone();
+        }
     }
 }

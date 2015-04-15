@@ -6,6 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using tdt4240.PowerUps;
 
 namespace tdt4240.Boards
 {
@@ -30,7 +31,7 @@ namespace tdt4240.Boards
         public override void Activate(bool instancePreserved)
         {
             base.Activate(instancePreserved);
-
+            IsPopup = true;
             if (ControllingPlayer == null) throw new Exception("PowerUpRoll must have a controlling player");
 
             if (!instancePreserved)
@@ -60,7 +61,7 @@ namespace tdt4240.Boards
 
                 if (_wait > 1000)
                 {
-                    _callback(null);
+                    _callback(new DoubleRollPowerUp());
                     ScreenManager.RemoveScreen(this);
                 }
 

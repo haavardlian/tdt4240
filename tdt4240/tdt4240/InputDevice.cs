@@ -162,9 +162,9 @@ namespace tdt4240
                     case GameButtons.Y:
                         return state.IsKeyDown(Keys.D4);
                     case GameButtons.Start:
-                        return state.IsKeyDown(Keys.Escape);
+                        return state.IsKeyDown(Keys.Enter);
                     case GameButtons.Back:
-                        return state.IsKeyDown(Keys.Escape);
+                        return state.IsKeyDown(Keys.Back);
                 }
             }
             return false;

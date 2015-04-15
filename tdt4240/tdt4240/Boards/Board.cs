@@ -31,13 +31,15 @@ namespace tdt4240.Boards
 
         private List<Type> _miniGames;
         private List<Type> _powerUps;
-
+        private PowerUp _currentPowerUp = null;
         private PlayerIndex _currentWinner;
 
         public void MiniGameDone(PlayerIndex winningPlayerIndex)
         {
             _currentWinner = winningPlayerIndex;
-            ScreenManager.AddScreen(new PowerUpRoll(HandlePowerUpRollResult), winningPlayerIndex);
+            var winner = PlayerManager.Instance.GetPlayer(_currentWinner);
+
+            ScreenManager.AddScreen(new MinigameWinnerScreen(winner), null);
          
         }
 
@@ -69,9 +71,9 @@ namespace tdt4240.Boards
             _miniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers);
             _powerUps = PowerUps();
 
-            AssetManager.Instance.AddAsset("powerups/empty");
-            AssetManager.Instance.AddAsset("powerups/freeze");
-            AssetManager.Instance.AddAsset("powerups/unknown");
+            AssetManager.Instance.AddAsset<Texture2D>("powerups/empty");
+            AssetManager.Instance.AddAsset<Texture2D>("powerups/freeze");
+            AssetManager.Instance.AddAsset<Texture2D>("powerups/unknown");
 
             //tempcode for testing powerups
             PlayerManager.Instance.GetPlayer(PlayerIndex.One).AddPowerUp(new DoubleRollPowerUp());
@@ -193,13 +195,13 @@ namespace tdt4240.Boards
         public void LoadContent()
         {
             //_backgroundTexture = _content.Load<Texture2D>("board/board");
-            _pieceTexture = _content.Load<Texture2D>("board/piece2");
-            _font = _content.Load<SpriteFont>("fonts/smallfont");
-            _tileTexture = _content.Load<Texture2D>("board/tile");
-            _playerBackground = _content.Load<Texture2D>("black_circle");
-            _emptyPowerUp = _content.Load<Texture2D>("powerups/empty");
-            _downTexture = _content.Load<Texture2D>("powers/down");
-            _starTexture = _content.Load<Texture2D>("powers/star");
+            _pieceTexture = AssetManager.Instance.AddAsset<Texture2D>("board/piece2");
+            _font = AssetManager.Instance.AddAsset<SpriteFont>("fonts/smallfont");
+            _tileTexture = AssetManager.Instance.AddAsset<Texture2D>("board/tile");
+            _playerBackground = AssetManager.Instance.AddAsset<Texture2D>("black_circle");
+            _emptyPowerUp = AssetManager.Instance.AddAsset<Texture2D>("powerups/empty");
+            _downTexture = AssetManager.Instance.AddAsset<Texture2D>("powers/down");
+            _starTexture = AssetManager.Instance.AddAsset<Texture2D>("powers/star");
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
@@ -312,7 +314,7 @@ namespace tdt4240.Boards
             {
                 try
                 {
-                    Texture2D icon = AssetManager.Instance.GetAsset(player.PowerUps[i].IconPath);
+                    var icon = AssetManager.Instance.GetAsset<Texture2D>(player.PowerUps[i].IconPath);
                     spriteBatch.Draw(icon, powerUpPosition, null, Color.White, 0f,
                         new Vector2(0, 0), scale, SpriteEffects.None, 0f);
                 }
@@ -362,14 +364,6 @@ namespace tdt4240.Boards
                 StartMinigame();
             }
 
-        }
-
-        public void HandlePowerUpRollResult(PowerUp powerUp)
-        {
-            var winner = PlayerManager.Instance.GetPlayer(_currentWinner);
-            winner.AddPowerUp(powerUp);
-
-            ScreenManager.AddScreen(new MinigameWinnerScreen(winner, powerUp), null);
         }
 
         private void StartMinigame()

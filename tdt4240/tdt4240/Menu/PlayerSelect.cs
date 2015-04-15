@@ -72,7 +72,7 @@ namespace tdt4240.Menu
             {
                 RemovePlayer(0);
             }
-            if (keyboardState.IsKeyDown(Keys.Space))
+            if (keyboardState.IsKeyDown(Keys.Enter))
             {
                 StartGame();
             }

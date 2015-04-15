@@ -308,6 +308,7 @@ namespace tdt4240
             }
 
             screens.Add(screen);
+            screen.Added();
 
             // update the TouchPanel to respond to gestures this screen is interested in
             TouchPanel.EnabledGestures = screen.EnabledGestures;
