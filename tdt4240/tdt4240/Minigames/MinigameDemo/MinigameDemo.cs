@@ -39,7 +39,7 @@ namespace tdt4240.Minigames.MinigameDemo
 
                 if (player.Input.IsButtonPressed(GameButtons.Y))
                 {
-                    NotifyDone(PlayerIndex.One);
+                    NotifyDone(player.PlayerIndex);
                 }
 
             }
@@ -64,11 +64,6 @@ namespace tdt4240.Minigames.MinigameDemo
             }
 
             spriteBatch.End();
-        }
-
-        public override void NotifyDone(PlayerIndex winningPlayerIndex)
-        {
-            base.NotifyDone(winningPlayerIndex);
         }
     }
 }

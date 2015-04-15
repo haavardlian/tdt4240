@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using tdt4240.Boards;
 
@@ -14,7 +15,6 @@ namespace tdt4240.Menu
         private Vector2 _titlePosition;
         private Vector2 _playerPosition;
         private Vector2 _powerUpPosition;
-        
 
         private readonly Player _player;
         private PowerUp _powerUp;
@@ -22,11 +22,11 @@ namespace tdt4240.Menu
         public MinigameWinnerScreen(Player player)
         {
             _player = player;
-            
         }
 
         void HandlePowerUpResult(PowerUp powerUp)
         {
+            _player.AddPowerUp(powerUp);
             _powerUp = powerUp;
         }
 

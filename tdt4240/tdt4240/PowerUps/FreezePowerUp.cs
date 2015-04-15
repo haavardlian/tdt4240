@@ -12,7 +12,7 @@ namespace tdt4240.PowerUps
             effect += FreezeEffect;
             Title = "Freeze";
             Description = "Prevents the targeted player from using his turn";
-            iconPath = "powerups/freeze";
+            IconPath = "powerups/freeze";
         }
 
         void FreezeEffect(object sender, PowerUpEvent powerUpEvent)

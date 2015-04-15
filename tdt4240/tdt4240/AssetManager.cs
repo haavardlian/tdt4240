@@ -54,5 +54,17 @@ namespace tdt4240
             return (T)asset;
         }
 
+        /// <summary>
+        /// Get all assets of type T that starts with start
+        /// </summary>
+        public List<T> FindAssets<T>(string start)
+        {
+            var results = from result in _assets
+                          where result.Key.StartsWith(start) && result is T                    
+                          select (T)result.Value;
+
+            return results.ToList();
+        } 
+
     }
 }

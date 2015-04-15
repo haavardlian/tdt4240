@@ -30,7 +30,7 @@ namespace tdt4240.Boards
         private float _scale;
 
         private List<Type> _miniGames;
-        private List<Type> _powerUps;
+        private List<PowerUp> _powerUps;
         private PowerUp _currentPowerUp = null;
         private PlayerIndex _currentWinner;
 
@@ -76,8 +76,8 @@ namespace tdt4240.Boards
             AssetManager.Instance.AddAsset<Texture2D>("powerups/unknown");
 
             //tempcode for testing powerups
-            PlayerManager.Instance.GetPlayer(PlayerIndex.One).AddPowerUp(new DoubleRollPowerUp());
-            PlayerManager.Instance.GetPlayer(PlayerIndex.One).Effect = Effect.DoubleRoll;
+            //PlayerManager.Instance.GetPlayer(PlayerIndex.One).AddPowerUp(new DoubleRollPowerUp());
+            //PlayerManager.Instance.GetPlayer(PlayerIndex.One).Effect = Effect.DoubleRoll;
         }
 
         private void OnFinish(object sender, EventArgs eventArgs)
@@ -309,23 +309,26 @@ namespace tdt4240.Boards
             float scale = ScreenManager.GetScalingFactor() * 0.1f;
 
             Vector2 powerUpPosition = new Vector2(_playerInfoPositions[playerIndex].X + 20, _playerInfoPositions[playerIndex].Y + diff);
+            var n = 0;
 
-            for (int i = 0; i < Player.MaxPowerUps; i++)
+            foreach (var powerUp in player.PowerUps)
             {
-                try
-                {
-                    var icon = AssetManager.Instance.GetAsset<Texture2D>(player.PowerUps[i].IconPath);
-                    spriteBatch.Draw(icon, powerUpPosition, null, Color.White, 0f,
-                        new Vector2(0, 0), scale, SpriteEffects.None, 0f);
-                }
-                catch (Exception e)
-                {
-                    spriteBatch.Draw(_emptyPowerUp, powerUpPosition, null, Color.White, 0f,
-                        new Vector2(0, 0), scale, SpriteEffects.None, 0f);
-                }
-
+                var icon = AssetManager.Instance.GetAsset<Texture2D>(powerUp.IconPath);
+                spriteBatch.Draw(icon, powerUpPosition, null, Color.White, 0f,
+                    new Vector2(0, 0), scale, SpriteEffects.None, 0f);
+                n++;
                 powerUpPosition = new Vector2(powerUpPosition.X + diff * 1.5f, powerUpPosition.Y);
             }
+
+            for (var i = n; i < Player.MaxPowerUps; i++)
+            {
+
+                spriteBatch.Draw(_emptyPowerUp, powerUpPosition, null, Color.White, 0f,
+                    new Vector2(0, 0), scale, SpriteEffects.None, 0f);
+                powerUpPosition = new Vector2(powerUpPosition.X + diff * 1.5f, powerUpPosition.Y);
+            }
+
+                
 
             if (player.Effect != Effect.None)
             {
@@ -415,26 +418,17 @@ namespace tdt4240.Boards
         }
 
 
-        private List<Type> PowerUps()
+        public static List<PowerUp> PowerUps()
         {
-            var powerUps = new List<Type>();
+            var powerUps = new List<PowerUp>();
 
             foreach (Type type in Assembly.GetAssembly(typeof(PowerUp)).GetTypes()
                 .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(PowerUp))))
             {
-                    powerUps.Add(type);
+                powerUps.Add((PowerUp)Activator.CreateInstance(type));
             }
 
             return powerUps;
-        }
-
-        private PowerUp GetRandomPowerUp()
-        {
-
-            var random = new Random();
-            var powerUpIndex = random.Next(_powerUps.Count);
-
-            return (PowerUp)Activator.CreateInstance(_powerUps[powerUpIndex]);
         }
     }
 }

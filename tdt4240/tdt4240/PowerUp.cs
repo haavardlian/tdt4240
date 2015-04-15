@@ -17,12 +17,7 @@ namespace tdt4240
         protected event EventHandler<PowerUpEvent> effect;
         protected String Title;
         protected String Description;
-        public static String iconPath = "powerups/empty";
-
-        public String IconPath
-        {
-            get { return iconPath;}
-        }
+        public String IconPath = "powerups/empty";
 
 
         public override String ToString()

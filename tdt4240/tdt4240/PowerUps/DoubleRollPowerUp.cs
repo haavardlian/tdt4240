@@ -8,6 +8,7 @@
             effect += DoubleRollEffect;
             Title = "Double Roll";
             Description = "Gives the player an extra roll";
+            IconPath = "powerups/unknown";
         }
 
         void DoubleRollEffect(object sender, PowerUpEvent powerUpEvent)

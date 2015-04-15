@@ -12,11 +12,11 @@ namespace tdt4240.Boards
 {
     class PowerUpRoll : GameScreen
     {
-        List<Texture2D> _powerUps = new List<Texture2D>();
+        private List<PowerUp> _powerUps = Board.PowerUps();
         private readonly Action<PowerUp> _callback;
         private bool _pressed;
         private ContentManager _content;
-        private Texture2D _currentPowerUp;
+        private PowerUp _currentPowerUp;
         private int _elapsed;
         private int _step = 100;
         private int _n;
@@ -39,8 +39,6 @@ namespace tdt4240.Boards
                 if (_content == null)
                     _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                _powerUps.Add(_content.Load<Texture2D>("powers/down"));
-                _powerUps.Add(_content.Load<Texture2D>("powers/star"));
                 _currentPowerUp = _powerUps.FirstOrDefault();
             }
         }
@@ -61,7 +59,7 @@ namespace tdt4240.Boards
 
                 if (_wait > 1000)
                 {
-                    _callback(new DoubleRollPowerUp());
+                    _callback(_currentPowerUp);
                     ScreenManager.RemoveScreen(this);
                 }
 
@@ -91,9 +89,11 @@ namespace tdt4240.Boards
         {
             var spriteBatch = ScreenManager.SpriteBatch;
 
+            Texture2D icon = AssetManager.Instance.GetAsset<Texture2D>(_currentPowerUp.IconPath);
+
             spriteBatch.Begin();
-            spriteBatch.Draw(_currentPowerUp, new Vector2(ScreenManager.MaxWidth/2, ScreenManager.MaxHeight/2) * ScreenManager.GetScalingFactor(), null, Color.White, 0f, 
-                new Vector2(_currentPowerUp.Width/2, _currentPowerUp.Height/2) * ScreenManager.GetScalingFactor(), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+            spriteBatch.Draw(icon, new Vector2(ScreenManager.MaxWidth / 2, ScreenManager.MaxHeight / 2) * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
+                new Vector2(icon.Width / 2, icon.Height / 2) * ScreenManager.GetScalingFactor(), ScreenManager.GetScalingFactor() * 0.5f, SpriteEffects.None, 0f);
             spriteBatch.End();
         }
     }
