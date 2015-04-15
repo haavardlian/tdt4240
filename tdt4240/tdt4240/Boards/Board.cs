@@ -10,7 +10,7 @@ using tdt4240.PowerUps;
 
 namespace tdt4240.Boards
 {
-    class Board : GameScreen
+    public class Board : GameScreen
     {
         private Texture2D _backgroundTexture;
         private Texture2D _pieceTexture;
@@ -45,6 +45,7 @@ namespace tdt4240.Boards
 
         public override void Activate(bool instancePreserved)
         {
+  
             if (instancePreserved) return;
             if (_content == null)
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
@@ -75,9 +76,17 @@ namespace tdt4240.Boards
             AssetManager.Instance.AddAsset<Texture2D>("powerups/freeze");
             AssetManager.Instance.AddAsset<Texture2D>("powerups/unknown");
 
+            ScreenManager.Board = this;
+
             //tempcode for testing powerups
             //PlayerManager.Instance.GetPlayer(PlayerIndex.One).AddPowerUp(new DoubleRollPowerUp());
             //PlayerManager.Instance.GetPlayer(PlayerIndex.One).Effect = Effect.DoubleRoll;
+
+        }
+
+        public override void Added()
+        {
+            ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), _currentPlayer.PlayerIndex);
         }
 
         private void OnFinish(object sender, EventArgs eventArgs)
@@ -171,25 +180,6 @@ namespace tdt4240.Boards
                 ScreenManager.AddScreen(new PauseMenuScreen(), null);
                 break;
             }
-
-            var currentPlayerInput = _currentPlayer.Input;
-
-            if (currentPlayerInput.IsButtonPressed(GameButtons.X))
-            {
-                ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), _currentPlayer.PlayerIndex);
-                //ScreenManager.AddScreen(new PowerUpRoll(HandlePowerUpRollResult), _currentPlayer.PlayerIndex);
-            }
-
-            ////Tempcode for testing minigame functionality
-
-            //foreach (Player player in PlayerManager.Instance.Players)
-            //{
-            //    if (player.Input.IsButtonPressed(GameButtons.A))
-            //    {
-            //        StartMinigame();
-            //        //ScreenManager.AddScreen(new MinigameDemoIntro(), null);
-            //    }
-            //}
         }
 
         public void LoadContent()
@@ -303,7 +293,7 @@ namespace tdt4240.Boards
         private void DrawStatus(SpriteBatch spriteBatch, Player player)
         {
             int playerIndex = (int) player.PlayerIndex;
-            spriteBatch.DrawString(_font, "Player " + (playerIndex + 1), _playerInfoPositions[playerIndex], player.Color);
+            spriteBatch.DrawString(_font, "Player " + (playerIndex + 1), _playerInfoPositions[playerIndex], _currentPlayer == player ? Color.HotPink : player.Color);
 
             float diff = ScreenManager.GetScalingFactor() * 50;
             float scale = ScreenManager.GetScalingFactor() * 0.1f;

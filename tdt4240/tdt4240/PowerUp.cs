@@ -3,7 +3,7 @@
 namespace tdt4240
 {
 
-    enum Target
+    public enum Target
     {
         None,
         Self,
@@ -11,7 +11,7 @@ namespace tdt4240
         All
     }
 
-    abstract class PowerUp
+    public abstract class PowerUp
     {
         protected Target Target;
         protected event EventHandler<PowerUpEvent> effect;

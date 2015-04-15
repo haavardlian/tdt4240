@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace tdt4240
 {
-    class InputDevice : IDisposable
+    public class InputDevice : IDisposable
     {
         private InputType type;
         private PlayerIndex index;

@@ -11,7 +11,7 @@ namespace tdt4240.Boards
         PowerUp
     }
 
-    class BoardPosition
+    public class BoardPosition
     {
         public Vector2 Position { get; set; }
         public event EventHandler NavigateTo;

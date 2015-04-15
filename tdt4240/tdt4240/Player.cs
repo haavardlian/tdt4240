@@ -15,7 +15,7 @@ namespace tdt4240
     }
 
 
-    class Player : EventArgs
+    public class Player : EventArgs
     {
         public const int MaxPowerUps = 2;
 

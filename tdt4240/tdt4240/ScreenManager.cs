@@ -13,10 +13,13 @@ using System;
 using System.CodeDom;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
+using tdt4240.Boards;
+
 #endregion
 
 namespace tdt4240
@@ -67,6 +70,8 @@ namespace tdt4240
             get { return spriteBatch; }
         }
 
+
+        public Board Board { get; set; }
 
         /// <summary>
         /// A default font shared by all the screens. This saves
@@ -331,6 +336,9 @@ namespace tdt4240
 
             screens.Remove(screen);
             tempScreensList.Remove(screen);
+
+            if(screens.Count > 0)
+                screens.Last().Activate(true);
 
             // if there is a screen still in the manager, update TouchPanel
             // to respond to gestures that screen is interested in.

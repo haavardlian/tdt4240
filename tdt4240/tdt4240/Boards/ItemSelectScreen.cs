@@ -39,7 +39,7 @@ namespace tdt4240.Boards
             MenuItem rollMenuItem = new MenuItem("Roll");
 
             // Hook up menu event handlers.
-            rollMenuItem.Selected += OnCancel;
+            rollMenuItem.Selected += UseRollMenuEntrySelected;
             useMenuItem.Selected += UseItemMenuEntrySelected;
 
             // Add entries to the menu.
@@ -89,6 +89,11 @@ namespace tdt4240.Boards
             }
         }
 
+        void UseRollMenuEntrySelected(object sender, PlayerEvent e)
+        {
+            ExitScreen();
+            ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), e.PlayerIndex);
+        }
 
         /// <summary>
         /// 

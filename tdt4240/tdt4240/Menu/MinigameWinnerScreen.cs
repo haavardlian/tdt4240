@@ -63,6 +63,10 @@ namespace tdt4240.Menu
                     ExitScreen();
                     if(PlayerManager.Instance.GetPlayer(PlayerIndex.One).PowerUps.Count > 0)
                         ScreenManager.AddScreen(new ItemSelectScreen(), PlayerIndex.One);
+                    else
+                    {
+                        ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), PlayerIndex.One);                      
+                    }
                 }
 
             }

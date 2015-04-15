@@ -49,7 +49,7 @@ namespace tdt4240.Boards
                 _waitAmount--;
             }
 
-            if (_waitAmount < 0)
+            if (_waitAmount < 1)
             {
                 ScreenManager.RemoveScreen(this);
                 ScreenManager.AddScreen(_next, null);
