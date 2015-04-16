@@ -17,6 +17,7 @@ namespace tdt4240.Minigames.MathGame
         private readonly Vector2[] _textPosition = new Vector2[4];
 
         private readonly int _numberOfPlayers;
+        private readonly int scoreToWin;
         private SpriteFont number;
         private SpriteFont equation;
         private Vector2 fontPosNumber;
@@ -123,7 +124,6 @@ namespace tdt4240.Minigames.MathGame
         /// </summary>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
-
             foreach (var mathplayer in _mathplayers)
             {
                 if (mathplayer.Player.Input.IsButtonPressed(GameButtons.X))
@@ -132,13 +132,16 @@ namespace tdt4240.Minigames.MathGame
                     {
                         mathplayer._score += 1;
                         ShowNewProblem();
+                        if (mathplayer._score == scoreToWin)
+                        {
+                            NotifyDone(mathplayer.Player.PlayerIndex);
+                        }
                     }
                     else
                     {
                         mathplayer._score -= 1;
                     }
                 }
-
             }
 
             foreach (Player player in PlayerManager.Instance.Players)
@@ -149,7 +152,6 @@ namespace tdt4240.Minigames.MathGame
                 {
                     NotifyDone(PlayerIndex.One);
                 }
-
             }
         }
 
