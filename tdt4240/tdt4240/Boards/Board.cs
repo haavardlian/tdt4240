@@ -332,7 +332,7 @@ namespace tdt4240.Boards
         {
             Console.WriteLine(_currentPlayer.PlayerIndex + " rolled a " + result);
             var index = _positions.IndexOf(_currentPlayer.BoardPosition) + result;
-
+            bool doubleRoll = false;
             if (index >= _positions.Count)
             {
                 _currentPlayer.BoardPosition = _positions.Last();
@@ -342,17 +342,32 @@ namespace tdt4240.Boards
 
             _currentPlayer.BoardPosition = _positions[index];
 
-            var nextPlayerNumber = (int) _currentPlayer.PlayerIndex + 1;
 
-            if (nextPlayerNumber >= PlayerManager.Instance.NumberOfPlayers)
+            var nextPlayerNumber = (int) _currentPlayer.PlayerIndex;
+
+            if (_currentPlayer.Effect != Effect.DoubleRoll)
             {
-                nextPlayerNumber = 0;
+                nextPlayerNumber++;
             }
-                
-
+            else
+            {
+                doubleRoll = true;
+                _currentPlayer.Effect = Effect.None;
+            }
+            if (nextPlayerNumber >= PlayerManager.Instance.NumberOfPlayers)
+                nextPlayerNumber = 0;
             _currentPlayer = PlayerManager.Instance.GetPlayer((PlayerIndex)nextPlayerNumber);
 
-            if (nextPlayerNumber == 0)
+            if (_currentPlayer.Effect == Effect.Freeze)
+            {
+                _currentPlayer.Effect = Effect.None;
+                nextPlayerNumber++;
+                if (nextPlayerNumber >= PlayerManager.Instance.NumberOfPlayers)
+                    nextPlayerNumber = 0;
+                _currentPlayer = PlayerManager.Instance.GetPlayer((PlayerIndex)nextPlayerNumber);
+            }
+
+            if (nextPlayerNumber == 0 && !doubleRoll)
             {
                 StartMinigame();
             }

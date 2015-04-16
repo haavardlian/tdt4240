@@ -87,5 +87,10 @@ namespace tdt4240
         {
             _powerUps.Remove(powerUp);
         }
+
+        public override string ToString()
+        {
+            return "Player " + PlayerIndex;
+        }
     }
 }

@@ -5,6 +5,7 @@
         public DoubleRollPowerUp()
         {
             Target = Target.Self;
+            
             effect += DoubleRollEffect;
             Title = "Double Roll";
             Description = "Gives the player an extra roll";

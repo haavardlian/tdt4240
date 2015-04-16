@@ -22,19 +22,19 @@ namespace tdt4240.Boards
     /// The pause menu comes up over the top of the game,
     /// giving the player options to resume or quit.
     /// </summary>
-    class PowerUpSelectScreen : MenuScreen
+    class SelectPlayerScreen : MenuScreen
     {
         #region Initialization
 
-
+        private PowerUp _powerUp;
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PowerUpSelectScreen()
-            : base("Select PowerUp")
+        public SelectPlayerScreen(PowerUp powerUp)
+            : base("Select player")
         {
             IsPopup = true;
-                   
+            _powerUp = powerUp;
         }
 
         #endregion
@@ -46,19 +46,22 @@ namespace tdt4240.Boards
             if (ControllingPlayer == null)
                 throw new Exception("ControllingPlayer cannot be null in PowerUpSelectScreen");
 
-            foreach (var powerUp in PlayerManager.Instance.GetPlayer(ControllingPlayer).PowerUps)
+            foreach (var player in PlayerManager.Instance.Players)
             {
-                var item = new MenuItem(powerUp.ToString());
-                item.Selected += PowerUpSelected;
+                var item = new MenuItem(player.ToString());
+                item.Selected += PlayerSelected;
                 MenuEntries.Add(item);
 
             }
         }
 
-        void PowerUpSelected(object sender, PlayerEvent e)
+        void PlayerSelected(object sender, PlayerEvent e)
         {
+            PlayerManager.Instance.GetPlayer(e.PlayerIndex).RemovePowerUp(_powerUp);
+            var pue = new PowerUpEvent(PlayerManager.Instance.Players[MenuEntries.IndexOf((MenuItem)sender)]);
+            _powerUp.OnApply(this, pue);
             ExitScreen();
-            ScreenManager.AddScreen(new SelectPlayerScreen(PlayerManager.Instance.GetPlayer(e.PlayerIndex).PowerUps[MenuEntries.IndexOf((MenuItem)sender)]), e.PlayerIndex);
+            ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), e.PlayerIndex);
         }
         #endregion
     }
