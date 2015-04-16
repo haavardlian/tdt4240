@@ -15,7 +15,6 @@ namespace tdt4240.Minigames.Quiz
         private QuestionRepository _questionRepository;
         private Vector2[] textPosition = new Vector2[4];
 
-
         public Quiz(Board board) : base(board)
         {
             this.Title = "Quiz";
@@ -27,7 +26,7 @@ namespace tdt4240.Minigames.Quiz
                                             new Vector2(ScreenManager.MaxWidth / 2),
                                             new Vector2(ScreenManager.MaxWidth / 2)
                                             };
-            _questionRepository = new QuestionRepository(font, content.Load<SerializableQuestion[]>("minigames/quiz/questions.xml"), _questionVector, _alternativeVectors);
+            _questionRepository = new QuestionRepository(font, content, _questionVector, _alternativeVectors);
         }
 
         public override void Activate(bool instancePreserved)

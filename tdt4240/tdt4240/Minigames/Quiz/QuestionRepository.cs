@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using tdt4240.Boards;
 using tdt4240.Assets;
 using DataTypes;
@@ -20,13 +21,20 @@ namespace tdt4240.Minigames.Quiz
         private Vector2 _questionPosition;
         private Vector2[] _alternativePositions;
         private Texture2D[] _alternativeTextures;
+        private ContentManager _content;
         
-        public QuestionRepository(SpriteFont font, SerializableQuestion[] questions, Vector2 questionVector, Vector2[] alternativeVector)
+        public QuestionRepository(SpriteFont font, ContentManager content, Vector2 questionVector, Vector2[] alternativeVector)
         {
+            _content = content;
             _font = font;
-            _seralizedQuestions = questions;
+            _seralizedQuestions = _content.Load<SerializableQuestion[]>("minigames/quiz/questions.xml");
             _questionPosition = questionVector;
             _alternativePositions = alternativeVector;
+            _alternativeTextures[0] = _content.Load<Texture2D>("minigames/quiz/blue");
+            _alternativeTextures[1] = _content.Load<Texture2D>("minigames/quiz/yellow");
+            _alternativeTextures[2] = _content.Load<Texture2D>("minigames/quiz/green");
+            _alternativeTextures[3] = _content.Load<Texture2D>("minigames/quiz/red");
+            
         }
 
         private void BuildQuestions()
