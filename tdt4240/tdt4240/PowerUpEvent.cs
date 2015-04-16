@@ -5,7 +5,7 @@ using System;
 
 namespace tdt4240
 {
-    class PowerUpEvent : EventArgs
+    public class PowerUpEvent : EventArgs
     {
         public PowerUpEvent(Player player)
         {

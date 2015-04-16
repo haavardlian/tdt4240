@@ -25,9 +25,9 @@ namespace tdt4240
     {
         #region Fields
 
-        List<MenuItem> menuEntries = new List<MenuItem>();
-        int selectedEntry = 0;
-        string menuTitle;
+        protected List<MenuItem> menuEntries = new List<MenuItem>();
+        protected int selectedEntry = 0;
+        protected string menuTitle;
 
         InputAction menuUp;
         InputAction menuDown;

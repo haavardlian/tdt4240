@@ -6,7 +6,7 @@ using tdt4240.Assets;
 
 namespace tdt4240.Minigames.BirdHunt
 {
-    class Gun :GraphicsObject
+    class Gun : GraphicsObject
     {
         public const int AccuracyLimit = 2;
 

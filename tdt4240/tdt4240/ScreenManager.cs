@@ -13,10 +13,13 @@ using System;
 using System.CodeDom;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
+using tdt4240.Boards;
+
 #endregion
 
 namespace tdt4240
@@ -67,6 +70,8 @@ namespace tdt4240
             get { return spriteBatch; }
         }
 
+
+        public Board Board { get; set; }
 
         /// <summary>
         /// A default font shared by all the screens. This saves
@@ -134,6 +139,7 @@ namespace tdt4240
             // we don't assume the game wants to read them.
             TouchPanel.EnabledGestures = GestureType.None;
             Graphics = graphics;
+            AssetManager.CreateInstance(game);
         }
 
 
@@ -189,7 +195,7 @@ namespace tdt4240
         {
             int width = Game.GraphicsDevice.Viewport.Bounds.Width;
 
-            return width / 1920f;
+            return (float)width / MaxWidth;
         }
 
         public static void CreateInstance(Game game, GraphicsDeviceManager graphics)
@@ -210,6 +216,8 @@ namespace tdt4240
         {
             // Read the keyboard and gamepad.
             input.Update();
+            InputDevice.InputState.Update();
+
 
             // Make a copy of the master screen list, to avoid confusion if
             // the process of updating one screen adds or removes others.
@@ -307,6 +315,7 @@ namespace tdt4240
             }
 
             screens.Add(screen);
+            screen.Added();
 
             // update the TouchPanel to respond to gestures this screen is interested in
             TouchPanel.EnabledGestures = screen.EnabledGestures;

@@ -307,6 +307,11 @@ namespace tdt4240
         /// </summary>
         public virtual void Draw(GameTime gameTime) { }
 
+        /// <summary>
+        /// This is called after the screen is added to the screen list.
+        /// </summary>
+        public virtual void Added() { }
+
 
         /// <summary>
         /// Tells the screen to go away. Unlike ScreenManager.RemoveScreen, which
