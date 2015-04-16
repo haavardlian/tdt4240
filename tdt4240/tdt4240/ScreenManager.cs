@@ -337,9 +337,6 @@ namespace tdt4240
             screens.Remove(screen);
             tempScreensList.Remove(screen);
 
-            if(screens.Count > 0)
-                screens.Last().Activate(true);
-
             // if there is a screen still in the manager, update TouchPanel
             // to respond to gestures that screen is interested in.
             if (screens.Count > 0)

@@ -85,7 +85,7 @@ namespace tdt4240.Boards
             }
             else if (inputState.IsButtonPressed(GameButtons.A))
             {
-                OnSelectEntry(selectedEntry, inputState.Index);
+                OnSelectEntry(selectedEntry, playerIndex);
             }
         }
 
@@ -100,7 +100,8 @@ namespace tdt4240.Boards
         /// </summary>
         void UseItemMenuEntrySelected(object sender, PlayerEvent e)
         {
-            Console.WriteLine("Use item");
+            ScreenManager.RemoveScreen(this);
+            ScreenManager.AddScreen(new PowerUpSelectScreen(), e.PlayerIndex);
         }
         #endregion
     }

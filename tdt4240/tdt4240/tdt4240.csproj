@@ -79,6 +79,7 @@
     <Compile Include="Boards\BoardPosition.cs" />
     <Compile Include="Boards\Countdown.cs" />
     <Compile Include="Boards\DiceRoll.cs" />
+    <Compile Include="Boards\PowerUpSelectScreen.cs" />
     <Compile Include="Boards\ItemSelectScreen.cs" />
     <Compile Include="Boards\PowerUpRoll.cs" />
     <Compile Include="GameScreen.cs" />
