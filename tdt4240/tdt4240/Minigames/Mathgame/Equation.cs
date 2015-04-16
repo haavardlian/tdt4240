@@ -10,7 +10,7 @@ namespace tdt4240.Minigames.Mathgame
 {
     class Equation
     {
-        public String _equation;
+        private String _equation;
         private Boolean _correctAnswer;
 
         //Constructor

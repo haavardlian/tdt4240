@@ -14,11 +14,11 @@ namespace tdt4240.Minigames.MathGame
     {
         private string _answer = "0";
         private static int _numberOfEquations = 10;
-        private readonly int _highestNumberInEquation = 10;
-        private readonly int _minimumOperands = 3;
-        private readonly int _maximumOperands = 5;
-
+        private const int _highestNumberInEquation = 10;
+        private const int _minimumOperands = 3;
+        private const int _maximumOperands = 5;
         private static Equation[] _equationTable = new Equation[_numberOfEquations];
+
         Random rnd = new Random();
         
 
@@ -33,13 +33,13 @@ namespace tdt4240.Minigames.MathGame
                 }
             }
             Equation correctEq = _equationTable[_numberOfEquations-1];
-            _answer = new Expression(correctEq._equation).Evaluate().ToString();
+            _answer = new Expression(correctEq.equation).Evaluate().ToString();
             RandomizeCorrectAnswerPosition();
             checkEquationsForCorrectAnswer();
             Console.WriteLine("Answer: " + _answer);
             for (int i = 0; i < _numberOfEquations; i++)
             {
-                Console.WriteLine("Equation " + i + ": " + _equationTable[i]._equation + " correct: " + _equationTable[i].CorrectAnswer);
+                Console.WriteLine("Equation " + i + ": " + _equationTable[i].equation + " correct: " + _equationTable[i].CorrectAnswer);
             }
                 
         }
@@ -116,12 +116,12 @@ namespace tdt4240.Minigames.MathGame
         {
             for (int i = 0; i < _equationTable.Length; i++)
             {
-                Expression e = new Expression(_equationTable[i]._equation);
+                Expression e = new Expression(_equationTable[i].equation);
                 if (e.Evaluate().ToString().Equals(_answer.ToString()))
                 {
                     _equationTable[i].CorrectAnswer = true;
                 }
-                Console.WriteLine(_equationTable[i]._equation + " = " + e.Evaluate());
+                Console.WriteLine(_equationTable[i].equation + " = " + e.Evaluate());
             }
         }
 
