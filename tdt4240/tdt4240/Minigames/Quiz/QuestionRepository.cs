@@ -50,10 +50,10 @@ namespace tdt4240.Minigames.Quiz
                 question._position = _questionPosition;
 
                 question._question = xmlQuestion.Question;
-                question.AddAlternative(new Alternative(_alternativeTextures[0], _alternativePositions[0]));
-                question.AddAlternative(new Alternative(_alternativeTextures[1], _alternativePositions[1]));
-                question.AddAlternative(new Alternative(_alternativeTextures[2], _alternativePositions[2]));
-                question.AddAlternative(new Alternative(_alternativeTextures[3], _alternativePositions[3]));
+                question.AddAlternative(new Alternative(_alternativeTextures[0], _alternativePositions[0], xmlQuestion.Alternative_1));
+                question.AddAlternative(new Alternative(_alternativeTextures[1], _alternativePositions[1], xmlQuestion.Alternative_2));
+                question.AddAlternative(new Alternative(_alternativeTextures[2], _alternativePositions[2], xmlQuestion.Alternative_3));
+                question.AddAlternative(new Alternative(_alternativeTextures[3], _alternativePositions[3], xmlQuestion.Alternative_4));
                 question._correctAlternative = xmlQuestion.CorrectAlternative;
 
                 _questions.Add(question);
@@ -64,7 +64,8 @@ namespace tdt4240.Minigames.Quiz
 
         public Question getQuestion()
         {
-            return _questions[rnd.Next(_questions.Count)];
+            //return _questions[rnd.Next(_questions.Count)];
+            return _questions[0];
         }
     }
 }
