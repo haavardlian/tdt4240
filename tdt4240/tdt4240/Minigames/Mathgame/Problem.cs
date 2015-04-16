@@ -14,6 +14,10 @@ namespace tdt4240.Minigames.MathGame
     {
         private string _answer = "0";
         private static int _numberOfEquations = 10;
+        private readonly int _highestNumberInEquation = 10;
+        private readonly int _minimumOperands = 3;
+        private readonly int _maximumOperands = 5;
+
         private static Equation[] _equationTable = new Equation[_numberOfEquations];
         Random rnd = new Random();
         
@@ -28,9 +32,16 @@ namespace tdt4240.Minigames.MathGame
                     _equationTable[i] = GenerateEquation();
                 }
             }
-            _answer = new Expression(_equationTable[9]._equation).Evaluate().ToString();
+            Equation correctEq = _equationTable[_numberOfEquations-1];
+            _answer = new Expression(correctEq._equation).Evaluate().ToString();
             RandomizeCorrectAnswerPosition();
+            checkEquationsForCorrectAnswer();
             Console.WriteLine("Answer: " + _answer);
+            for (int i = 0; i < _numberOfEquations; i++)
+            {
+                Console.WriteLine("Equation " + i + ": " + _equationTable[i]._equation + " correct: " + _equationTable[i].CorrectAnswer);
+            }
+                
         }
 
         public string answer
@@ -53,24 +64,24 @@ namespace tdt4240.Minigames.MathGame
 
         public void RandomizeCorrectAnswerPosition()
         {
-            int randomize = rnd.Next(11);
 
-            Equation temp = _equationTable[9];
-            _equationTable[9] = _equationTable[randomize];
+            int randomize = rnd.Next(_numberOfEquations);
+
+            Equation temp = _equationTable[_numberOfEquations-1];
+            _equationTable[_numberOfEquations-1] = _equationTable[randomize];
             _equationTable[randomize] = temp;
             Console.WriteLine("Randomize" + randomize);
         }
 
         public Equation GenerateEquation()
         {
-            Random rnd = new Random();
             StringBuilder builder = new StringBuilder();
-            int numberOfOperands = rnd.Next(3,6);
+            int numberOfOperands = rnd.Next(_minimumOperands,_maximumOperands);
             int randomNumber;
 
             for (int i = 0; i <numberOfOperands ; i++)
             {
-                randomNumber = rnd.Next(11);
+                randomNumber = rnd.Next(_highestNumberInEquation+1);
                 builder.Append(randomNumber);
 
                 int randomOperand = rnd.Next(1,4);
@@ -85,29 +96,33 @@ namespace tdt4240.Minigames.MathGame
                         operand = " - ";
                         break;
                     case 3:
-                        operand = " * ";
+                        operand = "*";
                         break;
                     case 4:
-                        operand = " / ";
+                        operand = "/";
                         break;
                 }
                 
                 builder.Append(operand);
             }
-            randomNumber = rnd.Next(11);
-            builder.Append(randomNumber);
+            builder.Append(rnd.Next(_highestNumberInEquation+1));
 
-            Expression e = new Expression(builder.ToString());
+            Console.WriteLine("equation " + builder.ToString());
             
-            Console.WriteLine(builder.ToString() + " = " + e.Evaluate());
-            
-            Boolean correct = false;
-            if (e.Evaluate() == _answer.ToString())
+            return new Equation(builder.ToString(), false);
+        }
+
+        public void checkEquationsForCorrectAnswer()
+        {
+            for (int i = 0; i < _equationTable.Length; i++)
             {
-                correct = true;
+                Expression e = new Expression(_equationTable[i]._equation);
+                if (e.Evaluate().ToString().Equals(_answer.ToString()))
+                {
+                    _equationTable[i].CorrectAnswer = true;
+                }
+                Console.WriteLine(_equationTable[i]._equation + " = " + e.Evaluate());
             }
-
-            return new Equation(builder.ToString(), correct);
         }
 
     }

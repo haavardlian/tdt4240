@@ -16,8 +16,6 @@ namespace tdt4240.Minigames.MathGame
         private SpriteFont _font;
         private readonly Vector2[] _textPosition = new Vector2[4];
 
-        private const int ScreenPadding = 10;
-        private Vector2[] _corners;
         private readonly int _numberOfPlayers;
         private SpriteFont number;
         private SpriteFont equation;
@@ -29,6 +27,10 @@ namespace tdt4240.Minigames.MathGame
         private string _currentNumber;
         private string _currentEquation;
         private int equationNumber = 0;
+        private readonly List<Mathplayer> _mathplayers;
+
+        private const int ScreenPadding = 10;
+        private Vector2[] _corners;
 
         private static readonly Random rnd = new Random();
         private static readonly TimeSpan MaxTimePerEquation = TimeSpan.FromSeconds(5);
@@ -39,6 +41,8 @@ namespace tdt4240.Minigames.MathGame
         {
             Title = "Math game";
             _numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
+
+            _mathplayers = new List<Mathplayer>();
 
             _corners = new[]{new Vector2(ScreenPadding, ScreenPadding),
             new Vector2(ScreenManager.MaxWidth - ScreenPadding, ScreenPadding),
@@ -60,11 +64,8 @@ namespace tdt4240.Minigames.MathGame
 
         private void ShowNewEquation()
         {
-            if (equationNumber >= problem.numberOfEquations)
-            {
-                ShowNewProblem();
-            }
             _currentEquation = problem.equationTable[equationNumber]._equation;
+            Console.WriteLine("Equation: " + problem.equationTable[equationNumber].CorrectAnswer);
             _nextEquationTime = DateTime.Now + MaxTimePerEquation;
             equationNumber++;
             
@@ -86,6 +87,12 @@ namespace tdt4240.Minigames.MathGame
                 _font = ScreenManager.Font;
                 Background = new Background("background");
                 ScreenManager.AddScreen(Background, null);
+
+                for (var i = 0; i < _numberOfPlayers; i++)
+                {
+                    _mathplayers.Add(new Mathplayer(PlayerManager.Instance.Players[i]));
+                    _mathplayers[i].Corner = _corners[i];
+                }
             }
 
         }
@@ -99,6 +106,10 @@ namespace tdt4240.Minigames.MathGame
         {
             if (_nextEquationTime <= DateTime.Now)
             {
+                if (equationNumber >= problem.numberOfEquations)
+                {
+                    ShowNewProblem();
+                }
                 ShowNewEquation();
             }
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
@@ -112,6 +123,24 @@ namespace tdt4240.Minigames.MathGame
         /// </summary>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
+
+            foreach (var mathplayer in _mathplayers)
+            {
+                if (mathplayer.Player.Input.IsButtonPressed(GameButtons.X))
+                {
+                    if (problem.equationTable[equationNumber-1].CorrectAnswer)
+                    {
+                        mathplayer._score += 1;
+                        ShowNewProblem();
+                    }
+                    else
+                    {
+                        mathplayer._score -= 1;
+                    }
+                }
+
+            }
+
             foreach (Player player in PlayerManager.Instance.Players)
             {
                 _textPosition[(int)player.PlayerIndex] += player.Input.GetThumbstickVector();
@@ -134,11 +163,13 @@ namespace tdt4240.Minigames.MathGame
 
             spriteBatch.Begin();
 
+            /*
             foreach (Player player in PlayerManager.Instance.Players)
             {
                 spriteBatch.DrawString(_font, player.TestString, _textPosition[(int)player.PlayerIndex], player.Color);
             }
-
+             * */
+            
             fontOutputNumber = _currentNumber;
             fontOutputEquation = _currentEquation;
 
@@ -149,6 +180,11 @@ namespace tdt4240.Minigames.MathGame
                 0, FontOriginNumber, 1.0f, SpriteEffects.None, 0.5f);
             spriteBatch.DrawString(equation, fontOutputEquation, fontPosEquation, Color.Black,
                 0, FontOriginEquation, 1.0f, SpriteEffects.None, 0.5f);
+
+            foreach (var mathplayer in _mathplayers)
+            {
+                spriteBatch.DrawString(ScreenManager.Font, mathplayer._score.ToString(), mathplayer.Corner * ScreenManager.GetScalingFactor(), mathplayer.Color);
+            }
 
             spriteBatch.End();
         }

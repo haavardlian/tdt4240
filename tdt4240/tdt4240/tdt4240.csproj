@@ -94,6 +94,7 @@
     <Compile Include="Minigames\BirdHunt\BirdFactory.cs" />
     <Compile Include="Minigames\BirdHunt\BirdHunt.cs" />
     <Compile Include="Minigames\BirdHunt\Gun.cs" />
+    <Compile Include="Minigames\Mathgame\Mathplayer.cs" />
     <Compile Include="Minigames\Mathgame\Problem.cs" />
     <Compile Include="Minigames\Mathgame\Equation.cs" />
     <Compile Include="Minigames\Mathgame\MathGame.cs" />
