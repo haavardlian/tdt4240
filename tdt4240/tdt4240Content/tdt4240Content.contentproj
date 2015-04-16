@@ -146,28 +146,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="minigames\quiz\button_blue.png">
-      <Name>button_blue</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="minigames\quiz\button_green.png">
-      <Name>button_green</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="minigames\quiz\button_red.png">
-      <Name>button_red</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="minigames\quiz\button_yellow.png">
-      <Name>button_yellow</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="minigames\quiz\questions.xml">
       <Name>questions</Name>
       <Importer>XmlImporter</Importer>
@@ -179,6 +157,30 @@
       <Project>{a7ea8063-bb8e-4f59-b135-bfe0ef831821}</Project>
       <Name>DataTypes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="minigames\quiz\button_blue_x.png">
+      <Name>button_blue_x</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="minigames\quiz\button_green_a.png">
+      <Name>button_green_a</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="minigames\quiz\button_red_b.png">
+      <Name>button_red_b</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="minigames\quiz\button_yellow_y.png">
+      <Name>button_yellow_y</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 

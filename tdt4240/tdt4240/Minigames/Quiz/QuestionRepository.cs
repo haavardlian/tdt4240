@@ -19,22 +19,26 @@ namespace tdt4240.Minigames.Quiz
         private List<Question> _questions = new List<Question>();
         private SpriteFont _font;
         private Vector2 _questionPosition;
-        private Vector2[] _alternativePositions;
-        private Texture2D[] _alternativeTextures;
+        private Vector2[] _alternativePositions = new Vector2[4];
+        private Texture2D[] _alternativeTextures = new Texture2D[4];
         private ContentManager _content;
+        private static Random rnd = new Random();
         
-        public QuestionRepository(SpriteFont font, ContentManager content, Vector2 questionVector, Vector2[] alternativeVector)
+        public QuestionRepository(SpriteFont font, ContentManager content)
         {
             _content = content;
             _font = font;
-            _seralizedQuestions = _content.Load<SerializableQuestion[]>("minigames/quiz/questions.xml");
-            _questionPosition = questionVector;
-            _alternativePositions = alternativeVector;
-            _alternativeTextures[0] = _content.Load<Texture2D>("minigames/quiz/blue");
-            _alternativeTextures[1] = _content.Load<Texture2D>("minigames/quiz/yellow");
-            _alternativeTextures[2] = _content.Load<Texture2D>("minigames/quiz/green");
-            _alternativeTextures[3] = _content.Load<Texture2D>("minigames/quiz/red");
-            
+            _seralizedQuestions = _content.Load<SerializableQuestion[]>("minigames/quiz/questions");
+            _questionPosition = new Vector2(ScreenManager.MaxWidth / 6, ScreenManager.MaxHeight / 8);
+            _alternativePositions[0] = new Vector2(ScreenManager.MaxWidth / 10, ScreenManager.MaxHeight / 3);
+            _alternativePositions[1] = new Vector2(ScreenManager.MaxWidth / 2, ScreenManager.MaxHeight / 3);
+            _alternativePositions[2] = new Vector2(ScreenManager.MaxWidth / 10, ScreenManager.MaxHeight / 2);
+            _alternativePositions[3] = new Vector2(ScreenManager.MaxWidth / 2, ScreenManager.MaxHeight / 2);
+            _alternativeTextures[0] = _content.Load<Texture2D>("minigames/quiz/button_blue_x");
+            _alternativeTextures[1] = _content.Load<Texture2D>("minigames/quiz/button_yellow_y");
+            _alternativeTextures[2] = _content.Load<Texture2D>("minigames/quiz/button_green_a");
+            _alternativeTextures[3] = _content.Load<Texture2D>("minigames/quiz/button_red_b");
+            BuildQuestions();
         }
 
         private void BuildQuestions()
@@ -60,7 +64,7 @@ namespace tdt4240.Minigames.Quiz
 
         public Question getQuestion()
         {
-            return _questions[0];
+            return _questions[rnd.Next(_questions.Count)];
         }
     }
 }

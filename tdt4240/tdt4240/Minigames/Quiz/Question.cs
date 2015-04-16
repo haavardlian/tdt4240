@@ -27,6 +27,7 @@ namespace tdt4240.Minigames.Quiz
 
         public Question()
         {
+            _alternatives = new List<Alternative>();
         }
 
         public void AddAlternative(Alternative alternative)
