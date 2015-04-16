@@ -458,5 +458,14 @@ namespace tdt4240.Boards
 
             return powerUps;
         }
+
+        public void UpdateEffects()
+        {
+            if (CurrentPlayer.Effect == Effect.Freeze)
+            {
+                CurrentPlayer.Effect = Effect.None;
+                NextPlayer();
+            }      
+        }
     }
 }

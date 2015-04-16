@@ -82,7 +82,7 @@ namespace tdt4240.Boards
         void PowerUpSelected(object sender, PlayerEvent e)
         {
             ExitScreen();
-            ScreenManager.AddScreen(new SelectPlayerScreen(PlayerManager.Instance.GetPlayer(e.PlayerIndex).PowerUps[(int)sender]), e.PlayerIndex);
+            ScreenManager.AddScreen(new SelectPlayerScreen(PlayerManager.Instance.GetPlayer(e.PlayerIndex).PowerUps[(int)sender], PlayerManager.Instance.GetPlayer(e.PlayerIndex)), e.PlayerIndex);
         }
         #endregion
     }
