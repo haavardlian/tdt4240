@@ -216,6 +216,8 @@ namespace tdt4240
         {
             // Read the keyboard and gamepad.
             input.Update();
+            InputDevice.InputState.Update();
+
 
             // Make a copy of the master screen list, to avoid confusion if
             // the process of updating one screen adds or removes others.

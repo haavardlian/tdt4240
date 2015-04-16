@@ -55,10 +55,34 @@ namespace tdt4240.Boards
             }
         }
 
+        public override void HandleInput(GameTime gameTime, InputState input)
+        {
+            var inputState = PlayerManager.Instance.GetPlayer(ControllingPlayer).Input;
+
+            if (inputState.IsButtonPressed(GameButtons.Down))
+            {
+                selectedEntry++;
+
+                if (selectedEntry >= menuEntries.Count)
+                    selectedEntry = 0;
+            }
+            else if (inputState.IsButtonPressed(GameButtons.Up))
+            {
+                selectedEntry--;
+
+                if (selectedEntry < 0)
+                    selectedEntry = menuEntries.Count - 1;
+            }
+            else if (inputState.IsButtonPressed(GameButtons.A))
+            {
+                PowerUpSelected(selectedEntry, new PlayerEvent(PlayerManager.Instance.GetPlayer(ControllingPlayer).PlayerIndex));
+            }
+        }
+
         void PowerUpSelected(object sender, PlayerEvent e)
         {
             ExitScreen();
-            ScreenManager.AddScreen(new SelectPlayerScreen(PlayerManager.Instance.GetPlayer(e.PlayerIndex).PowerUps[MenuEntries.IndexOf((MenuItem)sender)]), e.PlayerIndex);
+            ScreenManager.AddScreen(new SelectPlayerScreen(PlayerManager.Instance.GetPlayer(e.PlayerIndex).PowerUps[(int)sender]), e.PlayerIndex);
         }
         #endregion
     }

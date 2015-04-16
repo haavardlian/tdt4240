@@ -34,6 +34,22 @@ namespace tdt4240.Boards
         private PowerUp _currentPowerUp = null;
         private PlayerIndex _currentWinner;
 
+        public Player CurrentPlayer
+        {
+            get
+            {
+                return _currentPlayer;
+            }
+        }
+
+        public void NextPlayer()
+        {
+            var nextIndex = ((int) _currentPlayer.PlayerIndex) + 1;
+            if (nextIndex >= PlayerManager.Instance.NumberOfPlayers)
+                nextIndex = 0;
+            _currentPlayer = PlayerManager.Instance.Players[nextIndex];
+        }
+
         public void MiniGameDone(PlayerIndex winningPlayerIndex)
         {
             _currentWinner = winningPlayerIndex;

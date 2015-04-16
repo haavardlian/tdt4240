@@ -55,13 +55,43 @@ namespace tdt4240.Boards
             }
         }
 
+        public override void HandleInput(GameTime gameTime, InputState input)
+        {
+            var inputState = PlayerManager.Instance.GetPlayer(ControllingPlayer).Input;
+
+            if (inputState.IsButtonPressed(GameButtons.Down))
+            {
+                selectedEntry++;
+
+                if (selectedEntry >= menuEntries.Count)
+                    selectedEntry = 0;
+            }
+            else if (inputState.IsButtonPressed(GameButtons.Up))
+            {
+                selectedEntry--;
+
+                if (selectedEntry < 0)
+                    selectedEntry = menuEntries.Count - 1;
+            }
+            else if (inputState.IsButtonPressed(GameButtons.A))
+            {       
+                PlayerSelected(selectedEntry, new PlayerEvent(PlayerManager.Instance.GetPlayer(ControllingPlayer).PlayerIndex));
+            }
+        }
+
         void PlayerSelected(object sender, PlayerEvent e)
         {
             PlayerManager.Instance.GetPlayer(e.PlayerIndex).RemovePowerUp(_powerUp);
-            var pue = new PowerUpEvent(PlayerManager.Instance.Players[MenuEntries.IndexOf((MenuItem)sender)]);
+            var pue = new PowerUpEvent(PlayerManager.Instance.Players[(int)sender]);
             _powerUp.OnApply(this, pue);
             ExitScreen();
+            if (ScreenManager.Board.CurrentPlayer.Effect == Effect.Freeze)
+            {
+                ScreenManager.Board.CurrentPlayer.Effect = Effect.None;
+                ScreenManager.Board.NextPlayer();
+            }               
             ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), e.PlayerIndex);
+
         }
         #endregion
     }

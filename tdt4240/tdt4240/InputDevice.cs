@@ -11,10 +11,21 @@ namespace tdt4240
     {
         private InputType type;
         private PlayerIndex index;
+        private static InputState inputState;
 
         private static InputDevice keyboardInstance = null;
         private static int instances = 0;
 
+
+        public static InputState InputState
+        {
+            get
+            {
+                if(inputState == null)
+                    inputState = new InputState();
+                return inputState;
+            }
+        }
 
         public InputType Type
         {
@@ -57,6 +68,12 @@ namespace tdt4240
                 throw new Exception("Cannot have more than four input devices!");
             }
             instances++;
+
+            if(inputState == null)
+                inputState = new InputState();
+
+            if(type == InputType.Keyboard)
+                this.index = PlayerIndex.One;
         }
 
         public PlayerIndex Index
@@ -115,56 +132,62 @@ namespace tdt4240
             if (this.type == InputType.Controller)
             {
                 GamePadState state = GamePad.GetState(index);
+                PlayerIndex temp;
                 switch(button)
                 {
                     case GameButtons.Up:
-                        return state.IsButtonDown(Buttons.DPadUp);
+                        return inputState.IsNewButtonPress(Buttons.DPadUp, index, out temp);
                     case GameButtons.Down:
-                        return state.IsButtonDown(Buttons.DPadDown);
+                        return inputState.IsNewButtonPress(Buttons.DPadDown, index, out temp);
                     case GameButtons.Left:
-                        return state.IsButtonDown(Buttons.DPadLeft);
+                        return inputState.IsNewButtonPress(Buttons.DPadLeft, index, out temp);
                     case GameButtons.Right:
-                        return state.IsButtonDown(Buttons.DPadRight);
+                        return inputState.IsNewButtonPress(Buttons.DPadRight, index, out temp);
                     case GameButtons.A:
-                        return state.IsButtonDown(Buttons.A);
+                        return inputState.IsNewButtonPress(Buttons.A, index, out temp);
                     case GameButtons.B:
-                        return state.IsButtonDown(Buttons.B);
+                        return inputState.IsNewButtonPress(Buttons.B, index, out temp);
                     case GameButtons.X:
-                        return state.IsButtonDown(Buttons.X);
+                        return inputState.IsNewButtonPress(Buttons.X, index, out temp);
                     case GameButtons.Y:
-                        return state.IsButtonDown(Buttons.Y);
+                        return inputState.IsNewButtonPress(Buttons.Y, index, out temp);
                     case GameButtons.Start:
-                        return state.IsButtonDown(Buttons.Start);
+                        return inputState.IsNewButtonPress(Buttons.Start, index, out temp);
                     case GameButtons.Back:
-                        return state.IsButtonDown(Buttons.Back);
+                        return inputState.IsNewButtonPress(Buttons.Back, index, out temp);
                 }
                 
             }
             else
             {
                 KeyboardState state = Keyboard.GetState(index);
+                PlayerIndex temp;
                 switch (button)
                 {
                     case GameButtons.Up:
-                        return state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.Up);
+                        return inputState.IsNewKeyPress(Keys.W, index, out temp) ||
+                               inputState.IsNewKeyPress(Keys.Up, index, out temp);
                     case GameButtons.Down:
-                        return state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.Down);
+                        return inputState.IsNewKeyPress(Keys.S, index, out temp) ||
+                               inputState.IsNewKeyPress(Keys.Down, index, out temp);
                     case GameButtons.Left:
-                        return state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.Left);
+                        return inputState.IsNewKeyPress(Keys.A, index, out temp) ||
+                               inputState.IsNewKeyPress(Keys.Left, index, out temp);
                     case GameButtons.Right:
-                        return state.IsKeyDown(Keys.D) || state.IsKeyDown(Keys.Right);
+                        return inputState.IsNewKeyPress(Keys.D, index, out temp) ||
+                               inputState.IsNewKeyPress(Keys.Right, index, out temp);
                     case GameButtons.A:
-                        return state.IsKeyDown(Keys.D1);
+                        return inputState.IsNewKeyPress(Keys.D1, index, out temp);
                     case GameButtons.B:
-                        return state.IsKeyDown(Keys.D2);
+                        return inputState.IsNewKeyPress(Keys.D2, index, out temp);
                     case GameButtons.X:
-                        return state.IsKeyDown(Keys.D3);
+                        return inputState.IsNewKeyPress(Keys.D3, index, out temp);
                     case GameButtons.Y:
-                        return state.IsKeyDown(Keys.D4);
+                        return inputState.IsNewKeyPress(Keys.D4, index, out temp);
                     case GameButtons.Start:
-                        return state.IsKeyDown(Keys.Enter);
+                        return inputState.IsNewKeyPress(Keys.Enter, index, out temp);
                     case GameButtons.Back:
-                        return state.IsKeyDown(Keys.Back);
+                        return inputState.IsNewKeyPress(Keys.Back, index, out temp);
                 }
             }
             return false;
