@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using tdt4240.Boards;
 
 namespace tdt4240.Minigames.ColorMatch
@@ -16,7 +13,6 @@ namespace tdt4240.Minigames.ColorMatch
 
         private readonly List<Color> _colors;
         private readonly List<String> _colorWords;
-        private int _numberOfPlayers;
         private SpriteFont _font;
         private DateTime _nextWordTime;
         private String _currentWord;
@@ -35,7 +31,6 @@ namespace tdt4240.Minigames.ColorMatch
         public ColorMatch(Board board)
             : base(board)
         {
-            _numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
             Title = "Color match";
             _gameState = GameState.InGame;
             _numConsecutiveMisMatches = 0;
@@ -146,7 +141,7 @@ namespace tdt4240.Minigames.ColorMatch
         public override void HandleInput(GameTime gameTime, InputState input)
         {
             if (!_gameState.Equals(GameState.InGame)) return;
-            foreach (Player player in PlayerManager.Instance.Players.Where(player => player.Input.IsButtonPressed(GameButtons.X)))
+            foreach (Player player in PlayerManager.Instance.Players.Where(player => player.Input.IsButtonPressed(GameButtons.A)))
             {
                 _lastResponder = player;
                 if (ColorMatchesWord())

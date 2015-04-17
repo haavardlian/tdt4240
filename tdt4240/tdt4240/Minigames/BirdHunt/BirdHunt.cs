@@ -86,6 +86,12 @@ namespace tdt4240.Minigames.BirdHunt
             }
             //if the birds reaches the top of the screen it will be removed
             _birds.RemoveAll(bird => bird.Position.Y < bird.Center.Y);
+
+            foreach (var gun in _guns)
+            {
+                if(gun.Score >= 10)
+                    NotifyDone(gun.Player.PlayerIndex);
+            }
         }
 
         /// <summary>
@@ -95,27 +101,11 @@ namespace tdt4240.Minigames.BirdHunt
         /// </summary>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
-            //PlayerIndex player;
-            //input.IsButtonPressed(Buttons.Start, null,out player);
-
-            /*KeyboardState keyboardState = input.CurrentKeyboardStates[0];
-
-            if (keyboardState.IsKeyDown(Keys.Space))
-            {
-                if (_guns[0].Fire())
-                {
-                    var deadBirds = CheckForHit(_guns[0]);
-                    _guns[0].Score += deadBirds.Count();
-
-                    deadBirds.ForEach(bird => _birds.Remove(bird));
-                }
-            }*/
-
             foreach (var gun in _guns)
             {
                 gun.Position += gun.Player.Input.GetThumbstickVector()*3;
                 //GameButtons.X == Keyboard.3
-               if (gun.Player.Input.IsButtonPressed(GameButtons.X))
+               if (gun.Player.Input.IsButtonPressed(GameButtons.A))
                 {
                     if (gun.Fire())
                     {

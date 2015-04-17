@@ -154,7 +154,6 @@ namespace tdt4240.Menu
 
                 ScreenManager.AddScreen(board, null);
                 MusicPlayer.GetInstance().StartSong("4");
-                //ScreenManager.AddScreen(new AvoidObstacles(board),null );
 
             }
         }

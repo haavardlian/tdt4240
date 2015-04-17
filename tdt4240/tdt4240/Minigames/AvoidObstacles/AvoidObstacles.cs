@@ -75,13 +75,26 @@ namespace tdt4240.Minigames.AvoidObstacles
                 obstacle.Position += obstacle.Speed;
             }
 
+            List<PlayerObject> deadPlayer = new List<PlayerObject>();
             foreach (var playerObject in _playerObjects)
             {
+                if (playerObject.Score >= 10)
+                {
+                    deadPlayer.Add(playerObject);
+                    continue;
+                }
+
                 playerObject.Position += playerObject.Speed;
                 playerObject.Score += Intersects(playerObject, _obstacles);
                 PlayerCrash(playerObject, _playerObjects);
                 playerObject.Position += new Vector2(playerObject.KnockBack,0);
             }
+            deadPlayer.ForEach(player => _playerObjects.Remove(player));
+            if(_playerObjects.Count == 1 && _numberOfPlayers > 1)
+                NotifyDone(_playerObjects[0].Player.PlayerIndex);
+            if(_playerObjects.Count == 0)
+                NotifyDone(deadPlayer[0].Player.PlayerIndex);
+
             if (_random.NextDouble() < ObstacleSpawnRate)
             {
                 _obstacles.Add(_obstacleFactory.GenerateObstacle());
@@ -158,10 +171,6 @@ namespace tdt4240.Minigames.AvoidObstacles
 
 
         spriteBatch.End();
-    }
-    public override void NotifyDone(PlayerIndex winnerIndex)
-    {
-        base.NotifyDone(winnerIndex);
     }
     }
 }

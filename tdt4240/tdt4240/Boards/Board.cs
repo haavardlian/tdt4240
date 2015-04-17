@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using tdt4240.Menu;
-using tdt4240.PowerUps;
 
 namespace tdt4240.Boards
 {
@@ -226,7 +225,7 @@ namespace tdt4240.Boards
 
 
 
-            float x = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width - _font.MeasureString("Player 4").X;
+            float x = ScreenManager.GetWidth();
             float y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - _playerBackground.Height/2;
 
             _playerInfoPositions[0] = new Vector2(0, 0);
@@ -309,7 +308,11 @@ namespace tdt4240.Boards
         private void DrawStatus(SpriteBatch spriteBatch, Player player)
         {
             int playerIndex = (int) player.PlayerIndex;
-            spriteBatch.DrawString(_font, "Player " + (playerIndex + 1), _playerInfoPositions[playerIndex], _currentPlayer == player ? Color.HotPink : player.Color);
+           // spriteBatch.DrawString(_font, "Player " + (playerIndex + 1), _playerInfoPositions[playerIndex], _currentPlayer == player ? Color.HotPink : player.Color);
+
+            spriteBatch.DrawString(_font, "Player " + (playerIndex + 1), _playerInfoPositions[playerIndex] * ScreenManager.GetScalingFactor(), _currentPlayer == player ? Color.HotPink : player.Color, 0.0f,
+                new Vector2(0, 0), ScreenManager.GetScalingFactor() * 1.5f, SpriteEffects.None, 0.0f);
+
 
             float diff = ScreenManager.GetScalingFactor() * 50;
             float scale = ScreenManager.GetScalingFactor() * 0.1f;

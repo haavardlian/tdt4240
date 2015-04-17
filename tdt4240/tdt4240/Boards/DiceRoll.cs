@@ -30,7 +30,7 @@ namespace tdt4240.Boards
         public override void HandleInput(GameTime gameTime, InputState input)
         {
             var player = PlayerManager.Instance.GetPlayer(ControllingPlayer);
-            if (player.Input.IsButtonPressed(GameButtons.X))
+            if (player.Input.IsButtonPressed(GameButtons.A))
             {
                 _pressed = true;
             }
