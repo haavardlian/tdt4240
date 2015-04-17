@@ -140,6 +140,39 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="minigames\quiz\questions.xml">
+      <Name>questions</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataTypes\DataTypes.csproj">
+      <Project>{a7ea8063-bb8e-4f59-b135-bfe0ef831821}</Project>
+      <Name>DataTypes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="minigames\quiz\button_blue_x.png">
+      <Name>button_blue_x</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="minigames\quiz\button_red_b.png">
+      <Name>button_red_b</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="minigames\quiz\button_yellow_y.png">
+      <Name>button_yellow_y</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="minigames\quiz\button_green_a.png">
+      <Name>button_green_a</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="board\piece.png">
       <Name>piece</Name>
       <Importer>TextureImporter</Importer>
@@ -252,6 +285,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MinigameCovers\quiz.png">
+      <Name>quiz</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="MinigameCovers\color_match.png">
       <Name>color_match</Name>
       <Importer>TextureImporter</Importer>

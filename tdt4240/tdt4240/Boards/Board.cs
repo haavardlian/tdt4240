@@ -405,7 +405,9 @@ namespace tdt4240.Boards
             var random = new Random();
             var gameIndex = random.Next(_miniGames.Count);
 
+
             var minigameIntro = (MinigameIntro)Activator.CreateInstance(_miniGames[gameIndex], this);
+
 
             //MiniGame minigame = (MiniGame)Activator.CreateInstance(_miniGames[1], this);
 
