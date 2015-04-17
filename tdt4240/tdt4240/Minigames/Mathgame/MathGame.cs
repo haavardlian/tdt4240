@@ -18,6 +18,7 @@ namespace tdt4240.Minigames.MathGame
         private readonly Vector2[] _textPosition = new Vector2[4];
 
         private readonly int _numberOfPlayers;
+        private Texture2D _blankTexture;
         private readonly int _scoreToWin;
         private SpriteFont _numberFont;
         private SpriteFont _equationFont;
@@ -66,7 +67,13 @@ namespace tdt4240.Minigames.MathGame
             Console.WriteLine("Equation: " + problem.equationTable[_equationNumber].CorrectAnswer);
             _nextEquationTime = DateTime.Now + MaxTimePerEquation;
             _equationNumber++;
-            
+
+        }
+
+        private double GetRelativeTimeLeft()
+        {
+            var diff = _nextEquationTime - DateTime.Now;
+            return diff.TotalSeconds / MaxTimePerEquation.TotalSeconds;
         }
 
         public override void Activate(bool instancePreserved)
@@ -79,6 +86,7 @@ namespace tdt4240.Minigames.MathGame
                 _numberFont = ScreenManager.Font;
                 _equationFont = ScreenManager.Font;
                 _font = ScreenManager.Font;
+                _blankTexture = content.Load<Texture2D>("blank");
                 Background = new Background("background");
                 ScreenManager.AddScreen(Background, null);
 
@@ -187,7 +195,7 @@ namespace tdt4240.Minigames.MathGame
                 _currentEquation,
                 new Vector2(
                     (int)(0.5 * ScreenManager.GetWidth() - 0.5 * stringSizeEquation.X * stringScaleEquation),
-                    (int)(0.3 * ScreenManager.GetHeight())
+                    (int)(0.30 * ScreenManager.GetHeight())
                 ),
                 Color.Black,
                 0,
@@ -196,6 +204,16 @@ namespace tdt4240.Minigames.MathGame
                 SpriteEffects.None,
                 0
             );
+
+            // Draw rectangle that indicates time left
+            var relativeTimeLeft = GetRelativeTimeLeft();
+            var timeRectangle = new Rectangle(
+                (int)(0.5 * ScreenManager.GetWidth() - relativeTimeLeft * 0.25 * ScreenManager.GetWidth()),
+                (int)(0.55 * ScreenManager.GetHeight()),
+                (int)(relativeTimeLeft * 0.5 * ScreenManager.GetWidth()),
+                (int)(0.05 * ScreenManager.GetHeight())
+            );
+            spriteBatch.Draw(_blankTexture, timeRectangle, Color.White);
 
             /*
             foreach (Player player in PlayerManager.Instance.Players)
