@@ -17,7 +17,7 @@ namespace tdt4240.Minigames.ColorMatch
         {
             MiniGame = new ColorMatch(board);
 
-            GameDescription = "Press X when the color matches the word";
+            GameDescription = "Press A when the color matches the word";
             Goal = "Get 3 points to win";
         }
 
