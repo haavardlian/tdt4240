@@ -126,8 +126,14 @@ namespace tdt4240
             spriteBatch.DrawString(_smallFont, description, _descriptionPosition, Color.White);
             spriteBatch.DrawString(_font, "Goal: " + Goal, _goalPosition, Color.Yellow);
 
-            spriteBatch.DrawString(_font, "Controller", _controllerPosition, Color.Yellow);
-            spriteBatch.DrawString(_font, "Keyboard", _keyboardPosition, Color.Yellow);
+            if (ControllerButtons.Count > 0)
+            {
+                spriteBatch.DrawString(_font, "Controller", _controllerPosition, Color.Yellow);
+            }
+            if (KeyboardButtons.Count > 0)
+            {
+                spriteBatch.DrawString(_font, "Keyboard", _keyboardPosition, Color.Yellow);
+            }
             PulsatingText.Draw(spriteBatch, gameTime, _font, "Press Start to play", _startPosition, Color.Yellow);
 
             Vector2 controllerTempPosition = new Vector2(_controllerPosition.X, _controllerPosition.Y + 40);
