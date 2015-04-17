@@ -5,7 +5,10 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using tdt4240.Boards;
-using tdt4240.Minigames;
+using tdt4240.Minigames.AvoidObstacles;
+using tdt4240.Minigames.BirdHunt;
+using tdt4240.Minigames.Quiz;
+
 
 namespace tdt4240.Menu
 {
@@ -71,9 +74,9 @@ namespace tdt4240.Menu
             }
             if (keyboardState.IsKeyDown(Keys.Back))
             {
-                RemovePlayer((PlayerIndex)0);
+                RemovePlayer(0);
             }
-            if (keyboardState.IsKeyDown(Keys.Space))
+            if (keyboardState.IsKeyDown(Keys.Enter))
             {
                 StartGame();
             }
@@ -88,7 +91,7 @@ namespace tdt4240.Menu
 
             foreach (PlayerSelectStatus playerSelectStatus in _playerSelectStatuses)
             {
-                playerSelectStatus.updatePosition(ScreenManager.GraphicsDevice.Viewport.Width, screenHeigthModifier, _font);
+                playerSelectStatus.UpdatePosition(ScreenManager.GraphicsDevice.Viewport.Width, screenHeigthModifier, _font);
             }
 
         }
@@ -101,7 +104,7 @@ namespace tdt4240.Menu
 
             foreach (PlayerSelectStatus playerSelectStatus in _playerSelectStatuses)
             {
-                playerSelectStatus.draw(spriteBatch, _font, gameTime);
+                playerSelectStatus.Draw(spriteBatch, _font, gameTime);
             }
 
             if (PlayerManager.Instance.NumberOfPlayers >= MinimumAllowedPlayers)
@@ -148,7 +151,11 @@ namespace tdt4240.Menu
                 var board = new Board();
 
                 ScreenManager.ExitAllScreens();
-                ScreenManager.AddScreen(board , null);
+
+                ScreenManager.AddScreen(board, null);
+                MusicPlayer.GetInstance().StartSong("4");
+                //ScreenManager.AddScreen(new AvoidObstacles(board),null );
+
             }
         }
     }

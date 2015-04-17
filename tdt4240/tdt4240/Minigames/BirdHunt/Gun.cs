@@ -6,7 +6,7 @@ using tdt4240.Assets;
 
 namespace tdt4240.Minigames.BirdHunt
 {
-    class Gun :GraphicsObject
+    class Gun : GraphicsObject
     {
         public const int AccuracyLimit = 2;
 
@@ -28,15 +28,13 @@ namespace tdt4240.Minigames.BirdHunt
 
         private int _shotFramCount;
 
-        public Gun(Player player, Texture2D crossHair, Texture2D shot) : base(crossHair)
+        public Gun(Player player, Texture2D crossHair, Texture2D shot) : base(crossHair,new Vector2(200, 200))
         {
             
             Player = player;
-            Color = player.color;
+            Color = player.Color;
 
-            DrawColorAndSetSprite(crossHair);
             Shot = shot;
-            Position = new Vector2(200, 200);
             Score = 0;
 
         }
@@ -49,20 +47,6 @@ namespace tdt4240.Minigames.BirdHunt
                     _shotFramCount--;
                 return _shotFramCount >= 0;
             }
-        }
-
-        private void DrawColorAndSetSprite(Texture2D sprite)
-        {
-            var data = new Color[sprite.Height * sprite.Width];
-            sprite.GetData(data);
-
-            for (var i = 0; i < data.Length; i++)
-            {
-                if (data[i].Equals(Color.Black))
-                    data[i] = Color;
-            }
-            sprite.SetData(data);
-            Texture = sprite;
         }
 
         public void UpdateAccuracy()

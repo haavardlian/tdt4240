@@ -8,16 +8,18 @@
 #endregion
 
 #region Using Statements
+
 using System;
+using System.CodeDom;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
-using System.IO;
-using System.IO.IsolatedStorage;
-using System.Xml.Linq;
+using tdt4240.Boards;
+
 #endregion
 
 namespace tdt4240
@@ -33,6 +35,7 @@ namespace tdt4240
         #region Fields
 
         private const string StateFilename = "ScreenManagerState.xml";
+        private static ScreenManager _instance;
         public const int MaxWidth = 1920;
         public const int MaxHeight = 1080;
         
@@ -68,6 +71,8 @@ namespace tdt4240
         }
 
 
+        public Board Board { get; set; }
+
         /// <summary>
         /// A default font shared by all the screens. This saves
         /// each screen having to bother loading their own local copy.
@@ -75,6 +80,16 @@ namespace tdt4240
         public SpriteFont Font
         {
             get { return font; }
+        }
+
+        public static ScreenManager Instance
+        {
+            get
+            {
+                if(_instance == null)
+                    throw new Exception("Need to init screen manager by calling ScreenManager.CreateInstance");
+                return _instance;
+            }
         }
 
         public SpriteFont TitleFont
@@ -117,13 +132,14 @@ namespace tdt4240
         /// <summary>
         /// Constructs a new screen manager component.
         /// </summary>
-        public ScreenManager(Game game, GraphicsDeviceManager graphics)
+        private ScreenManager(Game game, GraphicsDeviceManager graphics)
             : base(game)
         {
             // we must set EnabledGestures before we can query for them, but
             // we don't assume the game wants to read them.
             TouchPanel.EnabledGestures = GestureType.None;
             Graphics = graphics;
+            AssetManager.CreateInstance(game);
         }
 
 
@@ -179,7 +195,22 @@ namespace tdt4240
         {
             int width = Game.GraphicsDevice.Viewport.Bounds.Width;
 
-            return width / 1920f;
+            return (float)width / MaxWidth;
+        }
+
+        public int GetWidth()
+        {
+            return Game.GraphicsDevice.Viewport.Bounds.Width;
+        }
+
+        public int GetHeight()
+        {
+            return Game.GraphicsDevice.Viewport.Bounds.Height;
+        }
+        public static void CreateInstance(Game game, GraphicsDeviceManager graphics)
+        {
+            if(_instance == null)
+                _instance = new ScreenManager(game, graphics);
         }
 
         #endregion
@@ -194,6 +225,8 @@ namespace tdt4240
         {
             // Read the keyboard and gamepad.
             input.Update();
+            InputDevice.InputState.Update();
+
 
             // Make a copy of the master screen list, to avoid confusion if
             // the process of updating one screen adds or removes others.
@@ -291,6 +324,7 @@ namespace tdt4240
             }
 
             screens.Add(screen);
+            screen.Added();
 
             // update the TouchPanel to respond to gestures this screen is interested in
             TouchPanel.EnabledGestures = screen.EnabledGestures;
@@ -350,6 +384,22 @@ namespace tdt4240
         {
             foreach (GameScreen screen in GetScreens())
                 RemoveScreen(screen);
+        }
+
+        public void SetFullScreen()
+        {
+            Graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            Graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            Graphics.IsFullScreen = true;
+            Graphics.ApplyChanges();
+        }
+
+        public void SetResolution(int width, int heigth)
+        {
+            Graphics.PreferredBackBufferHeight = heigth;
+            Graphics.PreferredBackBufferWidth = width;
+            Graphics.IsFullScreen = false;
+            Graphics.ApplyChanges();
         }
 
         /// <summary>

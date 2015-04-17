@@ -9,12 +9,11 @@
 
 #region Using Statements
 
-using System;
-using Microsoft.Xna.Framework;
-using tdt4240;
+
+
 #endregion
 
-namespace menu.tdt4240
+namespace tdt4240.Menu
 {
     /// <summary>
     /// The pause menu comes up over the top of the game,
@@ -62,33 +61,10 @@ namespace menu.tdt4240
         /// </summary>
         void QuitGameMenuEntrySelected(object sender, PlayerEvent e)
         {
-
+            PlayerManager.Instance.Players.Clear();
             ScreenManager.AddScreen(new Background("background"), null);
             ScreenManager.AddScreen(new MainMenu(), null);
-
-            /*
-            const string message = "Are you sure you want to quit this game?";
-
-            MessageBoxScreen confirmQuitMessageBox = new MessageBoxScreen(message);
-
-            confirmQuitMessageBox.Accepted += ConfirmQuitMessageBoxAccepted;
-
-            ScreenManager.AddScreen(confirmQuitMessageBox, ControllingPlayer);
-             */
         }
-
-
-        /// <summary>
-        /// Event handler for when the user selects ok on the "are you sure
-        /// you want to quit" message box. This uses the loading screen to
-        /// transition from the game back to the main menu screen.
-        /// </summary>
-        void ConfirmQuitMessageBoxAccepted(object sender, PlayerEvent e)
-        {
-            //LoadingScreen.Load(ScreenManager, false, null, new BackgroundScreen(), new MainMenuScreen());
-        }
-
-
         #endregion
     }
 }

@@ -153,9 +153,9 @@ namespace tdt4240.Minigames.BirdHunt
             {
                 spriteBatch.DrawString(ScreenManager.Font, gun.Score.ToString(),gun.Corner*ScreenManager.GetScalingFactor(), gun.Color);
 
-                spriteBatch.Draw(gun.Texture, gun.Position*ScreenManager.GetScalingFactor(), null, Color.White, 0f, new Vector2(0,0),ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f );
+                spriteBatch.Draw(gun.Texture, gun.Position*ScreenManager.GetScalingFactor(), null, gun.Color, 0f, new Vector2(0,0),ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f );
                 if(gun.Fired)
-                    spriteBatch.Draw(gun.Shot, (gun.Position + gun.Center) * ScreenManager.GetScalingFactor(), null, Color.White, 0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+                    spriteBatch.Draw(gun.Shot, (gun.Position + gun.Center + new Vector2(-3, -3)) * ScreenManager.GetScalingFactor(), null, Color.White, 0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             }
 
 

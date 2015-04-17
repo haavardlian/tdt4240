@@ -47,7 +47,7 @@ namespace tdt4240.Minigames.Quiz
 
                 foreach (Player player in PlayerManager.Instance.Players)
                 {
-                    _points.Add(player.playerIndex, 0);
+                    _points.Add(player.PlayerIndex, 0);
                 }
             }
         }
@@ -59,13 +59,13 @@ namespace tdt4240.Minigames.Quiz
                 if (_activeQuestion)
                 {
                    if (player.Input.IsButtonPressed(GameButtons.X))
-                        AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[2]._text);
+                        AnswerQuestion(player.PlayerIndex, _currentQuestion._alternatives[2]._text);
                    if (player.Input.IsButtonPressed(GameButtons.Y))
-                       AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[3]._text);
+                       AnswerQuestion(player.PlayerIndex, _currentQuestion._alternatives[3]._text);
                    if (player.Input.IsButtonPressed(GameButtons.A))
-                       AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[0]._text);
+                       AnswerQuestion(player.PlayerIndex, _currentQuestion._alternatives[0]._text);
                    if (player.Input.IsButtonPressed(GameButtons.B))
-                       AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[1]._text);
+                       AnswerQuestion(player.PlayerIndex, _currentQuestion._alternatives[1]._text);
                 }
 
                 if (player.Input.IsButtonPressed(GameButtons.Down))
@@ -122,7 +122,7 @@ namespace tdt4240.Minigames.Quiz
             {
                 foreach (Player player in PlayerManager.Instance.Players)
                 {
-                    spriteBatch.DrawString(font, "Player " + player.playerIndex + ": " + _points[player.playerIndex], new Vector2(ScreenManager.MaxWidth / 6, ScreenManager.MaxHeight / 6), Color.Black);
+                    spriteBatch.DrawString(font, "Player " + player.PlayerIndex + ": " + _points[player.PlayerIndex], new Vector2(ScreenManager.MaxWidth / 6, ScreenManager.MaxHeight / 6), Color.Black);
                 }
             }
 

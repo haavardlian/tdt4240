@@ -27,13 +27,13 @@ namespace tdt4240
 
         protected MiniGame(Board board)
         {
-            this.Board = board;
+            Board = board;
         }
 
         public virtual void NotifyDone(PlayerIndex winningPlayerIndex)
         {
             Background.ExitScreen();
-            this.ExitScreen();
+            ExitScreen();
             Board.MiniGameDone(winningPlayerIndex);
         }
 

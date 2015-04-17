@@ -1,6 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+using tdt4240.Menu;
 
 namespace tdt4240
 {
@@ -16,12 +16,17 @@ namespace tdt4240
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            var screenManager = new ScreenManager(this, _graphics);
+            ScreenManager.CreateInstance(this, _graphics);
+            var screenManager = ScreenManager.Instance;
             Components.Add(screenManager);
 
-
-            _graphics.PreferredBackBufferHeight = 432;
-            _graphics.PreferredBackBufferWidth = 768;
+            if (Settings.Instance.Fullscreen)
+                screenManager.SetFullScreen();
+            else
+            {
+                _graphics.PreferredBackBufferHeight = 432;
+                _graphics.PreferredBackBufferWidth = 768;
+            }
 
             Window.AllowUserResizing = true;
             Window.ClientSizeChanged += Window_ClientSizeChanged;
@@ -30,7 +35,9 @@ namespace tdt4240
 
             screenManager.AddScreen(new Background("background"), null);
             screenManager.AddScreen(new MainMenu(), null);
+            MusicPlayer.GetInstance().LoadContent(Content);
 
+            MusicPlayer.GetInstance().StartSong("1");
         }
 
         void Window_ClientSizeChanged(object sender, EventArgs e)

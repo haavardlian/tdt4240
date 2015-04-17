@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
+using tdt4240.Boards;
 
 namespace tdt4240.Menu
 {
@@ -9,27 +9,25 @@ namespace tdt4240.Menu
     {
 
         private SpriteFont _font;
+        private SpriteFont _titleFont;
         private Background _background;
 
-
-        private String _winnerText;
-        private String _powerUpText;
-        private Vector2 _winnerPosition;
+        private Vector2 _titlePosition;
+        private Vector2 _playerPosition;
         private Vector2 _powerUpPosition;
-        
 
-        private Player _player;
+        private readonly Player _player;
+        private PowerUp _powerUp;
          
-        public MinigameWinnerScreen(Player player, PowerUp powerUp)
+        public MinigameWinnerScreen(Player player)
         {
             _player = player;
+        }
 
-            _winnerText = "Winner is: Player " + player.playerIndex;
-            _powerUpText = "Reward: " + powerUp.ToString();
-
-            //TODO set proper position
-            _winnerPosition = new Vector2(250, 200);
-            _powerUpPosition = new Vector2(250, 300);
+        void HandlePowerUpResult(PowerUp powerUp)
+        {
+            _player.AddPowerUp(powerUp);
+            _powerUp = powerUp;
         }
 
         public override void Activate(bool instancePreserved)
@@ -40,9 +38,18 @@ namespace tdt4240.Menu
             {
 
                 _font = ScreenManager.Font;
+                _titleFont = ScreenManager.TitleFont;
                 _background = new Background("background3");
                 ScreenManager.AddScreen(_background, null);
+
+               
             }
+        }
+
+        public override void Added()
+        {
+            PowerUpRoll roll = new PowerUpRoll(HandlePowerUpResult);
+            ScreenManager.AddScreen(roll, _player.PlayerIndex);
         }
 
         public override void HandleInput(GameTime gameTime, InputState input)
@@ -51,11 +58,34 @@ namespace tdt4240.Menu
             {
                 if (player.Input.IsButtonPressed(GameButtons.A) || player.Input.IsButtonPressed(GameButtons.Start))
                 {
+                    _powerUp = null;
                     _background.ExitScreen();
-                    this.ExitScreen();
+                    ExitScreen();
+                    if(PlayerManager.Instance.GetPlayer(PlayerIndex.One).PowerUps.Count > 0)
+                        ScreenManager.AddScreen(new ItemSelectScreen(), PlayerIndex.One);
+                    else
+                    {
+                        ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), PlayerIndex.One);                      
+                    }
                 }
 
             }
+        }
+
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        {
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+
+            float center = (ScreenManager.MaxWidth*ScreenManager.GetScalingFactor())/2;
+
+            _titlePosition.X = center - _titleFont.MeasureString("Winner").X/2;
+            _titlePosition.Y = 20;
+
+            _playerPosition.X = center - _font.MeasureString("Player " + _player.PlayerIndex).X/2;
+            _playerPosition.Y = 100;
+
+            _powerUpPosition.X = center - _font.MeasureString("Reward: " + _powerUp).X / 2;
+            _powerUpPosition.Y = 150;
         }
 
         public override void Draw(GameTime gameTime)
@@ -63,9 +93,11 @@ namespace tdt4240.Menu
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
-            
-            spriteBatch.DrawString(_font, _winnerText, _winnerPosition, _player.color);
-            spriteBatch.DrawString(_font, _powerUpText, _powerUpPosition, Color.Yellow);
+
+            spriteBatch.DrawString(_titleFont, "Winner", _titlePosition, new Color(192, 192, 192) * TransitionAlpha);
+
+            spriteBatch.DrawString(_font, "Player " + _player.PlayerIndex, _playerPosition, _player.Color);
+            spriteBatch.DrawString(_font, "Reward: " + _powerUp, _powerUpPosition, Color.Yellow);
 
             spriteBatch.End();
         }
