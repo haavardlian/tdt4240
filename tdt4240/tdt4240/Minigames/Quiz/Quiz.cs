@@ -70,7 +70,9 @@ namespace tdt4240.Minigames.Quiz
                 if (player.Input.IsButtonPressed(GameButtons.Down))
                 {
                     //NotifyDone(PlayerIndex.One);
-                    StartRound();
+                    //StartRound();
+                    _readyScreen = true;
+                    _scoreScreen = false;
                 }
                 
             }

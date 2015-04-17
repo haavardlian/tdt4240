@@ -25,10 +25,12 @@ namespace tdt4240.Minigames.Quiz
             ControllerButtons.Add(Buttons.A, "Alternative 2");
             ControllerButtons.Add(Buttons.Y, "Alternative 3");
             ControllerButtons.Add(Buttons.B, "Alternative 4");
+            ControllerButtons.Add(Buttons.DPadDown, "Next question");
             
-            
-
-            KeyboardButtons.Add(Keys.D1, "Exit game");
+            KeyboardButtons.Add(Keys.D1, "Alternative 1");
+            KeyboardButtons.Add(Keys.D2, "Alternative 2");
+            KeyboardButtons.Add(Keys.D3, "Alternative 3");
+            KeyboardButtons.Add(Keys.D4, "Alternative 4");
         }
 
         public override void Activate(bool instancePreserved)

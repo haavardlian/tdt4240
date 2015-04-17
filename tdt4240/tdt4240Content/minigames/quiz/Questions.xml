@@ -18,5 +18,13 @@
       <Alternative_4>21</Alternative_4>
       <CorrectAlternative>21</CorrectAlternative>
     </Item>
+    <Item>
+      <Question>What is the airspeed velocity of a European unladen swallow</Question>
+      <Alternative_1>10 m/s</Alternative_1>
+      <Alternative_2>15 m/s</Alternative_2>
+      <Alternative_3>12 m/s</Alternative_3>
+      <Alternative_4>7 m/s</Alternative_4>
+      <CorrectAlternative>10 m/s</CorrectAlternative>
+    </Item>
   </Asset>
 </XnaContent>
