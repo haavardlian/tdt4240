@@ -35,7 +35,7 @@ namespace tdt4240.Minigames.MathGame
         private Vector2[] _corners;
 
         private static readonly Random rnd = new Random();
-        private static readonly TimeSpan MaxTimePerEquation = TimeSpan.FromSeconds(5);
+        private static readonly TimeSpan MaxTimePerEquation = TimeSpan.FromSeconds(3);
 
         Problem problem = new Problem();
 
@@ -144,7 +144,7 @@ namespace tdt4240.Minigames.MathGame
                     }
                 }
             }
-
+            /*
             foreach (Player player in PlayerManager.Instance.Players)
             {
                 _textPosition[(int)player.PlayerIndex] += player.Input.GetThumbstickVector();
@@ -154,6 +154,7 @@ namespace tdt4240.Minigames.MathGame
                     NotifyDone(PlayerIndex.One);
                 }
             }
+             * */
         }
 
 

@@ -13,10 +13,10 @@ namespace tdt4240.Minigames.MathGame
     class Problem
     {
         private string _answer = "0";
-        private static int _numberOfEquations = 10;
+        private static int _numberOfEquations = 5;
         private const int _highestNumberInEquation = 10;
-        private const int _minimumOperands = 3;
-        private const int _maximumOperands = 5;
+        private const int _minimumOperands = 1;
+        private const int _maximumOperands = 4;
         private static Equation[] _equationTable = new Equation[_numberOfEquations];
 
         Random rnd = new Random();
