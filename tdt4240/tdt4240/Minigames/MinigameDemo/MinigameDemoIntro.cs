@@ -7,7 +7,7 @@ namespace tdt4240.Minigames.MinigameDemo
 {
     class MinigameDemoIntro : MinigameIntro
     {
-        public new static SupportedPlayers SupportedPlayers = SupportedPlayers.Two | SupportedPlayers.Four;
+        public new static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
 
         private ContentManager _content;
 

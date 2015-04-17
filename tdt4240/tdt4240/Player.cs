@@ -8,15 +8,16 @@ namespace tdt4240
 
     public enum Effect
     {
+        None,
         Freeze,
         DoubleRoll,
         HalfRollRange
     }
 
 
-    class Player : EventArgs
+    public class Player : EventArgs
     {
-        private const int MaxPowerUps = 2;
+        public const int MaxPowerUps = 2;
 
 
         private readonly PlayerIndex _playerIndex;
@@ -68,7 +69,7 @@ namespace tdt4240
         {
             _playerIndex = playerIndex;
             _color = PlayerManager.Colors[(int)playerIndex];
-            Input = InputDevice.CreateInputDevice(type, playerIndex);
+            Input = InputDevice.CreateInputDevice(type, (PlayerIndex) controllerIndex);
             _controllerIndex = controllerIndex;
             TestString += playerIndex + " on controller " + controllerIndex;
         }
@@ -85,6 +86,11 @@ namespace tdt4240
         public void RemovePowerUp(PowerUp powerUp)
         {
             _powerUps.Remove(powerUp);
+        }
+
+        public override string ToString()
+        {
+            return "Player " + PlayerIndex;
         }
     }
 }

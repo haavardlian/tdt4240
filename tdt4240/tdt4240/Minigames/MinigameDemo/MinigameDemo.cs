@@ -7,7 +7,7 @@ namespace tdt4240.Minigames.MinigameDemo
     class MinigameDemo : MiniGame
     {
 
-        public new static SupportedPlayers SupportedPlayers = SupportedPlayers.Three;
+        public new static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
         
         private SpriteFont _font;
         private readonly Vector2[] _textPosition = new Vector2[4];
@@ -39,17 +39,10 @@ namespace tdt4240.Minigames.MinigameDemo
 
                 if (player.Input.IsButtonPressed(GameButtons.Y))
                 {
-                    NotifyDone(PlayerIndex.One);
+                    NotifyDone(player.PlayerIndex);
                 }
 
             }
-        }
-
-        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
-        {
-            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
-
-            //Update sprite coordinates
         }
 
         public override void Draw(GameTime gameTime)
@@ -64,11 +57,6 @@ namespace tdt4240.Minigames.MinigameDemo
             }
 
             spriteBatch.End();
-        }
-
-        public override void NotifyDone(PlayerIndex winningPlayerIndex)
-        {
-            base.NotifyDone(winningPlayerIndex);
         }
     }
 }

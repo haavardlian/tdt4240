@@ -3,7 +3,7 @@
 namespace tdt4240
 {
 
-    enum Target
+    public enum Target
     {
         None,
         Self,
@@ -11,16 +11,29 @@ namespace tdt4240
         All
     }
 
-    abstract class PowerUp
+    public abstract class PowerUp
     {
-        protected Target Target;
+        public Target Target;
+
         protected event EventHandler<PowerUpEvent> effect;
         protected String Title;
         protected String Description;
+        public String IconPath = "powerups/empty";
 
         public override String ToString()
         {
             return Title;
+        }
+
+        public void OnApply(object sender, PowerUpEvent e)
+        {
+            if (effect == null) return;
+            effect(sender, e);
+        }
+
+        public PowerUp Clone()
+        {
+            return (PowerUp)MemberwiseClone();
         }
     }
 }
