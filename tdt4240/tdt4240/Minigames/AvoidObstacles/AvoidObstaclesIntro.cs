@@ -20,13 +20,6 @@ namespace tdt4240.Minigames.AvoidObstacles
             GameDescription = "Avoid birds and the other helicopters";
             Goal = "TBA";
 
-            /*ControllerButtons.Add(Buttons.A, "Exit game");
-            ControllerButtons.Add(Buttons.B, "Test 1");
-            ControllerButtons.Add(Buttons.Y, "Test 2");
-
-            KeyboardButtons.Add(Keys.D1, "Exit game");
-            KeyboardButtons.Add(Keys.Back, "Test 1");
-            KeyboardButtons.Add(Keys.Y, "Test 2");*/
         }
 
         public override void Activate(bool instancePreserved)
