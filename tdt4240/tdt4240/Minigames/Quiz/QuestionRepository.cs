@@ -64,8 +64,7 @@ namespace tdt4240.Minigames.Quiz
 
         public Question getQuestion()
         {
-            //return _questions[rnd.Next(_questions.Count)];
-            return _questions[0];
+            return _questions[rnd.Next(_questions.Count)];
         }
     }
 }

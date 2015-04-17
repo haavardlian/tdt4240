@@ -15,6 +15,7 @@ namespace tdt4240.Minigames.Quiz
         private SpriteFont font;
         private QuestionRepository _questionRepository;
         private Dictionary<PlayerIndex, int> _points = new Dictionary<PlayerIndex, int>();
+        private static readonly int WIN_TRESHOLD = 300;
 
         private Question _currentQuestion;
 
@@ -58,21 +59,20 @@ namespace tdt4240.Minigames.Quiz
                 if (_activeQuestion)
                 {
                    if (player.Input.IsButtonPressed(GameButtons.X))
-                        AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[0]._text);
-                   if (player.Input.IsButtonPressed(GameButtons.A))
-                       AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[1]._text);
+                        AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[2]._text);
                    if (player.Input.IsButtonPressed(GameButtons.Y))
-                       AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[2]._text);
-                   if (player.Input.IsButtonPressed(GameButtons.B))
                        AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[3]._text);
+                   if (player.Input.IsButtonPressed(GameButtons.A))
+                       AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[0]._text);
+                   if (player.Input.IsButtonPressed(GameButtons.B))
+                       AnswerQuestion(player.playerIndex, _currentQuestion._alternatives[1]._text);
                 }
 
                 if (player.Input.IsButtonPressed(GameButtons.Down))
                 {
                     //NotifyDone(PlayerIndex.One);
-                    //StartRound();
-                    _readyScreen = true;
                     _scoreScreen = false;
+                    _readyScreen = true;
                 }
                 
             }
@@ -149,7 +149,6 @@ namespace tdt4240.Minigames.Quiz
             if (answer.Equals(_currentQuestion._correctAlternative))
             {
                 _points[player] += (int)System.Math.Ceiling(_questionTimer*10);
-                //_points[player] ++;  
             }
 
             if (_currentAnswers == PlayerManager.Instance.NumberOfPlayers)
@@ -165,8 +164,17 @@ namespace tdt4240.Minigames.Quiz
 
             foreach (KeyValuePair<PlayerIndex, int> entry in _points)
             {
-                if(entry.Value >= 300) {
-                    NotifyDone(entry.Key);
+                if (entry.Value >= WIN_TRESHOLD)
+                {
+                    PlayerIndex winner = entry.Key;
+                    foreach (KeyValuePair<PlayerIndex, int> player in _points)
+                    {
+                        if (player.Value > _points[winner])
+                        {
+                            winner = player.Key;
+                        }
+                    }
+                    NotifyDone(winner);
                 }
             }
         }
