@@ -98,8 +98,12 @@ namespace tdt4240.Boards
 
         void PlayerSelected(object sender, PlayerEvent e)
         {
+            var index = (int) sender;
+            if (_powerUp.Target == Target.Enemy && index > (int) e.PlayerIndex)
+                index++;
+
             PlayerManager.Instance.GetPlayer(e.PlayerIndex).RemovePowerUp(_powerUp);
-            var pue = new PowerUpEvent(PlayerManager.Instance.Players[(int)sender]);
+            var pue = new PowerUpEvent(PlayerManager.Instance.Players[index]);
             _powerUp.OnApply(this, pue);
             ExitScreen();
             ScreenManager.Board.UpdateEffects();         

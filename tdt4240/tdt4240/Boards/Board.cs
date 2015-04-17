@@ -26,7 +26,6 @@ namespace tdt4240.Boards
 
         private List<Vector2> _playerBackgroundPositions = new List<Vector2>();
         private List<Vector2> _playerInfoPositions = new List<Vector2>();
-        private float _scale;
 
         private List<Type> _miniGames;
         private List<PowerUp> _powerUps;
@@ -96,6 +95,25 @@ namespace tdt4240.Boards
             //tempcode for testing powerups
             //PlayerManager.Instance.GetPlayer(PlayerIndex.One).AddPowerUp(new DoubleRollPowerUp());
             //PlayerManager.Instance.GetPlayer(PlayerIndex.One).Effect = Effect.DoubleRoll;
+
+
+            float x = ScreenManager.MaxWidth - _font.MeasureString("Player X").X - 5;
+            float y = ScreenManager.MaxHeight - 180;
+
+            _playerBackgroundPositions[0] = new Vector2(5, 0);
+            _playerBackgroundPositions[1] = new Vector2(ScreenManager.MaxWidth, 0);
+            _playerBackgroundPositions[2] = new Vector2(5, ScreenManager.MaxHeight);
+            _playerBackgroundPositions[3] = new Vector2(ScreenManager.MaxWidth, ScreenManager.MaxHeight);
+
+            _playerInfoPositions[0] = new Vector2(0, 0);
+            _playerInfoPositions[1] = new Vector2(x, 0);
+            _playerInfoPositions[2] = new Vector2(0, y);
+            _playerInfoPositions[3] = new Vector2(x, y);
+
+            if (PlayerManager.Instance.NumberOfPlayers >= 3)
+            {
+                PlayerManager.Instance.Players[2].Effect = Effect.DoubleRoll;
+            }
 
         }
 
@@ -213,25 +231,6 @@ namespace tdt4240.Boards
         {
             base.Update(gameTime, otherScreenHasFocus, false);
 
-            _scale = ScreenManager.GetScalingFactor() * 2;
-
-            //Update corner positions
-            _playerBackgroundPositions[0] = new Vector2(-160, -160);
-            _playerBackgroundPositions[1] = new Vector2(-160, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
-            _playerBackgroundPositions[2] = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width 
-                + _playerBackground.Width, -160);
-            _playerBackgroundPositions[3] = new Vector2(GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width 
-                + _playerBackground.Width, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height);
-
-
-
-            float x = ScreenManager.GetWidth();
-            float y = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height - _playerBackground.Height/2;
-
-            _playerInfoPositions[0] = new Vector2(0, 0);
-            _playerInfoPositions[1] = new Vector2(x, 0);
-            _playerInfoPositions[2] = new Vector2(0, y);
-            _playerInfoPositions[3] = new Vector2(x, y);
         }
 
         public override void Draw(GameTime gameTime)
@@ -241,14 +240,8 @@ namespace tdt4240.Boards
             spriteBatch.Begin();
 
             //spriteBatch.Draw(_backgroundTexture, Vector2.Zero, null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, Vector2.Zero, ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
-            ScreenManager.GraphicsDevice.Clear(Color.CornflowerBlue);
+            ScreenManager.GraphicsDevice.Clear(Color.DarkSeaGreen);
             _positions.ForEach(x => x.Draw(spriteBatch));
-
-            foreach (Vector2 position in _playerBackgroundPositions)
-            {
-                spriteBatch.Draw(_playerBackground, position * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
-                    new Vector2(0, 0), _scale, SpriteEffects.None, 0f);
-            }
 
 
             BoardPosition lastPosition = null;
@@ -308,22 +301,24 @@ namespace tdt4240.Boards
         private void DrawStatus(SpriteBatch spriteBatch, Player player)
         {
             int playerIndex = (int) player.PlayerIndex;
-           // spriteBatch.DrawString(_font, "Player " + (playerIndex + 1), _playerInfoPositions[playerIndex], _currentPlayer == player ? Color.HotPink : player.Color);
+
+   //         spriteBatch.Draw(_playerBackground, _playerBackgroundPositions[playerIndex] * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
+     //           new Vector2(_playerBackground.Width/2f, _playerBackground.Height/2f), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
 
             spriteBatch.DrawString(_font, "Player " + (playerIndex + 1), _playerInfoPositions[playerIndex] * ScreenManager.GetScalingFactor(), _currentPlayer == player ? Color.HotPink : player.Color, 0.0f,
-                new Vector2(0, 0), ScreenManager.GetScalingFactor() * 1.5f, SpriteEffects.None, 0.0f);
+                new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
 
 
-            float diff = ScreenManager.GetScalingFactor() * 50;
-            float scale = ScreenManager.GetScalingFactor() * 0.1f;
+            var diff = 50;
+            var scale = ScreenManager.GetScalingFactor() * 0.1f;
 
-            Vector2 powerUpPosition = new Vector2(_playerInfoPositions[playerIndex].X + 20, _playerInfoPositions[playerIndex].Y + diff);
+            var powerUpPosition = new Vector2(_playerInfoPositions[playerIndex].X + 40, _playerInfoPositions[playerIndex].Y + 60);
             var n = 0;
 
             foreach (var powerUp in player.PowerUps)
             {
                 var icon = AssetManager.Instance.GetAsset<Texture2D>(powerUp.IconPath);
-                spriteBatch.Draw(icon, powerUpPosition, null, Color.White, 0f,
+                spriteBatch.Draw(icon, powerUpPosition * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
                     new Vector2(0, 0), scale, SpriteEffects.None, 0f);
                 n++;
                 powerUpPosition = new Vector2(powerUpPosition.X + diff * 1.5f, powerUpPosition.Y);
@@ -332,7 +327,7 @@ namespace tdt4240.Boards
             for (var i = n; i < Player.MaxPowerUps; i++)
             {
 
-                spriteBatch.Draw(_emptyPowerUp, powerUpPosition, null, Color.White, 0f,
+                spriteBatch.Draw(_emptyPowerUp, powerUpPosition * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
                     new Vector2(0, 0), scale, SpriteEffects.None, 0f);
                 powerUpPosition = new Vector2(powerUpPosition.X + diff * 1.5f, powerUpPosition.Y);
             }
@@ -341,9 +336,9 @@ namespace tdt4240.Boards
 
             if (player.Effect != Effect.None)
             {
-                Vector2 statusPosition = new Vector2(_playerInfoPositions[playerIndex].X, _playerInfoPositions[playerIndex].Y + diff * 2);
-
-                spriteBatch.DrawString(_font, player.Effect.ToString(), statusPosition, Color.OrangeRed);
+                Vector2 statusPosition = new Vector2(_playerInfoPositions[playerIndex].X, _playerInfoPositions[playerIndex].Y + 120);
+                spriteBatch.DrawString(_font, player.Effect.ToString(), statusPosition * ScreenManager.GetScalingFactor(), Color.OrangeRed, 0.0f,
+                    new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
             }
         }
 

@@ -25,6 +25,7 @@ namespace tdt4240.Boards
         public DiceRoll(Action<int> callback)
         {
             _callback = callback;
+            IsPopup = true;
         }
 
         public override void HandleInput(GameTime gameTime, InputState input)

@@ -257,8 +257,8 @@ namespace tdt4240
                     if (!otherScreenHasFocus)
                     {
                         screen.HandleInput(gameTime, input);
-
-                        otherScreenHasFocus = true;
+                        if(!screen.IsPopup)
+                            otherScreenHasFocus = true;
                     }
 
                     // If this is an active non-popup, inform any subsequent

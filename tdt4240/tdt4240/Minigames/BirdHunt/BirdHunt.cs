@@ -105,7 +105,7 @@ namespace tdt4240.Minigames.BirdHunt
             {
                 gun.Position += gun.Player.Input.GetThumbstickVector()*3;
                 //GameButtons.X == Keyboard.3
-               if (gun.Player.Input.IsButtonPressed(GameButtons.A))
+                if (gun.Player.Input.IsButtonPressed(GameButtons.A))
                 {
                     if (gun.Fire())
                     {
@@ -114,6 +114,11 @@ namespace tdt4240.Minigames.BirdHunt
 
                         deadBirds.ForEach(bird => _birds.Remove(bird));
                     }
+                }
+
+                if (gun.Score >= 10)
+                {
+                    NotifyDone(gun.Player.PlayerIndex);
                 }
 
             }
