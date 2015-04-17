@@ -103,9 +103,11 @@
     <Compile Include="Minigames\BirdHunt\BirdHunt.cs" />
     <Compile Include="Minigames\BirdHunt\Gun.cs" />
     <Compile Include="Minigames\BirdHunt\BirdHuntIntro.cs" />
+    <Compile Include="Minigames\ColorMatch\ColorMatchIntro.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemoIntro.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemo.cs" />
     <Compile Include="MusicPlayer.cs" />
+    <Compile Include="Minigames\ColorMatch\ColorMatch.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerManager.cs" />
     <Compile Include="InputState.cs" />
