@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace tdt4240
 {
@@ -30,6 +31,7 @@ namespace tdt4240
             set
             {
                 _sound = value;
+                SoundEffect.MasterVolume = _sound ? 1.0f : 0.0f;
                 Stored.Default.Sound = _sound;
                 Stored.Default.Save();
             }
