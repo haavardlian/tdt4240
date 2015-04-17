@@ -18,7 +18,7 @@ namespace tdt4240.Minigames.AvoidObstacles
 
             ThumbstickDescription = "Use thumbstick do speed the helicopter in different directions";
             GameDescription = "Avoid birds and the other helicopters";
-            Goal = "TBA";
+            Goal = "When you crash 10 times your are dead, be the last one flying";
 
         }
 

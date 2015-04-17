@@ -18,10 +18,10 @@ namespace tdt4240.Minigames.BirdHunt
 
             ThumbstickDescription = "Move the crosshair around";
             GameDescription = "aim with the crosshair and shoot the birds";
-            Goal = "TBA";
+            Goal = "Be the first to kill 10 birds";
 
-            ControllerButtons.Add(Buttons.X, "Shoot");
-            KeyboardButtons.Add(Keys.D3, "Shoot");
+            ControllerButtons.Add(Buttons.A, "Shoot");
+            KeyboardButtons.Add(Keys.D1, "Shoot");
         }
 
         public override void Activate(bool instancePreserved)
