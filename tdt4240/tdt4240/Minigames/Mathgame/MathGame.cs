@@ -25,9 +25,11 @@ namespace tdt4240.Minigames.MathGame
         private string _currentEquation;
         private int _equationNumber = 0;
         private readonly List<Mathplayer> _mathplayers;
+        private Player _lastResponder;
+        private enum GameState { InGame, Correct, Wrong, Winner }
+        private GameState _gameState;
 
         private const int ScreenPadding = 10;
-        private Vector2[] _corners;
 
         private static readonly Random rnd = new Random();
         private static readonly TimeSpan MaxTimePerEquation = TimeSpan.FromSeconds(3);
@@ -37,14 +39,10 @@ namespace tdt4240.Minigames.MathGame
         public MathGame(Board board) : base(board)
         {
             Title = "Math game";
+            _gameState = GameState.InGame;
             _numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
 
             _mathplayers = new List<Mathplayer>();
-
-            _corners = new[]{new Vector2(ScreenPadding, ScreenPadding),
-            new Vector2(ScreenManager.MaxWidth - ScreenPadding, ScreenPadding),
-            new Vector2(ScreenPadding, ScreenManager.MaxHeight - ScreenPadding),
-            new Vector2(ScreenManager.MaxWidth - ScreenPadding, ScreenManager.MaxHeight - ScreenPadding)};
 
             _nextEquationTime = DateTime.Now;
             ShowNewProblem();
@@ -53,6 +51,11 @@ namespace tdt4240.Minigames.MathGame
 
         private void ShowNewProblem()
         {
+            if (_gameState == GameState.Winner)
+            {
+                NotifyDone(_lastResponder.PlayerIndex);
+            }
+            _gameState = GameState.InGame;
             problem = new Problem();
             _currentNumber = problem.answer;
             _equationNumber = 0;
@@ -61,6 +64,11 @@ namespace tdt4240.Minigames.MathGame
 
         private void ShowNewEquation()
         {
+            if (_gameState == GameState.Winner)
+            {
+                NotifyDone(_lastResponder.PlayerIndex);
+            }
+            _gameState = GameState.InGame;
             _currentEquation = problem.equationTable[_equationNumber].equation;
             Console.WriteLine("Equation: " + problem.equationTable[_equationNumber].CorrectAnswer);
             _nextEquationTime = DateTime.Now + MaxTimePerEquation;
@@ -89,7 +97,6 @@ namespace tdt4240.Minigames.MathGame
                 for (var i = 0; i < _numberOfPlayers; i++)
                 {
                     _mathplayers.Add(new Mathplayer(PlayerManager.Instance.Players[i]));
-                    _mathplayers[i].Corner = _corners[i];
                 }
             }
 
@@ -121,22 +128,25 @@ namespace tdt4240.Minigames.MathGame
         /// </summary>
         public override void HandleInput(GameTime gameTime, InputState input)
         {
+            if (!_gameState.Equals(GameState.InGame)) return;
             foreach (var mathplayer in _mathplayers)
             {
                 if (mathplayer.Player.Input.IsButtonPressed(GameButtons.X))
                 {
+                    _lastResponder = mathplayer.Player;
                     if (problem.equationTable[_equationNumber-1].CorrectAnswer)
                     {
                         mathplayer.score += 1;
-                        ShowNewProblem();
+                        _gameState = GameState.Correct;
                         if (mathplayer.score == _scoreToWin)
                         {
-                            NotifyDone(mathplayer.Player.PlayerIndex);
+                            _gameState = GameState.Winner;
                         }
                     }
                     else
                     {
                         mathplayer.score -= 1;
+                        _gameState = GameState.Wrong;
                     }
                 }
             }
@@ -211,16 +221,46 @@ namespace tdt4240.Minigames.MathGame
             );
             spriteBatch.Draw(_blankTexture, timeRectangle, Color.White);
 
-            /*
-            foreach (Player player in PlayerManager.Instance.Players)
+            // Draw a rectangle with score for each player
+            for (var i = 0; i < PlayerManager.Instance.Players.Count; i++)
             {
-                spriteBatch.DrawString(_font, player.TestString, _textPosition[(int)player.PlayerIndex], player.Color);
-            }
-             * */
-
-            foreach (var mathplayer in _mathplayers)
-            {
-                spriteBatch.DrawString(ScreenManager.Font, mathplayer.score.ToString(), mathplayer.Corner * ScreenManager.GetScalingFactor(), mathplayer.Color);
+                Player player = PlayerManager.Instance.Players[i];
+                var destinationRect = new Rectangle(
+                    (int)(i * 0.25 * ScreenManager.GetWidth()),
+                    (int)(0.75 * ScreenManager.GetHeight()),
+                    (int)(0.25 * ScreenManager.GetWidth()),
+                    (int)(0.25 * ScreenManager.GetHeight())
+                );
+                var colorMultiplier = 1.0f;
+                if (_gameState != GameState.InGame && player == _lastResponder)
+                {
+                    colorMultiplier = (float)(1 + Math.Sin(GetRelativeTimeLeft() * 15));
+                }
+                spriteBatch.Draw(_blankTexture, destinationRect, Color.Multiply(player.Color, colorMultiplier));
+ 
+                // Draw score string
+                var score =  _mathplayers[i].score.ToString();
+                if (_gameState.Equals(GameState.Winner) && _mathplayers[i].score.ToString().Equals(_scoreToWin.ToString()))
+                {
+                    score = "Winner!";
+                }
+                var scoreStringSize = _font.MeasureString(score);
+                var desiredScoreHeight = 0.125 * ScreenManager.GetHeight();
+                var scoreStringScale = (float)desiredScoreHeight / scoreStringSize.Y;
+                spriteBatch.DrawString(
+                    _font,
+                    score,
+                    new Vector2(
+                        (int)((i + 0.5) * 0.25 * ScreenManager.GetWidth() - 0.5 * scoreStringSize.X * scoreStringScale),
+                        (int)(0.825 * ScreenManager.GetHeight())
+                    ),
+                    Color.White,
+                    0,
+                    new Vector2(0, 0),
+                    scoreStringScale,
+                    SpriteEffects.None,
+                    0
+                );
             }
 
             spriteBatch.End();
