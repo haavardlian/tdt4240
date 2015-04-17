@@ -35,6 +35,7 @@ namespace tdt4240
 
             screenManager.AddScreen(new Background("background"), null);
             screenManager.AddScreen(new MainMenu(), null);
+            MusicPlayer.GetInstance().LoadContent(Content);
 
         }
 
