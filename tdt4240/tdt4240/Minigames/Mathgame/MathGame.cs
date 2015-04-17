@@ -19,9 +19,7 @@ namespace tdt4240.Minigames.MathGame
 
         private readonly int _numberOfPlayers;
         private Texture2D _blankTexture;
-        private readonly int _scoreToWin;
-        private SpriteFont _numberFont;
-        private SpriteFont _equationFont;
+        private readonly int _scoreToWin = 3;
         private DateTime _nextEquationTime;
         private string _currentNumber;
         private string _currentEquation;
@@ -83,9 +81,7 @@ namespace tdt4240.Minigames.MathGame
 
             if (!instancePreserved)
             {
-                _numberFont = ScreenManager.Font;
-                _equationFont = ScreenManager.Font;
-                _font = ScreenManager.Font;
+                _font = content.Load<SpriteFont>("fonts/dice");
                 _blankTexture = content.Load<Texture2D>("blank");
                 Background = new Background("background");
                 ScreenManager.AddScreen(Background, null);
@@ -172,7 +168,7 @@ namespace tdt4240.Minigames.MathGame
             var desiredHeightNumber = 0.2 * ScreenManager.GetHeight();
             var stringScaleNumber = (float)desiredHeightNumber / stringSizeNumber.Y;
             spriteBatch.DrawString(
-                _numberFont,
+                _font,
                 _currentNumber,
                 new Vector2(
                     (int)(0.5 * ScreenManager.GetWidth() - 0.5 * stringSizeNumber.X * stringScaleNumber),
@@ -191,7 +187,7 @@ namespace tdt4240.Minigames.MathGame
             var desiredHeightEquation = 0.2 * ScreenManager.GetHeight();
             var stringScaleEquation = (float)desiredHeightEquation / stringSizeEquation.Y;
             spriteBatch.DrawString(
-                _equationFont,
+                _font,
                 _currentEquation,
                 new Vector2(
                     (int)(0.5 * ScreenManager.GetWidth() - 0.5 * stringSizeEquation.X * stringScaleEquation),
