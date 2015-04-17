@@ -94,6 +94,7 @@
     <Compile Include="MiniGame.cs" />
     <Compile Include="MinigameIntro.cs" />
     <Compile Include="Minigames\AvoidObstacles\AvoidObstacles.cs" />
+    <Compile Include="Minigames\AvoidObstacles\AvoidObstaclesIntro.cs" />
     <Compile Include="Minigames\AvoidObstacles\Obstacle.cs" />
     <Compile Include="Minigames\AvoidObstacles\ObstacleFactory.cs" />
     <Compile Include="Minigames\AvoidObstacles\PlayerObject.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Minigames\BirdHunt\BirdFactory.cs" />
     <Compile Include="Minigames\BirdHunt\BirdHunt.cs" />
     <Compile Include="Minigames\BirdHunt\Gun.cs" />
+    <Compile Include="Minigames\BirdHunt\BirdHuntIntro.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemoIntro.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemo.cs" />
     <Compile Include="MusicPlayer.cs" />
