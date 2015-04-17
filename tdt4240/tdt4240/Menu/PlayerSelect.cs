@@ -148,8 +148,8 @@ namespace tdt4240.Menu
                 var board = new Board();
 
                 ScreenManager.ExitAllScreens();
-                //ScreenManager.AddScreen(board, null);
-                ScreenManager.AddScreen(new AvoidObstacles(board),null );
+                ScreenManager.AddScreen(board, null);
+                //ScreenManager.AddScreen(new AvoidObstacles(board),null );
             }
         }
     }

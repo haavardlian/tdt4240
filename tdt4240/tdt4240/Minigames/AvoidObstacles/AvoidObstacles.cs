@@ -77,6 +77,7 @@ namespace tdt4240.Minigames.AvoidObstacles
 
             foreach (var playerObject in _playerObjects)
             {
+                playerObject.Position += playerObject.Speed;
                 playerObject.Score += Intersects(playerObject, _obstacles);
                 PlayerCrash(playerObject, _playerObjects);
                 playerObject.Position += new Vector2(playerObject.KnockBack,0);
@@ -129,7 +130,8 @@ namespace tdt4240.Minigames.AvoidObstacles
 
             foreach (var playerObject in _playerObjects)
             {
-                playerObject.Position += playerObject.Player.Input.GetThumbstickVector()*3;
+                //playerObject.Position += playerObject.Player.Input.GetThumbstickVector()*3;
+                playerObject.Speed += playerObject.Player.Input.GetThumbstickVector();
             }
         }
     /// <summary>
