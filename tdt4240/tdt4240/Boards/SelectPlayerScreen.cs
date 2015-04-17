@@ -27,14 +27,16 @@ namespace tdt4240.Boards
         #region Initialization
 
         private PowerUp _powerUp;
+        private Player _player;
         /// <summary>
         /// Constructor.
         /// </summary>
-        public SelectPlayerScreen(PowerUp powerUp)
+        public SelectPlayerScreen(PowerUp powerUp, Player player)
             : base("Select player")
         {
             IsPopup = true;
             _powerUp = powerUp;
+            _player = player;
         }
 
         #endregion
@@ -46,12 +48,27 @@ namespace tdt4240.Boards
             if (ControllingPlayer == null)
                 throw new Exception("ControllingPlayer cannot be null in PowerUpSelectScreen");
 
+            
+        }
+
+        public override void Added()
+        {
+            if (_powerUp.Target == Target.Self)
+            {
+                _player.RemovePowerUp(_powerUp);
+                _powerUp.OnApply(this, new PowerUpEvent(_player));
+                ExitScreen();
+                ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), _player.PlayerIndex);
+                return;
+            }
+
             foreach (var player in PlayerManager.Instance.Players)
             {
+                if (_powerUp.Target == Target.Enemy && player == _player)
+                    continue;
                 var item = new MenuItem(player.ToString());
                 item.Selected += PlayerSelected;
                 MenuEntries.Add(item);
-
             }
         }
 
@@ -81,15 +98,15 @@ namespace tdt4240.Boards
 
         void PlayerSelected(object sender, PlayerEvent e)
         {
+            var index = (int) sender;
+            if (_powerUp.Target == Target.Enemy && index > (int) e.PlayerIndex)
+                index++;
+
             PlayerManager.Instance.GetPlayer(e.PlayerIndex).RemovePowerUp(_powerUp);
-            var pue = new PowerUpEvent(PlayerManager.Instance.Players[(int)sender]);
+            var pue = new PowerUpEvent(PlayerManager.Instance.Players[index]);
             _powerUp.OnApply(this, pue);
             ExitScreen();
-            if (ScreenManager.Board.CurrentPlayer.Effect == Effect.Freeze)
-            {
-                ScreenManager.Board.CurrentPlayer.Effect = Effect.None;
-                ScreenManager.Board.NextPlayer();
-            }               
+            ScreenManager.Board.UpdateEffects();         
             ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), e.PlayerIndex);
 
         }

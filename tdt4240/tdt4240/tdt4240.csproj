@@ -96,6 +96,11 @@
     <Compile Include="Menu\PulsatingText.cs" />
     <Compile Include="MiniGame.cs" />
     <Compile Include="MinigameIntro.cs" />
+    <Compile Include="Minigames\AvoidObstacles\AvoidObstacles.cs" />
+    <Compile Include="Minigames\AvoidObstacles\AvoidObstaclesIntro.cs" />
+    <Compile Include="Minigames\AvoidObstacles\Obstacle.cs" />
+    <Compile Include="Minigames\AvoidObstacles\ObstacleFactory.cs" />
+    <Compile Include="Minigames\AvoidObstacles\PlayerObject.cs" />
     <Compile Include="Minigames\BirdHunt\Bird.cs" />
     <Compile Include="Minigames\BirdHunt\BirdFactory.cs" />
     <Compile Include="Minigames\BirdHunt\BirdHunt.cs" />
@@ -104,8 +109,22 @@
     <Compile Include="Minigames\Mathgame\Problem.cs" />
     <Compile Include="Minigames\Mathgame\Equation.cs" />
     <Compile Include="Minigames\Mathgame\MathGame.cs" />
+    <Compile Include="Minigames\BirdHunt\BirdHuntIntro.cs" />
+    <Compile Include="Minigames\MusicMania\Arrow.cs" />
+    <Compile Include="Minigames\MusicMania\ArrowScore.cs" />
+    <Compile Include="Minigames\MusicMania\MusicMania.cs" />
+    <Compile Include="Minigames\MusicMania\MusicManiaIntro.cs" />
+    <Compile Include="Minigames\ColorMatch\ColorMatchIntro.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemoIntro.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemo.cs" />
+    <Compile Include="Minigames\MusicMania\MusicManiaPlayer.cs" />
+    <Compile Include="Minigames\Quiz\Alternative.cs" />
+    <Compile Include="Minigames\Quiz\Question.cs" />
+    <Compile Include="Minigames\Quiz\QuestionRepository.cs" />
+    <Compile Include="Minigames\Quiz\Quiz.cs" />
+    <Compile Include="Minigames\Quiz\QuizIntro.cs" />
+    <Compile Include="MusicPlayer.cs" />
+    <Compile Include="Minigames\ColorMatch\ColorMatch.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerManager.cs" />
     <Compile Include="InputState.cs" />
@@ -135,6 +154,10 @@
     <Content Include="Game.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DataTypes\DataTypes.csproj">
+      <Project>{a7ea8063-bb8e-4f59-b135-bfe0ef831821}</Project>
+      <Name>DataTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\tdt4240Content\tdt4240Content.contentproj">
       <Name>tdt4240Content</Name>
       <XnaReferenceType>Content</XnaReferenceType>

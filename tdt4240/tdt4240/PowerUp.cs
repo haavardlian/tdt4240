@@ -13,7 +13,7 @@ namespace tdt4240
 
     public abstract class PowerUp
     {
-        protected Target Target;
+        public Target Target;
 
         protected event EventHandler<PowerUpEvent> effect;
         protected String Title;

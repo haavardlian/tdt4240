@@ -5,8 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using tdt4240.Boards;
-using tdt4240.Minigames.BirdHunt;
-using tdt4240.Minigames.MathGame;
+
 
 namespace tdt4240.Menu
 {
@@ -149,7 +148,9 @@ namespace tdt4240.Menu
                 var board = new Board();
 
                 ScreenManager.ExitAllScreens();
-                ScreenManager.AddScreen(new MathGame(board), null);
+
+                ScreenManager.AddScreen(board, null);
+                MusicPlayer.GetInstance().StartLoopingSong("4");
             }
         }
     }

@@ -11,12 +11,13 @@ namespace tdt4240.Boards
     class Countdown : GameScreen
     {
         private SpriteFont _font;
-        private readonly Vector2 _position = new Vector2(900, 400);
+        private Vector2 _position;
         private ContentManager _content;
         private int _waitAmount;
         private int _elapsed;
         private int _step = 1000;
         private GameScreen _next;
+        private string _text = "Minigame starting";
 
         private bool _pressed;
 
@@ -37,6 +38,8 @@ namespace tdt4240.Boards
                     _content = new ContentManager(ScreenManager.Game.Services, "Content");
                 _font = _content.Load<SpriteFont>("fonts/dice");
             }
+
+            _position = new Vector2((ScreenManager.MaxWidth - _font.MeasureString("Minigame starting...").X)/2, 400);
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
@@ -47,6 +50,7 @@ namespace tdt4240.Boards
             {
                 _elapsed = 0;
                 _waitAmount--;
+                _text += '.';
             }
 
             if (_waitAmount < 1)
@@ -63,7 +67,7 @@ namespace tdt4240.Boards
             var spriteBatch = ScreenManager.SpriteBatch;
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(_font, ""+_waitAmount, _position*ScreenManager.GetScalingFactor(), Color.Green, 0.0f,
+            spriteBatch.DrawString(_font, _text, _position*ScreenManager.GetScalingFactor(), Color.Green, 0.0f,
                 new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
             spriteBatch.End();
         }

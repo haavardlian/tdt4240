@@ -35,7 +35,9 @@ namespace tdt4240
 
             screenManager.AddScreen(new Background("background"), null);
             screenManager.AddScreen(new MainMenu(), null);
+            MusicPlayer.GetInstance().LoadContent(Content);
 
+            MusicPlayer.GetInstance().StartLoopingSong("1");
         }
 
         void Window_ClientSizeChanged(object sender, EventArgs e)

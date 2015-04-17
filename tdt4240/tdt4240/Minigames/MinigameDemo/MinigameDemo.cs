@@ -7,7 +7,7 @@ namespace tdt4240.Minigames.MinigameDemo
     class MinigameDemo : MiniGame
     {
 
-        public new static SupportedPlayers SupportedPlayers = SupportedPlayers.Three;
+        public new static SupportedPlayers SupportedPlayers = SupportedPlayers.None;
         
         private SpriteFont _font;
         private readonly Vector2[] _textPosition = new Vector2[4];

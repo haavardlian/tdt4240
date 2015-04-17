@@ -35,6 +35,12 @@ namespace tdt4240
             }
         }
 
+        public static void Clear()
+        {
+            keyboardInstance = null;
+            instances = 0;
+        }
+
         //TODO: This needs to be handled better.
         //Do we need the singleton or should we just not restrict the creation of keyboard inputs?
         public static InputDevice CreateInputDevice(InputType type, PlayerIndex index)

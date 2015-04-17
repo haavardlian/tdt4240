@@ -198,6 +198,15 @@ namespace tdt4240
             return (float)width / MaxWidth;
         }
 
+        public int GetWidth()
+        {
+            return Game.GraphicsDevice.Viewport.Bounds.Width;
+        }
+
+        public int GetHeight()
+        {
+            return Game.GraphicsDevice.Viewport.Bounds.Height;
+        }
         public static void CreateInstance(Game game, GraphicsDeviceManager graphics)
         {
             if(_instance == null)
@@ -248,8 +257,9 @@ namespace tdt4240
                     if (!otherScreenHasFocus)
                     {
                         screen.HandleInput(gameTime, input);
-
-                        otherScreenHasFocus = true;
+                        if (!screen.IsPopup || screen is PowerUpRoll)
+                            otherScreenHasFocus = true;
+                            
                     }
 
                     // If this is an active non-popup, inform any subsequent
