@@ -103,9 +103,14 @@
     <Compile Include="Minigames\BirdHunt\BirdHunt.cs" />
     <Compile Include="Minigames\BirdHunt\Gun.cs" />
     <Compile Include="Minigames\BirdHunt\BirdHuntIntro.cs" />
+    <Compile Include="Minigames\MusicMania\Arrow.cs" />
+    <Compile Include="Minigames\MusicMania\ArrowScore.cs" />
+    <Compile Include="Minigames\MusicMania\MusicMania.cs" />
+    <Compile Include="Minigames\MusicMania\MusicManiaIntro.cs" />
     <Compile Include="Minigames\ColorMatch\ColorMatchIntro.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemoIntro.cs" />
     <Compile Include="Minigames\MinigameDemo\MinigameDemo.cs" />
+    <Compile Include="Minigames\MusicMania\MusicManiaPlayer.cs" />
     <Compile Include="Minigames\Quiz\Alternative.cs" />
     <Compile Include="Minigames\Quiz\Question.cs" />
     <Compile Include="Minigames\Quiz\QuestionRepository.cs" />

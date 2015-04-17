@@ -9,7 +9,6 @@ using tdt4240.Minigames.AvoidObstacles;
 using tdt4240.Minigames.BirdHunt;
 using tdt4240.Minigames.Quiz;
 
-
 namespace tdt4240.Menu
 {
     class PlayerSelect : GameScreen
@@ -153,8 +152,7 @@ namespace tdt4240.Menu
                 ScreenManager.ExitAllScreens();
 
                 ScreenManager.AddScreen(board, null);
-                MusicPlayer.GetInstance().StartSong("4");
-
+                MusicPlayer.GetInstance().StartLoopingSong("4");
             }
         }
     }
