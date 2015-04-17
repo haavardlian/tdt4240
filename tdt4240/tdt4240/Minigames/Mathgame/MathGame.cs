@@ -21,10 +21,6 @@ namespace tdt4240.Minigames.MathGame
         private readonly int _scoreToWin;
         private SpriteFont _numberFont;
         private SpriteFont _equationFont;
-        private Vector2 _fontPosNumber;
-        private Vector2 _fontPosEquation;
-        private String _fontOutputNumber;
-        private String _fontOutputEquation;
         private DateTime _nextEquationTime;
         private string _currentNumber;
         private string _currentEquation;
@@ -80,10 +76,6 @@ namespace tdt4240.Minigames.MathGame
 
             if (!instancePreserved)
             {
-                _fontPosNumber = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2,
-                    ScreenManager.GraphicsDevice.Viewport.Height / 5);
-                _fontPosEquation = new Vector2(ScreenManager.GraphicsDevice.Viewport.Width / 2,
-                    ScreenManager.GraphicsDevice.Viewport.Height / 3);
                 _numberFont = ScreenManager.Font;
                 _equationFont = ScreenManager.Font;
                 _font = ScreenManager.Font;
@@ -167,23 +159,50 @@ namespace tdt4240.Minigames.MathGame
 
             spriteBatch.Begin();
 
+            // Draw number
+            var stringSizeNumber = _font.MeasureString(_currentNumber);
+            var desiredHeightNumber = 0.2 * ScreenManager.GetHeight();
+            var stringScaleNumber = (float)desiredHeightNumber / stringSizeNumber.Y;
+            spriteBatch.DrawString(
+                _numberFont,
+                _currentNumber,
+                new Vector2(
+                    (int)(0.5 * ScreenManager.GetWidth() - 0.5 * stringSizeNumber.X * stringScaleNumber),
+                    (int)(0.1 * ScreenManager.GetHeight())
+                ),
+                Color.Black,
+                0,
+                new Vector2(0, 0),
+                stringScaleNumber,
+                SpriteEffects.None,
+                0
+            );
+
+            // Draw equation
+            var stringSizeEquation = _font.MeasureString(_currentEquation);
+            var desiredHeightEquation = 0.2 * ScreenManager.GetHeight();
+            var stringScaleEquation = (float)desiredHeightEquation / stringSizeEquation.Y;
+            spriteBatch.DrawString(
+                _equationFont,
+                _currentEquation,
+                new Vector2(
+                    (int)(0.5 * ScreenManager.GetWidth() - 0.5 * stringSizeEquation.X * stringScaleEquation),
+                    (int)(0.3 * ScreenManager.GetHeight())
+                ),
+                Color.Black,
+                0,
+                new Vector2(0, 0),
+                stringScaleEquation,
+                SpriteEffects.None,
+                0
+            );
+
             /*
             foreach (Player player in PlayerManager.Instance.Players)
             {
                 spriteBatch.DrawString(_font, player.TestString, _textPosition[(int)player.PlayerIndex], player.Color);
             }
              * */
-            
-            _fontOutputNumber = _currentNumber;
-            _fontOutputEquation = _currentEquation;
-
-            Vector2 FontOriginNumber = _numberFont.MeasureString(_fontOutputNumber) / 2;
-            Vector2 FontOriginEquation = _equationFont.MeasureString(_fontOutputEquation) / 2;
-
-            spriteBatch.DrawString(_numberFont, _fontOutputNumber, _fontPosNumber, Color.Black,
-                0, FontOriginNumber, 1.0f, SpriteEffects.None, 0.5f);
-            spriteBatch.DrawString(_equationFont, _fontOutputEquation, _fontPosEquation, Color.Black,
-                0, FontOriginEquation, 1.0f, SpriteEffects.None, 0.5f);
 
             foreach (var mathplayer in _mathplayers)
             {
