@@ -89,14 +89,10 @@ namespace tdt4240.Boards
 
             AssetManager.Instance.AddAsset<Texture2D>("powerups/empty");
             AssetManager.Instance.AddAsset<Texture2D>("powerups/freeze");
+            AssetManager.Instance.AddAsset<Texture2D>("powerups/double_dice");
             AssetManager.Instance.AddAsset<Texture2D>("powerups/unknown");
 
             ScreenManager.Board = this;
-
-            //tempcode for testing powerups
-            //PlayerManager.Instance.GetPlayer(PlayerIndex.One).AddPowerUp(new DoubleRollPowerUp());
-            //PlayerManager.Instance.GetPlayer(PlayerIndex.One).Effect = Effect.DoubleRoll;
-
 
             float x = ScreenManager.MaxWidth - _font.MeasureString("Player X").X - 5;
             float y = ScreenManager.MaxHeight - 180;
@@ -404,8 +400,7 @@ namespace tdt4240.Boards
 
             var minigameIntro = (MinigameIntro)Activator.CreateInstance(_miniGames[gameIndex], this);
 
-
-            //MiniGame minigame = (MiniGame)Activator.CreateInstance(_miniGames[1], this);
+            //var minigameIntro = (MinigameIntro)Activator.CreateInstance(_miniGames[0], this);
 
        
 
