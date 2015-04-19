@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using tdt4240.Menu;
+using tdt4240.Minigames.MinigameDemo;
 
 namespace tdt4240.Boards
 {
@@ -434,6 +435,8 @@ namespace tdt4240.Boards
         {
             switch (numberOfPlayers)
             {
+                case 1:
+                    return SupportedPlayers.Two;
                 case 2:
                     return SupportedPlayers.Two;
                 case 3:

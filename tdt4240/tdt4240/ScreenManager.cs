@@ -257,8 +257,9 @@ namespace tdt4240
                     if (!otherScreenHasFocus)
                     {
                         screen.HandleInput(gameTime, input);
-                        if(!screen.IsPopup)
+                        if (!screen.IsPopup || screen is PowerUpRoll)
                             otherScreenHasFocus = true;
+                            
                     }
 
                     // If this is an active non-popup, inform any subsequent

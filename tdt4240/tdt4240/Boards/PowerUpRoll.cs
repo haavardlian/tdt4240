@@ -28,9 +28,8 @@ namespace tdt4240.Boards
         public override void Activate(bool instancePreserved)
         {
             base.Activate(instancePreserved);
-            IsPopup = true;
             if (ControllingPlayer == null) throw new Exception("PowerUpRoll must have a controlling player");
-
+            IsPopup = true;
             if (!instancePreserved)
             {
                 if (_content == null)
