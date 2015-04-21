@@ -11,7 +11,7 @@ namespace tdt4240.Minigames.AvoidObstacles
 {
     class AvoidObstacles : MiniGame
     {
-        private const double ObstacleSpawnRate = 0.05;
+        private const double ObstacleSpawnRate = 0.035;
 
         private const int ScreenPadding = 10;
         private Vector2[] _corners;
@@ -22,9 +22,12 @@ namespace tdt4240.Minigames.AvoidObstacles
         private readonly ObstacleFactory _obstacleFactory;
         public new static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
         private readonly Random _random;
+        private Boolean _activated;
 
-        public AvoidObstacles(Board board) : base(board)
+        public AvoidObstacles(Board board)
+            : base(board)
         {
+            Title = "Avoid the birds";
             _obstacleFactory = new ObstacleFactory();
             _numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
             _random = new Random();
@@ -35,12 +38,11 @@ namespace tdt4240.Minigames.AvoidObstacles
             new Vector2(ScreenManager.MaxWidth - ScreenPadding, ScreenPadding),
             new Vector2(ScreenPadding, ScreenManager.MaxHeight - ScreenPadding),
             new Vector2(ScreenManager.MaxWidth - ScreenPadding, ScreenManager.MaxHeight - ScreenPadding)};
-
+            _activated = false;
         }
         public override void Activate(bool instancePreserved)
         {
             base.Activate(instancePreserved);
-
 
 
             if (!instancePreserved)
@@ -54,12 +56,13 @@ namespace tdt4240.Minigames.AvoidObstacles
 
                 for (var i = 0; i < _numberOfPlayers; i++)
                 {
-                    var startPosition = (ScreenManager.MaxHeight-(playerTexture.Height*2))*(i/_numberOfPlayers);
-                    _playerObjects.Add(new PlayerObject(PlayerManager.Instance.Players[i], playerTexture, new Vector2(startPosition+playerTexture.Height,playerTexture.Width)));
+                    var startPosition = (ScreenManager.MaxHeight - (playerTexture.Height * 2)) * ((float)i / _numberOfPlayers);
+                    _playerObjects.Add(new PlayerObject(PlayerManager.Instance.Players[i], playerTexture, new Vector2(playerTexture.Width, startPosition + playerTexture.Height)));
                     _playerObjects[i].Corner = _corners[i];
                 }
             }
 
+            _activated = true;
         }
 
         /// <summary>
@@ -69,6 +72,7 @@ namespace tdt4240.Minigames.AvoidObstacles
         /// </summary>
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
+            if (!_activated) return;
 
             foreach (var obstacle in _obstacles)
             {
@@ -87,13 +91,13 @@ namespace tdt4240.Minigames.AvoidObstacles
 
                 playerObject.Position += playerObject.Speed;
                 playerObject.Score += Intersects(playerObject, _obstacles);
-                PlayerCrash(playerObject, _playerObjects);
-                playerObject.Position += new Vector2(playerObject.KnockBack,0);
+                //PlayerCrash(playerObject, _playerObjects);
+                playerObject.Position += new Vector2(playerObject.KnockBack, 0);
             }
             deadPlayer.ForEach(player => _playerObjects.Remove(player));
-            if(_playerObjects.Count == 1 && _numberOfPlayers > 1)
+            if (_playerObjects.Count == 1 && _numberOfPlayers > 1)
                 NotifyDone(_playerObjects[0].Player.PlayerIndex);
-            if(_playerObjects.Count == 0)
+            if (_playerObjects.Count == 0)
                 NotifyDone(deadPlayer[0].Player.PlayerIndex);
 
             if (_random.NextDouble() < ObstacleSpawnRate)
@@ -123,14 +127,14 @@ namespace tdt4240.Minigames.AvoidObstacles
         {
             foreach (var otherPlayer in playerObjects)
             {
-                if(player==otherPlayer)
+                if (player == otherPlayer)
                     continue;
 
                 if (player.Bounds.Intersects(otherPlayer.Bounds))
                 {
                     var knockback = Math.Sign(player.Position.Y - otherPlayer.Position.Y);
-                    player.KnockBack = knockback*PlayerObject.KnockbackValue;
-                    otherPlayer.KnockBack = knockback*PlayerObject.KnockbackValue*-1;
+                    player.KnockBack = knockback * PlayerObject.KnockbackValue;
+                    otherPlayer.KnockBack = knockback * PlayerObject.KnockbackValue * -1;
                     player.Score++;
                     otherPlayer.Score++;
                 }
@@ -144,34 +148,33 @@ namespace tdt4240.Minigames.AvoidObstacles
 
             foreach (var playerObject in _playerObjects)
             {
-                //playerObject.Position += playerObject.Player.Input.GetThumbstickVector()*3;
                 playerObject.Speed += playerObject.Player.Input.GetThumbstickVector();
             }
         }
-    /// <summary>
-    /// This is called when the screen should draw itself.
-    /// </summary>
-    public override void Draw(GameTime gameTime)
-    {
-        SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-
-        spriteBatch.Begin();
-
-        foreach (var obstacle in _obstacles)
+        /// <summary>
+        /// This is called when the screen should draw itself.
+        /// </summary>
+        public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Draw(obstacle.Texture, obstacle.Position * ScreenManager.GetScalingFactor(), null, Color.White, 0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
-        }
+            SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
 
-        foreach (var playerObject in _playerObjects)
-        {
-            spriteBatch.DrawString(ScreenManager.Font, playerObject.Score.ToString(), playerObject.Corner * ScreenManager.GetScalingFactor(), playerObject.Color);
+            spriteBatch.Begin();
 
-            spriteBatch.Draw(playerObject.Texture, playerObject.Position * ScreenManager.GetScalingFactor(), null, playerObject.Color, 0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+            foreach (var obstacle in _obstacles)
+            {
+                spriteBatch.Draw(obstacle.Texture, obstacle.Position * ScreenManager.GetScalingFactor(), null, Color.White, 0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+            }
+
+            foreach (var playerObject in _playerObjects)
+            {
+                spriteBatch.DrawString(ScreenManager.Font, playerObject.Score.ToString(), playerObject.Corner * ScreenManager.GetScalingFactor(), playerObject.Color);
+
+                spriteBatch.Draw(playerObject.Texture, playerObject.Position * ScreenManager.GetScalingFactor(), null, playerObject.Color, 0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             }
 
 
 
-        spriteBatch.End();
-    }
+            spriteBatch.End();
+        }
     }
 }
