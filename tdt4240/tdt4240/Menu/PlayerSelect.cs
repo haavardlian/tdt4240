@@ -150,7 +150,7 @@ namespace tdt4240.Menu
 
                 ScreenManager.ExitAllScreens();
 
-                ScreenManager.AddScreen(board, null);
+                ScreenManager.AddScreen(new QuizIntro(null), null);
                 MusicPlayer.GetInstance().StartLoopingSong("4");
             }
         }
