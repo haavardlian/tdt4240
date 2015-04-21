@@ -33,14 +33,20 @@ namespace tdt4240
                 {"5", null},
                 {"6", null},
                 {"7", null},
+                {"8", null},
             };
         }
 
-        public void StartSong(string name)
+        public void StartLoopingSong(string name)
         {
             var song = _songs[name];
+            StartSong(song, true);
+        }
+
+        public void StartSong(SoundEffect song, Boolean enableLooping)
+        {
             var songInstance = song.CreateInstance();
-            songInstance.IsLooped = true;
+            songInstance.IsLooped = enableLooping;
             songInstance.Play();
 
             if (_currentlyPlayingSongInstance != null)

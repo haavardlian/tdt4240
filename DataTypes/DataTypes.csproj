@@ -59,6 +59,8 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MusicManiaSong.cs" />
+    <Compile Include="MusicManiaArrow.cs" />
     <Compile Include="SerializableQuestion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
