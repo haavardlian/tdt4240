@@ -5,9 +5,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using tdt4240.Boards;
-using tdt4240.Minigames.AvoidObstacles;
 using tdt4240.Minigames.BirdHunt;
-using tdt4240.Minigames.Quiz;
+using tdt4240.Minigames.MathGame;
 
 namespace tdt4240.Menu
 {
