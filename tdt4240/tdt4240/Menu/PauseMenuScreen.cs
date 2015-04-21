@@ -27,8 +27,8 @@ namespace tdt4240.Menu
         /// <summary>
         /// Constructor.
         /// </summary>
-        public PauseMenuScreen()
-            : base("Paused")
+        public PauseMenuScreen(string title = "Paused")
+            : base(title)
         {
             // Create our menu entries.
             MenuItem resumeGameMenuEntry = new MenuItem("Resume Game");

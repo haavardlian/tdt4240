@@ -17,7 +17,7 @@ namespace tdt4240.Minigames.MathGame
         {
             MiniGame = new MathGame(board);
 
-            GameDescription = "Press X when the equation matches the number";
+            GameDescription = "Press A when the equation matches the number";
             Goal = "Get 3 points to win";
         }
 
