@@ -207,16 +207,6 @@ namespace tdt4240
             return Game.GraphicsDevice.Viewport.Bounds.Height;
         }
 
-
-        public int GetWidth()
-        {
-            return Game.GraphicsDevice.Viewport.Bounds.Width;
-        }
-
-        public int GetHeight()
-        {
-            return Game.GraphicsDevice.Viewport.Bounds.Height;
-        }
         public static void CreateInstance(Game game, GraphicsDeviceManager graphics)
         {
             if(_instance == null)

@@ -89,6 +89,7 @@ namespace tdt4240.Minigames.MathGame
 
             if (!instancePreserved)
             {
+                MusicPlayer.GetInstance().StartLoopingSong("5");
                 _font = content.Load<SpriteFont>("fonts/dice");
                 _blankTexture = content.Load<Texture2D>("blank");
                 Background = new Background("background");
