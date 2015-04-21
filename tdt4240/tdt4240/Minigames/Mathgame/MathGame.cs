@@ -12,7 +12,7 @@ namespace tdt4240.Minigames.MathGame
     class MathGame : MiniGame
     {
 
-        public static SupportedPlayers SupportedPlayers = SupportedPlayers.Four;
+        public static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
 
         private SpriteFont _font;
         private readonly Vector2[] _textPosition = new Vector2[4];

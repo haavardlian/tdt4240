@@ -6,32 +6,31 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using tdt4240.Menu;
-using tdt4240.Minigames.MinigameDemo;
 
 namespace tdt4240.Boards
 {
-    public class Board : GameScreen
+    public abstract class Board : GameScreen
     {
-        private Texture2D _backgroundTexture;
-        private Texture2D _pieceTexture;
-        private Texture2D _tileTexture;
-        private Texture2D _playerBackground;
-        private Texture2D _emptyPowerUp;
-        private Texture2D _downTexture;
-        private Texture2D _starTexture;
-        private ContentManager _content;
-        private SpriteFont _font;
-        private readonly Vector2[] _offsets = { new Vector2(-20, -20), new Vector2(20, -20), new Vector2(-20, 20), new Vector2(20, 20) };
-        private Player _currentPlayer;
-        private readonly List<BoardPosition> _positions = new List<BoardPosition>();
+        protected Texture2D _backgroundTexture;
+        protected Texture2D _pieceTexture;
+        protected Texture2D _tileTexture;
+        protected Texture2D _playerBackground;
+        protected Texture2D _emptyPowerUp;
+        protected Texture2D _downTexture;
+        protected Texture2D _starTexture;
+        protected ContentManager _content;
+        protected SpriteFont _font;
+        protected readonly Vector2[] _offsets = { new Vector2(-20, -20), new Vector2(20, -20), new Vector2(-20, 20), new Vector2(20, 20) };
+        protected Player _currentPlayer;
+        protected readonly List<BoardPosition> _positions = new List<BoardPosition>();
 
-        private List<Vector2> _playerBackgroundPositions = new List<Vector2>();
-        private List<Vector2> _playerInfoPositions = new List<Vector2>();
+        protected List<Vector2> _playerBackgroundPositions = new List<Vector2>();
+        protected List<Vector2> _playerInfoPositions = new List<Vector2>();
 
-        private List<Type> _miniGames;
-        private List<PowerUp> _powerUps;
-        private PowerUp _currentPowerUp = null;
-        private PlayerIndex _currentWinner;
+        protected List<Type> _miniGames;
+        protected List<PowerUp> _powerUps;
+        protected PowerUp _currentPowerUp = null;
+        protected PlayerIndex _currentWinner;
 
         public Player CurrentPlayer
         {
@@ -126,93 +125,26 @@ namespace tdt4240.Boards
             Console.WriteLine(player + " is the winner!!!");
         }
 
-        private void NavigateToArrow(object sender, EventArgs args)
+        protected void NavigateToArrow(object sender, EventArgs args)
         {
             var player = args as Player;
 
-            var index = _positions.IndexOf(player.BoardPosition);
+            if (player == null) return;
 
+            var index = _positions.IndexOf(player.BoardPosition);
             player.BoardPosition = _positions[index + player.BoardPosition.MoveAmount];
         }
 
-        private void AddPositions()
+        protected virtual void AddPositions()
         {
-            var factor = -1;
-            var nextX = new Vector2(96, 0);
-            var prevX = new Vector2(-96, 0);
-            var nextY = new Vector2(0, -96);
-            var prevY = new Vector2(0, 96);
-            var pos = new Vector2(466, 1000);
-
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Last().Icon = _downTexture;
-            _positions.Last().NavigateTo += NavigateToArrow;
-            _positions.Last().SpriteEffects = SpriteEffects.FlipVertically;
-            _positions.Last().MoveAmount = 18;
-
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextY;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextY;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Last().Icon = _downTexture;
-            _positions.Last().NavigateTo += NavigateToArrow;
-            _positions.Last().MoveAmount = -8;
-
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextY;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextY;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextY;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Last().Icon = _downTexture;
-            _positions.Last().NavigateTo += NavigateToArrow;
-            _positions.Last().MoveAmount = -13;
-            
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextY;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextY;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += prevX;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextY;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture)); pos += nextY;
-            _positions.Add(new BoardPosition(pos, PositionType.Default, _tileTexture));
+           
         }
 
         public override void HandleInput(GameTime gameTime, InputState input)
         {
-            foreach (var player in PlayerManager.Instance.Players.Where(player => player.Input.IsButtonPressed(GameButtons.Back)))
+            if (PlayerManager.Instance.Players.Any(player => player.Input.IsButtonPressed(GameButtons.Back)))
             {
                 ScreenManager.AddScreen(new PauseMenuScreen(), null);
-                break;
             }
         }
 
@@ -310,10 +242,10 @@ namespace tdt4240.Boards
                 new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
 
 
-            var diff = 50;
+            var diff = new Vector2(85, 0);
             var scale = ScreenManager.GetScalingFactor() * 0.1f;
 
-            var powerUpPosition = new Vector2(_playerInfoPositions[playerIndex].X + 40, _playerInfoPositions[playerIndex].Y + 60);
+            var powerUpPosition = _playerInfoPositions[playerIndex] + new Vector2(10, 60);
             var n = 0;
 
             foreach (var powerUp in player.PowerUps)
@@ -322,7 +254,7 @@ namespace tdt4240.Boards
                 spriteBatch.Draw(icon, powerUpPosition * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
                     new Vector2(0, 0), scale, SpriteEffects.None, 0f);
                 n++;
-                powerUpPosition = new Vector2(powerUpPosition.X + diff * 1.5f, powerUpPosition.Y);
+                powerUpPosition += diff;
             }
 
             for (var i = n; i < Player.MaxPowerUps; i++)
@@ -330,7 +262,7 @@ namespace tdt4240.Boards
 
                 spriteBatch.Draw(_emptyPowerUp, powerUpPosition * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
                     new Vector2(0, 0), scale, SpriteEffects.None, 0f);
-                powerUpPosition = new Vector2(powerUpPosition.X + diff * 1.5f, powerUpPosition.Y);
+                powerUpPosition += diff;
             }
 
                 
@@ -352,7 +284,7 @@ namespace tdt4240.Boards
         {
             Console.WriteLine(_currentPlayer.PlayerIndex + " rolled a " + result);
             var index = _positions.IndexOf(_currentPlayer.BoardPosition) + result;
-            bool doubleRoll = false;
+            var doubleRoll = false;
             if (index >= _positions.Count)
             {
                 _currentPlayer.BoardPosition = _positions.Last();
@@ -423,13 +355,13 @@ namespace tdt4240.Boards
             var miniGames = new List<Type>();
             var players = GetSupportedPlayers(numberOfPlayers);
 
-            foreach (Type type in Assembly.GetAssembly(typeof(MinigameIntro)).GetTypes()
+            foreach (var type in Assembly.GetAssembly(typeof(MinigameIntro)).GetTypes()
                 .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(MinigameIntro))))
             {
-                SupportedPlayers sp = (SupportedPlayers)type.GetField("SupportedPlayers",
+                var sp = (SupportedPlayers)type.GetField("SupportedPlayers",
                    BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
 
-                if (sp.HasFlag(players))
+                if ((sp & players) == players)
                     miniGames.Add(type);
             }
 

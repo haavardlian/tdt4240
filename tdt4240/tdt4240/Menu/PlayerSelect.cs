@@ -144,11 +144,11 @@ namespace tdt4240.Menu
             int players = PlayerManager.Instance.NumberOfPlayers;
             if (players >= MinimumAllowedPlayers)
             {
-                var board = new Board();
+                var board = new DefaultBoard();
 
                 ScreenManager.ExitAllScreens();
 
-                ScreenManager.AddScreen(new QuizIntro(null), null);
+                ScreenManager.AddScreen(board, null);
                 MusicPlayer.GetInstance().StartLoopingSong("4");
             }
         }

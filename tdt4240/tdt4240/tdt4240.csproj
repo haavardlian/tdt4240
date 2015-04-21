@@ -81,6 +81,7 @@
     <Compile Include="Assets\GraphicsObject.cs" />
     <Compile Include="Boards\BoardPosition.cs" />
     <Compile Include="Boards\Countdown.cs" />
+    <Compile Include="Boards\DefaultBoard.cs" />
     <Compile Include="Boards\DiceRoll.cs" />
     <Compile Include="Boards\SelectPlayerScreen.cs" />
     <Compile Include="Boards\PowerUpSelectScreen.cs" />
