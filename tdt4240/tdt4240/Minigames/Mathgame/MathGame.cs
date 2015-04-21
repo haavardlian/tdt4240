@@ -131,7 +131,7 @@ namespace tdt4240.Minigames.MathGame
             if (!_gameState.Equals(GameState.InGame)) return;
             foreach (var mathplayer in _mathplayers)
             {
-                if (mathplayer.Player.Input.IsButtonPressed(GameButtons.X))
+                if (mathplayer.Player.Input.IsButtonPressed(GameButtons.A))
                 {
                     _lastResponder = mathplayer.Player;
                     if (problem.equationTable[_equationNumber-1].CorrectAnswer)
@@ -223,7 +223,7 @@ namespace tdt4240.Minigames.MathGame
                 var colorMultiplier = 1.0f;
                 if (_gameState != GameState.InGame && player == _lastResponder)
                 {
-                    colorMultiplier = (float)(1 + Math.Sin(GetRelativeTimeLeft() * 15));
+                    colorMultiplier = (float)(1 + Math.Sin(GetRelativeTimeLeft() * 40));
                 }
                 spriteBatch.Draw(_blankTexture, destinationRect, Color.Multiply(player.Color, colorMultiplier));
  
