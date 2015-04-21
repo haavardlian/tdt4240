@@ -61,6 +61,7 @@ namespace tdt4240.Menu
                     _powerUp = null;
                     _background.ExitScreen();
                     ExitScreen();
+                    MusicPlayer.GetInstance().StartLoopingSong("4");
                     if(PlayerManager.Instance.GetPlayer(PlayerIndex.One).PowerUps.Count > 0)
                         ScreenManager.AddScreen(new ItemSelectScreen(), PlayerIndex.One);
                     else

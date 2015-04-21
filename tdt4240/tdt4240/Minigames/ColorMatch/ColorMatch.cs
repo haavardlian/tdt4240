@@ -130,6 +130,7 @@ namespace tdt4240.Minigames.ColorMatch
 
             if (!instancePreserved)
             {
+                MusicPlayer.GetInstance().StartLoopingSong("7");
                 Background = new Background("minigames/ColorMatch/background");
                 ScreenManager.AddScreen(Background, null);
 

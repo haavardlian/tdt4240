@@ -45,6 +45,7 @@ namespace tdt4240.Minigames.AvoidObstacles
 
             if (!instancePreserved)
             {
+                MusicPlayer.GetInstance().StartLoopingSong("6");
                 _obstacleFactory.SetTexture(content.Load<Texture2D>("minigames/BirdHunt/Bird"));
                 var playerTexture = content.Load<Texture2D>("minigames/AvoidObstacles/Helicopter");
                 Background = new Background("background");
