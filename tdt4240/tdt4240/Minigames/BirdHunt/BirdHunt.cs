@@ -46,6 +46,7 @@ namespace tdt4240.Minigames.BirdHunt
 
             if (!instancePreserved)
             {
+                MusicPlayer.GetInstance().StartLoopingSong("3");
                 _birdFactory.SetTexture(content.Load<Texture2D>("minigames/BirdHunt/Bird"));
                 var crossHair = content.Load<Texture2D>("minigames/BirdHunt/CrossHair");
                 var shot = content.Load<Texture2D>("minigames/BirdHunt/Shot");

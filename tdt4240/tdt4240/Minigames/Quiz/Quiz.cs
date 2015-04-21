@@ -39,6 +39,8 @@ namespace tdt4240.Minigames.Quiz
 
             if (!instancePreserved)
             {
+                MusicPlayer.GetInstance().StartLoopingSong("2");
+
                 font = ScreenManager.Font;
                 Background = new Background("background");
                 ScreenManager.AddScreen(Background, null);
