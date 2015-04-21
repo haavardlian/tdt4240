@@ -17,6 +17,7 @@ namespace tdt4240.Minigames.Quiz
     {
         private SerializableQuestion[] _seralizedQuestions;
         private List<Question> _questions = new List<Question>();
+        private List<Question> _usedQuestions = new List<Question>();
         private SpriteFont _font;
         private Vector2 _questionPosition;
         private Vector2[] _alternativePositions = new Vector2[4];
@@ -64,7 +65,19 @@ namespace tdt4240.Minigames.Quiz
 
         public Question getQuestion()
         {
-            return _questions[rnd.Next(_questions.Count)];
+            Question candidate = _questions[rnd.Next(_questions.Count)];
+            while (_usedQuestions.Contains(candidate))
+            {
+                if (_usedQuestions.Count == _questions.Count)
+                {
+                    _usedQuestions.Clear();
+                    //return null;
+                }
+                candidate = _questions[rnd.Next(_questions.Count)];
+            }
+            _usedQuestions.Add(candidate);
+            return candidate;
         }
+
     }
 }
