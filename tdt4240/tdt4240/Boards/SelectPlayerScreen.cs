@@ -106,8 +106,7 @@ namespace tdt4240.Boards
             var pue = new PowerUpEvent(PlayerManager.Instance.Players[index]);
             _powerUp.OnApply(this, pue);
             ExitScreen();
-            ScreenManager.Board.UpdateEffects();         
-            ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), e.PlayerIndex);
+            ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), ScreenManager.Board.CurrentPlayer.PlayerIndex);
 
         }
         #endregion

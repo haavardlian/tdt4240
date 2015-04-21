@@ -11,80 +11,69 @@ namespace tdt4240.Boards
 {
     public abstract class Board : GameScreen
     {
-        protected Texture2D _backgroundTexture;
-        protected Texture2D _pieceTexture;
-        protected Texture2D _tileTexture;
-        protected Texture2D _playerBackground;
-        protected Texture2D _emptyPowerUp;
-        protected Texture2D _downTexture;
-        protected Texture2D _starTexture;
-        protected ContentManager _content;
-        protected SpriteFont _font;
-        protected readonly Vector2[] _offsets = { new Vector2(-20, -20), new Vector2(20, -20), new Vector2(-20, 20), new Vector2(20, 20) };
-        protected Player _currentPlayer;
-        protected readonly List<BoardPosition> _positions = new List<BoardPosition>();
+        protected Texture2D BackgroundTexture;
+        protected Texture2D PieceTexture;
+        protected Texture2D TileTexture;
+        protected Texture2D PlayerBackground;
+        protected Texture2D EmptyPowerUp;
+        protected Texture2D DownTexture;
+        protected Texture2D StarTexture;
+        protected ContentManager Content;
+        protected SpriteFont Font;
+        protected readonly Vector2[] Offsets = { new Vector2(-20, -20), new Vector2(20, -20), new Vector2(-20, 20), new Vector2(20, 20) };
+        protected readonly List<BoardPosition> Positions = new List<BoardPosition>();
 
-        protected List<Vector2> _playerBackgroundPositions = new List<Vector2>();
-        protected List<Vector2> _playerInfoPositions = new List<Vector2>();
+        protected List<Vector2> PlayerBackgroundPositions = new List<Vector2>();
+        protected List<Vector2> PlayerInfoPositions = new List<Vector2>();
 
-        protected List<Type> _miniGames;
-        protected List<PowerUp> _powerUps;
-        protected PowerUp _currentPowerUp = null;
-        protected PlayerIndex _currentWinner;
+        protected List<Type> MiniGames;
 
-        public Player CurrentPlayer
-        {
-            get
-            {
-                return _currentPlayer;
-            }
-        }
+        private bool _miniGame = false;
+
+        public Player CurrentPlayer { get; private set; }
 
         public void NextPlayer()
         {
-            var nextIndex = ((int) _currentPlayer.PlayerIndex) + 1;
+            var nextIndex = ((int) CurrentPlayer.PlayerIndex) + 1;
             if (nextIndex >= PlayerManager.Instance.NumberOfPlayers)
                 nextIndex = 0;
-            _currentPlayer = PlayerManager.Instance.Players[nextIndex];
+            CurrentPlayer = PlayerManager.Instance.Players[nextIndex];
         }
 
         public void MiniGameDone(PlayerIndex winningPlayerIndex)
         {
-            _currentWinner = winningPlayerIndex;
-            var winner = PlayerManager.Instance.GetPlayer(_currentWinner);
+            var winner = PlayerManager.Instance.GetPlayer(winningPlayerIndex);
 
-            ScreenManager.AddScreen(new MinigameWinnerScreen(winner), null);
-         
+            ScreenManager.AddScreen(new MinigameWinnerScreen(winner), null);      
         }
 
         public override void Activate(bool instancePreserved)
         {
   
             if (instancePreserved) return;
-            if (_content == null)
-                _content = new ContentManager(ScreenManager.Game.Services, "Content");
+            if (Content == null)
+                Content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             
             LoadContent();
-            _currentPlayer = PlayerManager.Instance.Players[0];
+            CurrentPlayer = PlayerManager.Instance.Players[0];
 
-            _positions.Add(new BoardPosition(new Vector2(370, 1000), PositionType.Start, _tileTexture));
+            Positions.Add(new BoardPosition(new Vector2(370, 1000), PositionType.Start, TileTexture));
             
-            PlayerManager.Instance.Players.ForEach(player => player.BoardPosition = _positions[0]);
+            PlayerManager.Instance.Players.ForEach(player => player.BoardPosition = Positions[0]);
 
             for (int i = 0; i < 4; i++)
             {
-                _playerBackgroundPositions.Add(new Vector2());
-                _playerInfoPositions.Add(new Vector2());
+                PlayerBackgroundPositions.Add(new Vector2());
+                PlayerInfoPositions.Add(new Vector2());
             }
 
             AddPositions();
 
-            _positions.Last().NavigateTo += OnFinish;
-            _positions.Last().Icon = _starTexture;
+            Positions.Last().NavigateTo += OnFinish;
+            Positions.Last().Icon = StarTexture;
 
-            _miniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers);
-            _powerUps = PowerUps();
+            MiniGames = ViableMiniGames(PlayerManager.Instance.NumberOfPlayers);
 
             AssetManager.Instance.AddAsset<Texture2D>("powerups/empty");
             AssetManager.Instance.AddAsset<Texture2D>("powerups/freeze");
@@ -93,29 +82,28 @@ namespace tdt4240.Boards
 
             ScreenManager.Board = this;
 
-            float x = ScreenManager.MaxWidth - _font.MeasureString("Player X").X - 5;
+            float x = ScreenManager.MaxWidth - Font.MeasureString("Player X").X - 5;
             float y = ScreenManager.MaxHeight - 180;
 
-            _playerBackgroundPositions[0] = new Vector2(5, 0);
-            _playerBackgroundPositions[1] = new Vector2(ScreenManager.MaxWidth, 0);
-            _playerBackgroundPositions[2] = new Vector2(5, ScreenManager.MaxHeight);
-            _playerBackgroundPositions[3] = new Vector2(ScreenManager.MaxWidth, ScreenManager.MaxHeight);
+            PlayerBackgroundPositions[0] = new Vector2(5, 0);
+            PlayerBackgroundPositions[1] = new Vector2(ScreenManager.MaxWidth, 0);
+            PlayerBackgroundPositions[2] = new Vector2(5, ScreenManager.MaxHeight);
+            PlayerBackgroundPositions[3] = new Vector2(ScreenManager.MaxWidth, ScreenManager.MaxHeight);
 
-            _playerInfoPositions[0] = new Vector2(0, 0);
-            _playerInfoPositions[1] = new Vector2(x, 0);
-            _playerInfoPositions[2] = new Vector2(0, y);
-            _playerInfoPositions[3] = new Vector2(x, y);
+            PlayerInfoPositions[0] = new Vector2(0, 0);
+            PlayerInfoPositions[1] = new Vector2(x, 0);
+            PlayerInfoPositions[2] = new Vector2(0, y);
+            PlayerInfoPositions[3] = new Vector2(x, y);
 
             if (PlayerManager.Instance.NumberOfPlayers >= 3)
             {
                 PlayerManager.Instance.Players[2].Effect = Effect.DoubleRoll;
             }
-
         }
 
         public override void Added()
         {
-            ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), _currentPlayer.PlayerIndex);
+            ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), CurrentPlayer.PlayerIndex);
         }
 
         private void OnFinish(object sender, EventArgs eventArgs)
@@ -131,8 +119,8 @@ namespace tdt4240.Boards
 
             if (player == null) return;
 
-            var index = _positions.IndexOf(player.BoardPosition);
-            player.BoardPosition = _positions[index + player.BoardPosition.MoveAmount];
+            var index = Positions.IndexOf(player.BoardPosition);
+            player.BoardPosition = Positions[index + player.BoardPosition.MoveAmount];
         }
 
         protected virtual void AddPositions()
@@ -151,13 +139,13 @@ namespace tdt4240.Boards
         public void LoadContent()
         {
             //_backgroundTexture = _content.Load<Texture2D>("board/board");
-            _pieceTexture = AssetManager.Instance.AddAsset<Texture2D>("board/piece2");
-            _font = AssetManager.Instance.AddAsset<SpriteFont>("fonts/smallfont");
-            _tileTexture = AssetManager.Instance.AddAsset<Texture2D>("board/tile");
-            _playerBackground = AssetManager.Instance.AddAsset<Texture2D>("black_circle");
-            _emptyPowerUp = AssetManager.Instance.AddAsset<Texture2D>("powerups/empty");
-            _downTexture = AssetManager.Instance.AddAsset<Texture2D>("powers/down");
-            _starTexture = AssetManager.Instance.AddAsset<Texture2D>("powers/star");
+            PieceTexture = AssetManager.Instance.AddAsset<Texture2D>("board/piece2");
+            Font = AssetManager.Instance.AddAsset<SpriteFont>("fonts/smallfont");
+            TileTexture = AssetManager.Instance.AddAsset<Texture2D>("board/tile");
+            PlayerBackground = AssetManager.Instance.AddAsset<Texture2D>("black_circle");
+            EmptyPowerUp = AssetManager.Instance.AddAsset<Texture2D>("powerups/empty");
+            DownTexture = AssetManager.Instance.AddAsset<Texture2D>("powers/down");
+            StarTexture = AssetManager.Instance.AddAsset<Texture2D>("powers/star");
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
@@ -174,7 +162,7 @@ namespace tdt4240.Boards
 
             //spriteBatch.Draw(_backgroundTexture, Vector2.Zero, null, new Color(TransitionAlpha, TransitionAlpha, TransitionAlpha), 0f, Vector2.Zero, ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             ScreenManager.GraphicsDevice.Clear(Color.DarkSeaGreen);
-            _positions.ForEach(x => x.Draw(spriteBatch));
+            Positions.ForEach(x => x.Draw(spriteBatch));
 
 
             BoardPosition lastPosition = null;
@@ -196,11 +184,11 @@ namespace tdt4240.Boards
 
                 var n = PlayerManager.Instance.Players.Count(x => x.BoardPosition == player.BoardPosition);
                 if(n > 1)
-                    pos += _offsets[index];
+                    pos += Offsets[index];
                 pos *= ScreenManager.GetScalingFactor();
 
                 DrawStatus(spriteBatch, player);
-                spriteBatch.Draw(_pieceTexture, pos, null, player.Color, 0f, new Vector2(32, 45) * ScreenManager.GetScalingFactor(), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+                spriteBatch.Draw(PieceTexture, pos, null, player.Color, 0f, new Vector2(32, 45) * ScreenManager.GetScalingFactor(), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
             }
 
             //Tempcode for testing positions for all 4 players
@@ -233,24 +221,17 @@ namespace tdt4240.Boards
 
         private void DrawStatus(SpriteBatch spriteBatch, Player player)
         {
-            int playerIndex = (int) player.PlayerIndex;
-
-   //         spriteBatch.Draw(_playerBackground, _playerBackgroundPositions[playerIndex] * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
-     //           new Vector2(_playerBackground.Width/2f, _playerBackground.Height/2f), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
-
-            spriteBatch.DrawString(_font, "Player " + (playerIndex + 1), _playerInfoPositions[playerIndex] * ScreenManager.GetScalingFactor(), _currentPlayer == player ? Color.HotPink : player.Color, 0.0f,
-                new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
-
-
+            var playerIndex = (int) player.PlayerIndex;
             var diff = new Vector2(85, 0);
             var scale = ScreenManager.GetScalingFactor() * 0.1f;
-
-            var powerUpPosition = _playerInfoPositions[playerIndex] + new Vector2(10, 60);
+            var powerUpPosition = PlayerInfoPositions[playerIndex] + new Vector2(10, 60);
             var n = 0;
 
-            foreach (var powerUp in player.PowerUps)
+            spriteBatch.DrawString(Font, "Player " + (playerIndex + 1), PlayerInfoPositions[playerIndex] * ScreenManager.GetScalingFactor(), CurrentPlayer == player ? Color.HotPink : player.Color, 0.0f,
+                new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
+
+            foreach (var icon in player.PowerUps.Select(powerUp => AssetManager.Instance.GetAsset<Texture2D>(powerUp.IconPath)))
             {
-                var icon = AssetManager.Instance.GetAsset<Texture2D>(powerUp.IconPath);
                 spriteBatch.Draw(icon, powerUpPosition * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
                     new Vector2(0, 0), scale, SpriteEffects.None, 0f);
                 n++;
@@ -260,7 +241,7 @@ namespace tdt4240.Boards
             for (var i = n; i < Player.MaxPowerUps; i++)
             {
 
-                spriteBatch.Draw(_emptyPowerUp, powerUpPosition * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
+                spriteBatch.Draw(EmptyPowerUp, powerUpPosition * ScreenManager.GetScalingFactor(), null, Color.White, 0f,
                     new Vector2(0, 0), scale, SpriteEffects.None, 0f);
                 powerUpPosition += diff;
             }
@@ -269,8 +250,8 @@ namespace tdt4240.Boards
 
             if (player.Effect != Effect.None)
             {
-                Vector2 statusPosition = new Vector2(_playerInfoPositions[playerIndex].X, _playerInfoPositions[playerIndex].Y + 120);
-                spriteBatch.DrawString(_font, player.Effect.ToString(), statusPosition * ScreenManager.GetScalingFactor(), Color.OrangeRed, 0.0f,
+                Vector2 statusPosition = new Vector2(PlayerInfoPositions[playerIndex].X, PlayerInfoPositions[playerIndex].Y + 120);
+                spriteBatch.DrawString(Font, player.Effect.ToString(), statusPosition * ScreenManager.GetScalingFactor(), Color.OrangeRed, 0.0f,
                     new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
             }
         }
@@ -282,54 +263,29 @@ namespace tdt4240.Boards
 
         public void HandleDiceRollResult(int result)
         {
-            Console.WriteLine(_currentPlayer.PlayerIndex + " rolled a " + result);
-            var index = _positions.IndexOf(_currentPlayer.BoardPosition) + result;
-            var doubleRoll = false;
-            if (index >= _positions.Count)
+            //Move player
+            var index = Positions.IndexOf(CurrentPlayer.BoardPosition) + result;
+            if (index >= Positions.Count)
             {
-                _currentPlayer.BoardPosition = _positions.Last();
-                GameWon(_currentPlayer.PlayerIndex);
+                CurrentPlayer.BoardPosition = Positions.Last();
+                GameWon(CurrentPlayer.PlayerIndex);
                 return;
             }
-             
+            CurrentPlayer.BoardPosition = Positions[index];
 
-            _currentPlayer.BoardPosition = _positions[index];
+            UpdateEffects();
 
-
-            var nextPlayerNumber = (int) _currentPlayer.PlayerIndex;
-
-            if (_currentPlayer.Effect != Effect.DoubleRoll)
+            if (_miniGame)
             {
-                nextPlayerNumber++;
-            }
-            else
-            {
-                doubleRoll = true;
-                _currentPlayer.Effect = Effect.None;
-            }
-            if (nextPlayerNumber >= PlayerManager.Instance.NumberOfPlayers)
-                nextPlayerNumber = 0;
-            _currentPlayer = PlayerManager.Instance.GetPlayer((PlayerIndex)nextPlayerNumber);
-
-            if (_currentPlayer.Effect == Effect.Freeze)
-            {
-                _currentPlayer.Effect = Effect.None;
-                nextPlayerNumber++;
-                if (nextPlayerNumber >= PlayerManager.Instance.NumberOfPlayers)
-                    nextPlayerNumber = 0;
-                _currentPlayer = PlayerManager.Instance.GetPlayer((PlayerIndex)nextPlayerNumber);
-            }
-
-            if (nextPlayerNumber == 0 && !doubleRoll)
-            {
+                _miniGame = false;
                 StartMinigame();
             }
             else
             {
-                if(_currentPlayer.PowerUps.Count > 0)
-                    ScreenManager.AddScreen(new ItemSelectScreen(), _currentPlayer.PlayerIndex);
+                if(CurrentPlayer.PowerUps.Count > 0)
+                    ScreenManager.AddScreen(new ItemSelectScreen(), CurrentPlayer.PlayerIndex);
                 else
-                    ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), _currentPlayer.PlayerIndex);
+                    ScreenManager.AddScreen(new DiceRoll(HandleDiceRollResult), CurrentPlayer.PlayerIndex);
             }
 
         }
@@ -337,10 +293,10 @@ namespace tdt4240.Boards
         private void StartMinigame()
         {
             var random = new Random();
-            var gameIndex = random.Next(_miniGames.Count);
+            var gameIndex = random.Next(MiniGames.Count);
 
 
-            var minigameIntro = (MinigameIntro)Activator.CreateInstance(_miniGames[gameIndex], this);
+            var minigameIntro = (MinigameIntro)Activator.CreateInstance(MiniGames[gameIndex], this);
 
             //var minigameIntro = (MinigameIntro)Activator.CreateInstance(_miniGames[0], this);
 
@@ -358,8 +314,10 @@ namespace tdt4240.Boards
             foreach (var type in Assembly.GetAssembly(typeof(MinigameIntro)).GetTypes()
                 .Where(myType => myType.IsClass && !myType.IsAbstract && myType.IsSubclassOf(typeof(MinigameIntro))))
             {
-                var sp = (SupportedPlayers)type.GetField("SupportedPlayers",
-                   BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetValue(null);
+                var fieldInfo = type.GetField("SupportedPlayers",
+                    BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                if (fieldInfo == null) continue;
+                var sp = (SupportedPlayers)fieldInfo.GetValue(null);
 
                 if ((sp & players) == players)
                     miniGames.Add(type);
@@ -401,11 +359,25 @@ namespace tdt4240.Boards
 
         public void UpdateEffects()
         {
+            if (CurrentPlayer.Effect != Effect.DoubleRoll)
+            {
+                NextPlayer();
+            }
+            else
+            {
+                CurrentPlayer.Effect = Effect.None;
+            }
+
+            if (CurrentPlayer.PlayerIndex == PlayerIndex.One && CurrentPlayer.Effect != Effect.DoubleRoll)
+            {
+                _miniGame = true;
+            }
+
             if (CurrentPlayer.Effect == Effect.Freeze)
             {
                 CurrentPlayer.Effect = Effect.None;
                 NextPlayer();
-            }      
+            }
         }
     }
 }

@@ -62,11 +62,11 @@ namespace tdt4240.Menu
                     _background.ExitScreen();
                     ExitScreen();
                     MusicPlayer.GetInstance().StartLoopingSong("4");
-                    if(PlayerManager.Instance.GetPlayer(PlayerIndex.One).PowerUps.Count > 0)
-                        ScreenManager.AddScreen(new ItemSelectScreen(), PlayerIndex.One);
+                    if (ScreenManager.Board.CurrentPlayer.PowerUps.Count > 0)
+                        ScreenManager.AddScreen(new ItemSelectScreen(), ScreenManager.Board.CurrentPlayer.PlayerIndex);
                     else
                     {
-                        ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), PlayerIndex.One);                      
+                        ScreenManager.AddScreen(new DiceRoll(ScreenManager.Board.HandleDiceRollResult), ScreenManager.Board.CurrentPlayer.PlayerIndex);                      
                     }
                 }
 
