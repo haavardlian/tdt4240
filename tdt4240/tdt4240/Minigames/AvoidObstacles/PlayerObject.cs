@@ -44,7 +44,6 @@ namespace tdt4240.Minigames.AvoidObstacles
             Speed = new Vector2(0,0);
         }
 
-        public Vector2 Corner { get; set; }
         public Player Player { get; set; }
         public int Score { get; set; }
         public Color Color { get; set; }

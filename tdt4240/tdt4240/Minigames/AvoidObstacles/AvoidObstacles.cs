@@ -14,7 +14,6 @@ namespace tdt4240.Minigames.AvoidObstacles
         private const double ObstacleSpawnRate = 0.035;
 
         private const int ScreenPadding = 10;
-        private Vector2[] _corners;
 
         private readonly int _numberOfPlayers;
         private readonly List<PlayerObject> _playerObjects;
@@ -33,11 +32,6 @@ namespace tdt4240.Minigames.AvoidObstacles
             _random = new Random();
             _playerObjects = new List<PlayerObject>();
             _obstacles = new List<Obstacle>();
-
-            _corners = new[]{new Vector2(ScreenPadding, ScreenPadding),
-            new Vector2(ScreenManager.MaxWidth - ScreenPadding, ScreenPadding),
-            new Vector2(ScreenPadding, ScreenManager.MaxHeight - ScreenPadding),
-            new Vector2(ScreenManager.MaxWidth - ScreenPadding, ScreenManager.MaxHeight - ScreenPadding)};
             _activated = false;
         }
         public override void Activate(bool instancePreserved)
@@ -57,8 +51,13 @@ namespace tdt4240.Minigames.AvoidObstacles
                 for (var i = 0; i < _numberOfPlayers; i++)
                 {
                     var startPosition = (ScreenManager.MaxHeight - (playerTexture.Height * 2)) * ((float)i / _numberOfPlayers);
-                    _playerObjects.Add(new PlayerObject(PlayerManager.Instance.Players[i], playerTexture, new Vector2(playerTexture.Width, startPosition + playerTexture.Height)));
-                    _playerObjects[i].Corner = _corners[i];
+                    _playerObjects.Add(
+                        new PlayerObject(
+                            PlayerManager.Instance.Players[i],
+                            playerTexture,
+                            new Vector2(playerTexture.Width, startPosition + playerTexture.Height)
+                        )
+                    );
                 }
             }
 
@@ -167,9 +166,38 @@ namespace tdt4240.Minigames.AvoidObstacles
 
             foreach (var playerObject in _playerObjects)
             {
-                spriteBatch.DrawString(ScreenManager.Font, playerObject.Score.ToString(), playerObject.Corner * ScreenManager.GetScalingFactor(), playerObject.Color);
+                // Draw score strings
+                var score = playerObject.Score.ToString();
+                var scoreStringSize = ScreenManager.Font.MeasureString(score);
+                var desiredScoreHeight = 0.1 * ScreenManager.GetHeight();
+                var scoreStringScale = (float)desiredScoreHeight / scoreStringSize.Y;
+                spriteBatch.DrawString(
+                    ScreenManager.Font,
+                    score,
+                    new Vector2(
+                        (int)(((int)playerObject.Player.PlayerIndex + 0.5) * 0.25 * ScreenManager.GetWidth() - 0.5 * scoreStringSize.X * scoreStringScale),
+                        (int)(0.02 * ScreenManager.GetHeight())
+                    ),
+                    playerObject.Color,
+                    0,
+                    new Vector2(0, 0),
+                    scoreStringScale,
+                    SpriteEffects.None,
+                    0
+                );
 
-                spriteBatch.Draw(playerObject.Texture, playerObject.Position * ScreenManager.GetScalingFactor(), null, playerObject.Color, 0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0f);
+                // Draw helicopter
+                spriteBatch.Draw(
+                    playerObject.Texture,
+                    playerObject.Position * ScreenManager.GetScalingFactor(),
+                    null,
+                    playerObject.Color,
+                    0f,
+                    new Vector2(0, 0),
+                    ScreenManager.GetScalingFactor(),
+                    SpriteEffects.None,
+                    0f
+                );
             }
 
 
