@@ -35,7 +35,7 @@ namespace tdt4240.Minigames.MusicMania
             }
 
             var arrowOfInterest = _arrows[_nextArrowIndex];
-            if (arrowOfInterest.GetTimeDiff().TotalSeconds > Arrow.MissedThreshold)
+            if (arrowOfInterest.GetTimeDiff().TotalSeconds > Arrow.MissedThreshold && arrowOfInterest.Score == ArrowScore.NotSet)
             {
                 arrowOfInterest.SetScore(ArrowScore.Missed);
                 AddScore(ArrowScore.Missed);
