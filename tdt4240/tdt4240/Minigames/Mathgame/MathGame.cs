@@ -70,7 +70,6 @@ namespace tdt4240.Minigames.MathGame
             }
             _gameState = GameState.InGame;
             _currentEquation = problem.equationTable[_equationNumber].equation;
-            Console.WriteLine("Equation: " + problem.equationTable[_equationNumber].CorrectAnswer);
             _nextEquationTime = DateTime.Now + MaxTimePerEquation;
             _equationNumber++;
 
@@ -151,17 +150,6 @@ namespace tdt4240.Minigames.MathGame
                     }
                 }
             }
-            /*
-            foreach (Player player in PlayerManager.Instance.Players)
-            {
-                _textPosition[(int)player.PlayerIndex] += player.Input.GetThumbstickVector();
-
-                if (player.Input.IsButtonPressed(GameButtons.Y))
-                {
-                    NotifyDone(PlayerIndex.One);
-                }
-            }
-             * */
         }
 
 

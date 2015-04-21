@@ -36,11 +36,6 @@ namespace tdt4240.Minigames.MathGame
             _answer = new Expression(correctEq.equation).Evaluate().ToString();
             RandomizeCorrectAnswerPosition();
             checkEquationsForCorrectAnswer();
-            Console.WriteLine("Answer: " + _answer);
-            for (int i = 0; i < _numberOfEquations; i++)
-            {
-                Console.WriteLine("Equation " + i + ": " + _equationTable[i].equation + " correct: " + _equationTable[i].CorrectAnswer);
-            }
                 
         }
 
