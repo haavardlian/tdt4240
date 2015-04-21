@@ -30,8 +30,7 @@ namespace tdt4240.Minigames.MathGame
                 if (_content == null)
                     _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
-                Cover = _content.Load<Texture2D>("minigameCovers/demo");
-                //TODO add correct cover
+                Cover = _content.Load<Texture2D>("minigameCovers/MathGame");
             }
         }
     }
