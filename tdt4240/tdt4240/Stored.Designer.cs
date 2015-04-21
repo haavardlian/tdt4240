@@ -25,7 +25,7 @@ namespace tdt4240 {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool Fullscreen {
             get {
                 return ((bool)(this["Fullscreen"]));
