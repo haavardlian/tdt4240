@@ -110,21 +110,24 @@ namespace tdt4240.Minigames.Quiz
             spriteBatch.Begin();
             if(_activeQuestion)
             {
-                spriteBatch.DrawString(font, _currentQuestion._question, _currentQuestion._position, Color.Black);
+                spriteBatch.DrawString(font, _currentQuestion._question, _currentQuestion._position*ScreenManager.GetScalingFactor(), Color.Black, 
+                    0.0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
                 foreach (Alternative alternative in _currentQuestion._alternatives)
                 {
-                    spriteBatch.Draw(alternative.Texture, alternative.Position, Color.White);
-                    spriteBatch.DrawString(font, alternative._text, alternative.Position + new Vector2(120, 20), Color.Black);
+                    spriteBatch.Draw(alternative.Texture, alternative.Position*ScreenManager.GetScalingFactor(), null, Color.White, 0.0f,
+                        new Vector2(120, 20), ScreenManager.GetScalingFactor(),SpriteEffects.None, 0.0f);
+                    spriteBatch.DrawString(font, alternative._text, (alternative.Position + new Vector2(120, 20)) * ScreenManager.GetScalingFactor(),
+                        Color.Black, 0.0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
                 }
 
-                spriteBatch.DrawString(font, "Timer: " + _questionTimer.ToString("0.00"), new Vector2(ScreenManager.MaxWidth / 6, ScreenManager.MaxHeight / 6), Color.Black);
+                spriteBatch.DrawString(font, "Timer: " + _questionTimer.ToString("0.00"), new Vector2(ScreenManager.Instance.GetWidth() / 6, ScreenManager.Instance.GetHeight() / 6), Color.Black, 0.0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
             }
 
             if (_scoreScreen)
             {
                 foreach (Player player in PlayerManager.Instance.Players)
                 {
-                    spriteBatch.DrawString(font, "Player " + player.PlayerIndex + ": " + _points[player.PlayerIndex], new Vector2(ScreenManager.MaxWidth / 6, ScreenManager.MaxHeight / 6), Color.Black);
+                    spriteBatch.DrawString(font, "Player " + player.PlayerIndex + ": " + _points[player.PlayerIndex], new Vector2(ScreenManager.Instance.GetWidth() / 6, ScreenManager.Instance.GetHeight() / 6), Color.Black, 0.0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
                 }
             }
 
@@ -132,7 +135,7 @@ namespace tdt4240.Minigames.Quiz
             {
                 foreach (Player player in PlayerManager.Instance.Players)
                 {
-                    spriteBatch.DrawString(font, "Get ready! " + _readyTimer.ToString("0.00"), new Vector2(ScreenManager.MaxWidth / 6, ScreenManager.MaxHeight / 6), Color.Black);
+                    spriteBatch.DrawString(font, "Get ready! " + _readyTimer.ToString("0.00"), new Vector2(ScreenManager.Instance.GetWidth() / 6, ScreenManager.Instance.GetHeight() / 6), Color.Black, 0.0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
                 }
             }
             
@@ -183,11 +186,11 @@ namespace tdt4240.Minigames.Quiz
 
         private void StartRound()
         {
+            _scoreScreen = false;
             _readyScreen = false;
             _readyTimer = 2;
             _currentAnswers = 0;
             _questionTimer = 10;
-            _scoreScreen = false;
             _currentQuestion = _questionRepository.getQuestion();
             _activeQuestion = true;
         }
