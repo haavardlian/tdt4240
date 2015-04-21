@@ -5,14 +5,12 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using tdt4240.Boards;
-using tdt4240.Minigames.BirdHunt;
-using tdt4240.Minigames.MathGame;
 
 namespace tdt4240.Menu
 {
     class PlayerSelect : GameScreen
     {
-        private const int MinimumAllowedPlayers = 1;
+        private const int MinimumAllowedPlayers = 2;
 
         private ContentManager _content;
         private SpriteFont _font;
