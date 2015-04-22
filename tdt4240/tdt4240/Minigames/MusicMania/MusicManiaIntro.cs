@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using tdt4240.Boards;
 
 namespace tdt4240.Minigames.MusicMania
@@ -17,7 +16,7 @@ namespace tdt4240.Minigames.MusicMania
         {
             MiniGame = new MusicMania(board);
 
-            GameDescription = "Press the correct button when an arrow is between the white lines. Good precision will get you a good score.";
+            GameDescription = "Press the correct button when an arrow is between the white lines. Good timing will get you a good score.";
             Goal = "Get the highest score";
         }
 

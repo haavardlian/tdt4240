@@ -15,6 +15,9 @@ namespace tdt4240.Menu
 
         private ContentManager _content;
         private SpriteFont _font;
+        private DateTime _showNotEnoughPlayersUntil;
+        private String _notEnoughPlayers = "Not enough players";
+        private static TimeSpan _showNotEnoughPlayersDuration = TimeSpan.FromSeconds(1.5);
 
         readonly List<PlayerSelectStatus> _playerSelectStatuses = new List<PlayerSelectStatus>();
 
@@ -24,6 +27,8 @@ namespace tdt4240.Menu
             {
                 _playerSelectStatuses.Add(new PlayerSelectStatus(i));
             }
+
+            _showNotEnoughPlayersUntil = DateTime.Now.Subtract(TimeSpan.FromSeconds(1));
         }
 
         public override void Activate(bool instancePreserved)
@@ -67,7 +72,7 @@ namespace tdt4240.Menu
             if (keyboardState.IsKeyDown(Keys.A))
             {
                 AddPlayer(-1, InputType.Keyboard);
-                _playerSelectStatuses[PlayerManager.Instance.NumberOfPlayers-1].Player = PlayerManager.Instance.LatestPlayer();
+                _playerSelectStatuses[PlayerManager.Instance.NumberOfPlayers - 1].Player = PlayerManager.Instance.LatestPlayer();
             }
             if (keyboardState.IsKeyDown(Keys.Back))
             {
@@ -106,14 +111,22 @@ namespace tdt4240.Menu
 
             if (PlayerManager.Instance.NumberOfPlayers >= MinimumAllowedPlayers)
             {
-                float x = ScreenManager.MaxWidth*ScreenManager.GetScalingFactor()/2
-                          - (_font.MeasureString("Press Start to play").X/2);
-
-                float y = ScreenManager.MaxHeight*ScreenManager.GetScalingFactor()*90/100;
+                float x = ScreenManager.MaxWidth * ScreenManager.GetScalingFactor() / 2
+                          - (_font.MeasureString("Press Start to play").X / 2);
+                float y = ScreenManager.MaxHeight * ScreenManager.GetScalingFactor() * 90 / 100;
 
                 Vector2 position = new Vector2(x, y);
 
                 PulsatingText.Draw(spriteBatch, gameTime, _font, "Press Start to play", position, Color.Yellow);
+            }
+            else if (_showNotEnoughPlayersUntil > DateTime.Now)
+            {
+                float x = ScreenManager.MaxWidth * ScreenManager.GetScalingFactor() / 2 - (_font.MeasureString(_notEnoughPlayers).X / 2);
+                float y = ScreenManager.MaxHeight * ScreenManager.GetScalingFactor() * 90 / 100;
+                Vector2 position = new Vector2(x, y);
+                var timeLeft = _showNotEnoughPlayersUntil - DateTime.Now;
+                float relativeTimeLeft = (float) (timeLeft.TotalSeconds / _showNotEnoughPlayersDuration.TotalSeconds);
+                PulsatingText.Draw(spriteBatch, gameTime, _font, _notEnoughPlayers, position, Color.Yellow * relativeTimeLeft);
             }
 
             spriteBatch.End();
@@ -151,6 +164,10 @@ namespace tdt4240.Menu
 
                 ScreenManager.AddScreen(new Quiz(null), null);
                 MusicPlayer.GetInstance().StartLoopingSong("4");
+            }
+            else
+            {
+                _showNotEnoughPlayersUntil = DateTime.Now + _showNotEnoughPlayersDuration;
             }
         }
     }
