@@ -17,7 +17,7 @@ namespace tdt4240.Minigames.BirdHunt
             MiniGame = new BirdHunt(board);
 
             ThumbstickDescription = "Move the crosshair around";
-            GameDescription = "aim with the crosshair and shoot the birds";
+            GameDescription = "Aim with the crosshair and shoot the birds";
             Goal = "Be the first to kill 10 birds";
 
             ControllerButtons.Add(Buttons.A, "Shoot");

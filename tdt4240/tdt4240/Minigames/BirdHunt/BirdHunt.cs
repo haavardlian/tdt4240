@@ -26,6 +26,7 @@ namespace tdt4240.Minigames.BirdHunt
 
         public BirdHunt(Board board) : base(board)
         {
+            Title = "Bird hunt";
             _birdFactory = new BirdFactory();
             _numberOfPlayers = PlayerManager.Instance.NumberOfPlayers;
             _random = new Random();
