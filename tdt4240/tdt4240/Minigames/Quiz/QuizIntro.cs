@@ -8,7 +8,7 @@ namespace tdt4240.Minigames.Quiz
 {
     class QuizIntro : MinigameIntro
     {
-        public static SupportedPlayers SupportedPlayers = SupportedPlayers.None;
+        public static SupportedPlayers SupportedPlayers = SupportedPlayers.All;
 
         private ContentManager _content;
 

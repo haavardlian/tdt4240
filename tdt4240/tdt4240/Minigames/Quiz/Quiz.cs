@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Input;
 using tdt4240.Boards;
 using DataTypes;
 using System.Collections.Generic;
+using System.Text;
+using System;
 
 namespace tdt4240.Minigames.Quiz
 {
@@ -70,9 +72,8 @@ namespace tdt4240.Minigames.Quiz
                        AnswerQuestion(player.PlayerIndex, _currentQuestion._alternatives[1]._text);
                 }
 
-                if (player.Input.IsButtonPressed(GameButtons.Down))
+                if (player.Input.IsButtonPressed(GameButtons.Down) && _scoreScreen)
                 {
-                    //NotifyDone(PlayerIndex.One);
                     _scoreScreen = false;
                     _readyScreen = true;
                 }
@@ -124,10 +125,14 @@ namespace tdt4240.Minigames.Quiz
             }
 
             if (_scoreScreen)
-            {
+            { 
                 foreach (Player player in PlayerManager.Instance.Players)
                 {
-                    spriteBatch.DrawString(font, "Player " + player.PlayerIndex + ": " + _points[player.PlayerIndex], new Vector2(ScreenManager.Instance.GetWidth() / 6, ScreenManager.Instance.GetHeight() / 6), Color.Black, 0.0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
+                    string output = "Player " + player.PlayerIndex + ": " + _points[player.PlayerIndex];
+                    Vector2 fontSize = font.MeasureString(output);
+                    fontSize.X = 0;
+                    fontSize.Y += (30*(int)player.PlayerIndex) * ScreenManager.GetScalingFactor();
+                    spriteBatch.DrawString(font, output, new Vector2(ScreenManager.Instance.GetWidth() / 6, ScreenManager.Instance.GetHeight() / 6) + fontSize, Color.Black, 0.0f, new Vector2(0, 0), ScreenManager.GetScalingFactor(), SpriteEffects.None, 0.0f);
                 }
             }
 
@@ -150,7 +155,8 @@ namespace tdt4240.Minigames.Quiz
 
         private void AnswerQuestion(PlayerIndex player, string answer)
         {
-            _currentAnswers++;
+            if(!_currentQuestion.HasAnswered(player))
+                _currentAnswers++;
             if (answer.Equals(_currentQuestion._correctAlternative))
             {
                 _points[player] += (int)System.Math.Ceiling(_questionTimer*10);
@@ -194,7 +200,9 @@ namespace tdt4240.Minigames.Quiz
             _currentQuestion = _questionRepository.getQuestion();
             _activeQuestion = true;
         }
-        
-       
+   
+
     }
+
+    
 }

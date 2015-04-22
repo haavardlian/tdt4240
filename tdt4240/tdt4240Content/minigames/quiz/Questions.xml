@@ -27,28 +27,12 @@
       <CorrectAlternative>10 m/s</CorrectAlternative>
     </Item>
     <Item>
-      <Question>Entomology is the science that studies</Question>
-      <Alternative_1>Behavior of human beings</Alternative_1>
-      <Alternative_2>Insects</Alternative_2>
-      <Alternative_3>The origin and history of technical and scientific terms</Alternative_3>
-      <Alternative_4>The formation of rocks</Alternative_4>
-      <CorrectAlternative>Insects</CorrectAlternative>
-    </Item>
-    <Item>
       <Question>Brass gets discoloured in air because of the presence of which of the following gases in air?</Question>
       <Alternative_1>Oxygen</Alternative_1>
       <Alternative_2>Hydrogen sulphide</Alternative_2>
       <Alternative_3>Carbon dioxide</Alternative_3>
       <Alternative_4>Nitrogen</Alternative_4>
       <CorrectAlternative>Hydrogen sulphide</CorrectAlternative>
-    </Item>
-    <Item>
-      <Question>When an iron nail gets rusted, iron oxide is formed</Question>
-      <Alternative_1>without any change in the weight of the nail</Alternative_1>
-      <Alternative_2>with decrease in the weight of the nail</Alternative_2>
-      <Alternative_3>with increase in the weight of the nail</Alternative_3>
-      <Alternative_4>without any change in colour or weight of the nail</Alternative_4>
-      <CorrectAlternative>with increase in the weight of the nail</CorrectAlternative>
     </Item>
     <Item>
       <Question>Who said 'Man is a political animal'?</Question>
@@ -73,6 +57,14 @@
       <Alternative_3>Brazil</Alternative_3>
       <Alternative_4>Bolivia</Alternative_4>
       <CorrectAlternative>Bolivia</CorrectAlternative>
+    </Item>
+    <Item>
+      <Question>Which city in Russia hosted the XXII Olympic Winter Games?</Question>
+      <Alternative_1>Sochi</Alternative_1>
+      <Alternative_2>PyeongChang</Alternative_2>
+      <Alternative_3>Vancoucer</Alternative_3>
+      <Alternative_4>Lillehammer</Alternative_4>
+      <CorrectAlternative>Sochi</CorrectAlternative>
     </Item>
   </Asset>
 </XnaContent>

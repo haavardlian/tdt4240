@@ -16,6 +16,7 @@ namespace tdt4240.Minigames.Quiz
         public SpriteFont _font { get; set; }
         public List<Alternative> _alternatives { get; set; }
         public String _correctAlternative { get; set; }
+        public List<PlayerIndex> _answered { get; set; }
 
         public Question(Vector2 position, SpriteFont font, String question)
         {
@@ -23,11 +24,13 @@ namespace tdt4240.Minigames.Quiz
             _font = font;
             _question = question;
             _alternatives = new List<Alternative>();
+            _answered = new List<PlayerIndex>();
         }
 
         public Question()
         {
             _alternatives = new List<Alternative>();
+            _answered = new List<PlayerIndex>();
         }
 
         public void AddAlternative(Alternative alternative)
@@ -35,5 +38,12 @@ namespace tdt4240.Minigames.Quiz
             _alternatives.Add(alternative);
         }
 
+        public bool HasAnswered(PlayerIndex player)
+        {
+            if (_answered.Contains(player))
+                return true;
+            else
+                return false;
+        }
     }
 }

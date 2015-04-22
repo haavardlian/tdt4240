@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using tdt4240.Boards;
+using tdt4240.Minigames.Quiz;
 
 namespace tdt4240.Menu
 {
@@ -148,7 +149,7 @@ namespace tdt4240.Menu
 
                 ScreenManager.ExitAllScreens();
 
-                ScreenManager.AddScreen(board, null);
+                ScreenManager.AddScreen(new Quiz(null), null);
                 MusicPlayer.GetInstance().StartLoopingSong("4");
             }
         }
