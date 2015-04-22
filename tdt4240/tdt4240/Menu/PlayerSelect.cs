@@ -28,7 +28,7 @@ namespace tdt4240.Menu
                 _playerSelectStatuses.Add(new PlayerSelectStatus(i));
             }
 
-            _showNotEnoughPlayersUntil = DateTime.Now.Subtract(TimeSpan.FromSeconds(1));
+            _showNotEnoughPlayersUntil = DateTime.Now - _showNotEnoughPlayersDuration;
         }
 
         public override void Activate(bool instancePreserved)
